@@ -1,8 +1,9 @@
-# 🐰 Alice
-
-**A modern, open-source data pipeline platform for building, scheduling, and monitoring data transformations.**
-
-Alice makes it simple to connect multiple data sources, transform data using SQL or a visual query builder, and deliver results to your data warehouse—all without writing complex ETL code.
+<div align="center">
+  <img src="alice-logo.svg" alt="Alice Logo" width="200" />
+  <h1>🐰 Alice</h1>
+  <p><strong>A modern, open-source data pipeline platform for building, scheduling, and monitoring data transformations.</strong></p>
+  <p>Alice makes it simple to connect multiple data sources, transform data using SQL or a visual query builder, and deliver results to your data warehouse—all without writing complex ETL code.</p>
+</div>
 
 ---
 
@@ -56,7 +57,7 @@ Alice makes it simple to connect multiple data sources, transform data using SQL
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/alice.git
+git clone https://github.com/THEMADBOTTERINC/alice.git
 cd alice
 
 # Install dependencies
@@ -254,9 +255,9 @@ Alice stands on the shoulders of giants:
 
 ## 💬 Community & Support
 
-- **Issues**: [GitHub Issues](https://github.com/YOUR_USERNAME/alice/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/YOUR_USERNAME/alice/discussions)
-- **Documentation**: [Wiki](https://github.com/YOUR_USERNAME/alice/wiki)
+- **Issues**: [GitHub Issues](https://github.com/THEMADBOTTERINC/alice/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/THEMADBOTTERINC/alice/discussions)
+- **Documentation**: [Wiki](https://github.com/THEMADBOTTERINC/alice/wiki)
 
 ---
 
