@@ -288,7 +288,7 @@ class Pipeline < ApplicationRecord
 
     # Ensure the connector is a valid destination type
     unless connector.supports_write?
-      errors.add(:destination_connector_id, "must be a valid destination connector (Snowflake, PostgreSQL, PowerBI, Looking Glass). '#{connector.name}' is a #{connector.connector_type} connector.")
+      errors.add(:destination_connector_id, "must be a valid destination connector (Snowflake, PostgreSQL). '#{connector.name}' is a #{connector.connector_type} connector.")
     end
 
     # Ensure the connector is not also used as a source
