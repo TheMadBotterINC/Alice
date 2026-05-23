@@ -194,6 +194,12 @@ For production deployment:
 - Set `SECRET_KEY_BASE` appropriately
 - Configure secure Redis connection
 
+### Reporting Security Vulnerabilities
+
+**Please do not report security vulnerabilities through public GitHub issues.**
+
+See our [Security Policy](SECURITY.md) for details on reporting vulnerabilities privately.
+
 ---
 
 ## 🤝 Contributing
