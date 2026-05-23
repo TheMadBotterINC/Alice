@@ -259,7 +259,7 @@ class PipelinesControllerTest < ActionDispatch::IntegrationTest
 
   test "should set destination connector" do
     sign_in_as(@admin)
-    dest_connector = connectors(:powerbi_test)
+    dest_connector = connectors(:two) # Snowflake connector
 
     post pipelines_url, params: {
       pipeline: {
@@ -267,10 +267,6 @@ class PipelinesControllerTest < ActionDispatch::IntegrationTest
         transformation_sql: "SELECT 1",
         source_connector_ids: [ @connector.id ],
         destination_connector_id: dest_connector.id,
-        destination_config: {
-          workspace_id: "12345678-1234-1234-1234-123456789012",
-          dataset_name: "Test Dataset"
-        },
         write_disposition: "truncate_and_load"
       }
     }

@@ -225,23 +225,6 @@ class PipelineTest < ActiveSupport::TestCase
 
   # Destination Connector Validation Tests
 
-  test "should allow PowerBI connector as destination" do
-    powerbi = connectors(:powerbi_test)
-    @pipeline.destination_connector_id = powerbi.id
-    @pipeline.destination_config = {
-      workspace_id: "12345678-1234-1234-1234-123456789012",
-      dataset_name: "Test Dataset"
-    }
-    assert @pipeline.valid?
-  end
-
-  test "should allow Looking Glass connector as destination" do
-    looking_glass = connectors(:looking_glass_test)
-    @pipeline.destination_connector_id = looking_glass.id
-    @pipeline.destination_config = { api_key: "test" }
-    assert @pipeline.valid?
-  end
-
   test "should allow Snowflake connector as destination" do
     snowflake = connectors(:one)
     @pipeline.destination_connector_id = snowflake.id
@@ -257,18 +240,14 @@ class PipelineTest < ActiveSupport::TestCase
     @pipeline.destination_connector_id = duckdb.id
     assert_not @pipeline.valid?
     assert_includes @pipeline.errors[:destination_connector_id],
-      "must be a valid destination connector (Snowflake, PostgreSQL, PowerBI, Looking Glass). 'DuckDB Local' is a duckdb connector."
+      "must be a valid destination connector (Snowflake, PostgreSQL). 'DuckDB Local' is a duckdb connector."
   end
 
   test "should not allow same connector as both source and destination" do
-    powerbi = connectors(:powerbi_test)
+    snowflake = connectors(:one)
     @pipeline.pipeline_sources.clear
-    @pipeline.pipeline_sources.build(connector: powerbi)
-    @pipeline.destination_connector_id = powerbi.id
-    @pipeline.destination_config = {
-      workspace_id: "12345678-1234-1234-1234-123456789012",
-      dataset_name: "Test Dataset"
-    }
+    @pipeline.pipeline_sources.build(connector: snowflake)
+    @pipeline.destination_connector_id = snowflake.id
     assert_not @pipeline.valid?
     assert_includes @pipeline.errors[:destination_connector_id],
       "cannot be the same as a source connector"
@@ -278,46 +257,6 @@ class PipelineTest < ActiveSupport::TestCase
     @pipeline.destination_connector_id = 99999
     assert_not @pipeline.valid?
     assert_includes @pipeline.errors[:destination_connector_id], "does not exist"
-  end
-
-  # Destination Config Validation Tests
-
-  test "should require workspace_id for PowerBI connector" do
-    powerbi = connectors(:powerbi_test)
-    @pipeline.destination_connector_id = powerbi.id
-    @pipeline.destination_config = { dataset_name: "Test Dataset" }
-    assert_not @pipeline.valid?
-    assert_includes @pipeline.errors[:destination_config],
-      "must include workspace_id for Power BI connector"
-  end
-
-  test "should require dataset_name for PowerBI connector" do
-    powerbi = connectors(:powerbi_test)
-    @pipeline.destination_connector_id = powerbi.id
-    @pipeline.destination_config = { workspace_id: "12345678-1234-1234-1234-123456789012" }
-    assert_not @pipeline.valid?
-    assert_includes @pipeline.errors[:destination_config],
-      "must include dataset_name for Power BI connector"
-  end
-
-  test "should require both workspace_id and dataset_name for PowerBI connector" do
-    powerbi = connectors(:powerbi_test)
-    @pipeline.destination_connector_id = powerbi.id
-    @pipeline.destination_config = {}
-    assert_not @pipeline.valid?
-    assert_includes @pipeline.errors[:destination_config],
-      "must include workspace_id for Power BI connector"
-    assert_includes @pipeline.errors[:destination_config],
-      "must include dataset_name for Power BI connector"
-  end
-
-  test "should require config for Looking Glass connector" do
-    looking_glass = connectors(:looking_glass_test)
-    @pipeline.destination_connector_id = looking_glass.id
-    @pipeline.destination_config = nil
-    assert_not @pipeline.valid?
-    assert_includes @pipeline.errors[:destination_config],
-      "must be present for Looking Glass connector"
   end
 
   test "should allow empty destination_config when no destination_connector" do

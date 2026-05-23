@@ -3,13 +3,7 @@ require "test_helper"
 class PipelineFeatureVerificationTest < ActiveSupport::TestCase
   setup do
     @connector_source = connectors(:one) # Snowflake
-    @connector_dest = connectors(:two)   # Another connector (likely Snowflake or Postgres, assuming it supports write or I'll pick one that does)
-    
-    # Ensure connectors(:two) supports write for the template test
-    # If not, I'll use connectors(:one) as dest and something else as source
-    # Let's check connectors(:two) type if possible, or just mock it/use a known one.
-    # I'll use connectors(:powerbi_test) or :looking_glass_test as destination to be safe.
-    @connector_looking_glass = connectors(:looking_glass_test)
+    @connector_dest = connectors(:two)   # Another Snowflake connector
     @connector_duckdb = connectors(:duckdb_local)
     
     @pipeline = Pipeline.new(
@@ -19,22 +13,11 @@ class PipelineFeatureVerificationTest < ActiveSupport::TestCase
     )
   end
 
-  # Case 1: Looking Glass connector type is recognized as valid during validation
-  test "Looking Glass connector type is recognized as valid during validation" do
-    @pipeline.pipeline_sources.build(connector: @connector_source)
-    @pipeline.destination_connector = @connector_looking_glass
-    @pipeline.destination_config = { api_key: "test_key", api_url: "https://api.example.com", connection_id: "123" }
-    
-    assert @pipeline.valid?, "Pipeline should be valid with Looking Glass destination"
-    assert_empty @pipeline.errors[:destination_connector_id]
-  end
-
   # Case 2: Pipeline.save_as_template! correctly copies destination connector with different connectors
   test "save_as_template! correctly copies destination connector with different connectors" do
     # Setup pipeline with source != destination
     @pipeline.pipeline_sources.build(connector: @connector_source)
-    @pipeline.destination_connector = @connector_looking_glass
-    @pipeline.destination_config = { api_key: "test_key", api_url: "https://api.example.com", connection_id: "123" }
+    @pipeline.destination_connector = @connector_dest
     @pipeline.save!
 
     template_name = "Template from Feature Verification"
@@ -45,7 +28,7 @@ class PipelineFeatureVerificationTest < ActiveSupport::TestCase
     
     # Verify destination connector is copied
     assert_equal @pipeline.destination_connector_id, template.destination_connector_id
-    assert_equal @connector_looking_glass.id, template.destination_connector_id
+    assert_equal @connector_dest.id, template.destination_connector_id
     
     # Verify source connector is copied
     assert_equal 1, template.pipeline_sources.count
@@ -83,6 +66,6 @@ class PipelineFeatureVerificationTest < ActiveSupport::TestCase
     
     assert_not @pipeline.valid?
     assert_includes @pipeline.errors[:destination_connector_id], 
-      "must be a valid destination connector (Snowflake, PostgreSQL, PowerBI, Looking Glass). 'DuckDB Local' is a duckdb connector."
+      "must be a valid destination connector (Snowflake, PostgreSQL). 'DuckDB Local' is a duckdb connector."
   end
 end

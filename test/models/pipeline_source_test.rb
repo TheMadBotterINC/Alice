@@ -73,22 +73,6 @@ class PipelineSourceTest < ActiveSupport::TestCase
 
   # Destination-only Connector Tests
 
-  test "should not allow PowerBI connector as source" do
-    powerbi = connectors(:powerbi_test)
-    pipeline_source = @pipeline.pipeline_sources.build(connector: powerbi)
-    assert_not pipeline_source.valid?
-    assert_includes pipeline_source.errors[:connector_id],
-      "'Test Power BI' is a powerbi connector and can only be used as a destination, not a source"
-  end
-
-  test "should not allow Looking Glass connector as source" do
-    looking_glass = connectors(:looking_glass_test)
-    pipeline_source = @pipeline.pipeline_sources.build(connector: looking_glass)
-    assert_not pipeline_source.valid?
-    assert_includes pipeline_source.errors[:connector_id],
-      "'Test Looking Glass' is a looking_glass connector and can only be used as a destination, not a source"
-  end
-
   test "should allow Snowflake connector as source" do
     snowflake = connectors(:one)
     pipeline_source = @pipeline.pipeline_sources.build(connector: snowflake)

@@ -35,16 +35,3 @@ duckdb_local:
   status: 1
   last_checked_at: 2025-10-08 18:06:46
 
-powerbi_test:
-  name: Test Power BI
-  connector_type: powerbi
-  config: {"tenant_id": "12345678-1234-1234-1234-123456789012", "client_id": "87654321-4321-4321-4321-210987654321", "client_secret": "test_secret_value"}
-  status: 0
-  last_checked_at: 2025-10-08 18:06:46
-
-looking_glass_test:
-  name: Test Looking Glass
-  connector_type: looking_glass
-  config: {"api_key": "test_api_key", "endpoint": "https://api.lookingglass.example.com"}
-  status: 1
-  last_checked_at: 2025-10-08 18:06:46
