@@ -1,0 +1,19 @@
+<%# 
+  Tabs Panel Component - Use with _tabs.html.erb
+  
+  Usage:
+    <%= render "shared/tabs_panel", tab: "details" do %>
+      <p>Panel content here</p>
+    <% end %>
+-%>
+
+<% 
+  tab_name = local_assigns[:tab]
+%>
+
+<div data-tabs-target="panel" 
+     data-tab="<%= tab_name %>"
+     class="hidden"
+     role="tabpanel">
+  <%= yield %>
+</div>

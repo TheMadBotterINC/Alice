@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Run SolidQueue worker without debugger
+
+cd "$(dirname "$0")/.."
+bundle exec rails solid_queue:start

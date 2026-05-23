@@ -1,0 +1,344 @@
+<%= form_with(model: connector, class: "space-y-6") do |form| %>
+  <% if connector.errors.any? %>
+    <div class="rounded-md bg-red-50 p-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            <%= pluralize(connector.errors.count, "error") %> prohibited this connector from being saved:
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="list-disc pl-5 space-y-1">
+              <% connector.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="bg-white shadow-sm rounded-lg p-6 space-y-6">
+    <!-- Name Field -->
+    <div>
+      <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :name, 
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+          placeholder: "e.g., Production Snowflake" %>
+    </div>
+
+    <!-- Connector Type Field -->
+    <div>
+      <%= form.label :connector_type, "Connector Type", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.select :connector_type, 
+          [["Snowflake", "snowflake"]], 
+          {},
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
+      <p class="mt-1 text-sm text-gray-500">Select the type of data source you want to connect to.</p>
+    </div>
+
+    <!-- Snowflake Configuration Fields -->
+    <div id="snowflake-fields" class="border-t border-gray-200 pt-6 hidden" data-step="2">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Snowflake Configuration</h3>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <!-- Account -->
+        <div>
+          <label for="connector_config_account" class="block text-sm font-medium text-gray-700">Account</label>
+          <input type="text"
+                 name="connector[config][account]"
+                 id="connector_config_account"
+                 value="<%= connector.config['account'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="your_account.us-east-1" />
+          <p class="mt-1 text-sm text-gray-500">Your Snowflake account identifier</p>
+        </div>
+
+        <!-- Username -->
+        <div>
+          <label for="connector_config_username" class="block text-sm font-medium text-gray-700">Username</label>
+          <input type="text"
+                 name="connector[config][username]"
+                 id="connector_config_username"
+                 value="<%= connector.config['username'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="alice_user" />
+          <p class="mt-1 text-sm text-gray-500">Snowflake username</p>
+        </div>
+
+        <!-- Authentication Method -->
+        <div class="sm:col-span-2">
+          <div class="bg-blue-50 border border-blue-200 rounded-md p-4">
+            <h4 class="text-sm font-medium text-blue-900 mb-2">Authentication Method</h4>
+            <p class="text-sm text-blue-700">
+              Snowflake SQL API requires <strong>RSA key-pair authentication</strong> for secure access.
+              You must provide your private key to connect.
+            </p>
+          </div>
+        </div>
+
+        <!-- Private Key (Required) -->
+        <div class="sm:col-span-2">
+          <label for="connector_config_private_key" class="block text-sm font-medium text-gray-700">
+            Private Key <span class="text-red-500">*</span>
+          </label>
+          <textarea
+                 name="connector[config][private_key]"
+                 id="connector_config_private_key"
+                 rows="8"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-xs"
+                 placeholder="-----BEGIN PRIVATE KEY-----&#10;MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC...&#10;-----END PRIVATE KEY-----"><%= connector.config['private_key'] %></textarea>
+          <p class="mt-1 text-sm text-gray-500">
+            Paste your RSA private key in PEM format (PKCS#8 or traditional format). 
+            <a href="https://docs.snowflake.com/en/user-guide/key-pair-auth" target="_blank" class="text-blue-600 hover:underline">Learn how to generate</a>
+          </p>
+          <% if connector.config['private_key'].present? %>
+            <p class="mt-2 text-xs text-green-600">
+              ✓ Private key is configured
+            </p>
+          <% end %>
+        </div>
+
+        <!-- Database -->
+        <div>
+          <label for="connector_config_database" class="block text-sm font-medium text-gray-700">Database</label>
+          <input type="text"
+                 name="connector[config][database]"
+                 id="connector_config_database"
+                 value="<%= connector.config['database'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="ANALYTICS_DB" />
+          <p class="mt-1 text-sm text-gray-500">Default database to use</p>
+        </div>
+
+        <!-- Warehouse -->
+        <div>
+          <label for="connector_config_warehouse" class="block text-sm font-medium text-gray-700">Warehouse</label>
+          <input type="text"
+                 name="connector[config][warehouse]"
+                 id="connector_config_warehouse"
+                 value="<%= connector.config['warehouse'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="COMPUTE_WH" />
+          <p class="mt-1 text-sm text-gray-500">Compute warehouse to use</p>
+        </div>
+
+        <!-- Schema (Optional) -->
+        <div>
+          <label for="connector_config_schema" class="block text-sm font-medium text-gray-700">Schema (Optional)</label>
+          <input type="text"
+                 name="connector[config][schema]"
+                 id="connector_config_schema"
+                 value="<%= connector.config['schema'] || 'PUBLIC' %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="PUBLIC" />
+          <p class="mt-1 text-sm text-gray-500">Default schema (defaults to PUBLIC)</p>
+        </div>
+
+        <!-- Role (Optional) -->
+        <div>
+          <label for="connector_config_role" class="block text-sm font-medium text-gray-700">Role (Optional)</label>
+          <input type="text"
+                 name="connector[config][role]"
+                 id="connector_config_role"
+                 value="<%= connector.config['role'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="ANALYST" />
+          <p class="mt-1 text-sm text-gray-500">Optional role to assume</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CSV/TSV Configuration Fields -->
+    <div id="csv-fields" class="border-t border-gray-200 pt-6 hidden" data-step="2">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">CSV / TSV Configuration</h3>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <!-- File Path -->
+        <div class="sm:col-span-2">
+          <label for="connector_config_file_path" class="block text-sm font-medium text-gray-700">
+            File Path <span class="text-red-500">*</span>
+          </label>
+          <input type="text"
+                 name="connector[config][file_path]"
+                 id="connector_config_file_path"
+                 value="<%= connector.config['file_path'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="/path/to/file.csv" />
+          <p class="mt-1 text-sm text-gray-500">
+            <strong>Server-side</strong> path to CSV/TSV file (e.g., /var/data/file.csv)<br>
+            <span class="text-amber-600">Note: For user downloads, use Pipeline "Download File" destination instead</span>
+          </p>
+        </div>
+
+        <!-- Delimiter -->
+        <div>
+          <label for="connector_config_delimiter" class="block text-sm font-medium text-gray-700">Delimiter</label>
+          <select name="connector[config][delimiter]"
+                  id="connector_config_delimiter"
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+            <option value="," <%= 'selected' if connector.config['delimiter'] == ',' || connector.config['delimiter'].blank? %>>,  (Comma - CSV)</option>
+            <option value="\t" <%= 'selected' if connector.config['delimiter'] == "\t" %>>⇥  (Tab - TSV)</option>
+            <option value=";" <%= 'selected' if connector.config['delimiter'] == ';' %>>;  (Semicolon)</option>
+            <option value="|" <%= 'selected' if connector.config['delimiter'] == '|' %>>|  (Pipe)</option>
+          </select>
+          <p class="mt-1 text-sm text-gray-500">Field separator character</p>
+        </div>
+
+        <!-- Has Header Row -->
+        <div class="flex items-start">
+          <div class="flex items-center h-5 mt-8">
+            <input type="checkbox"
+                   name="connector[config][has_header]"
+                   id="connector_config_has_header"
+                   value="true"
+                   <%= 'checked' if connector.config['has_header'] == 'true' || connector.config['has_header'] == true %>
+                   class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer" />
+          </div>
+          <div class="ml-3">
+            <label for="connector_config_has_header" class="text-sm font-medium text-gray-700">Has Header Row</label>
+            <p class="text-sm text-gray-500">First row contains column names</p>
+          </div>
+        </div>
+
+        <!-- Encoding (Optional) -->
+        <div>
+          <label for="connector_config_encoding" class="block text-sm font-medium text-gray-700">Encoding</label>
+          <select name="connector[config][encoding]"
+                  id="connector_config_encoding"
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+            <option value="utf-8" <%= 'selected' if connector.config['encoding'] == 'utf-8' || connector.config['encoding'].blank? %>>UTF-8</option>
+            <option value="utf-16" <%= 'selected' if connector.config['encoding'] == 'utf-16' %>>UTF-16</option>
+            <option value="iso-8859-1" <%= 'selected' if connector.config['encoding'] == 'iso-8859-1' %>>ISO-8859-1 (Latin-1)</option>
+            <option value="windows-1252" <%= 'selected' if connector.config['encoding'] == 'windows-1252' %>>Windows-1252</option>
+          </select>
+          <p class="mt-1 text-sm text-gray-500">Character encoding of the file</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Excel Configuration Fields -->
+    <div id="excel-fields" class="border-t border-gray-200 pt-6 hidden" data-step="2">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Excel Configuration</h3>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <!-- File Path -->
+        <div class="sm:col-span-2">
+          <label for="connector_config_file_path_excel" class="block text-sm font-medium text-gray-700">
+            File Path <span class="text-red-500">*</span>
+          </label>
+          <input type="text"
+                 name="connector[config][file_path]"
+                 id="connector_config_file_path_excel"
+                 value="<%= connector.config['file_path'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="/path/to/file.xlsx" />
+          <p class="mt-1 text-sm text-gray-500">Absolute path to the Excel (.xlsx) file</p>
+        </div>
+
+        <!-- Sheet Name -->
+        <div>
+          <label for="connector_config_sheet_name" class="block text-sm font-medium text-gray-700">Sheet Name</label>
+          <input type="text"
+                 name="connector[config][sheet_name]"
+                 id="connector_config_sheet_name"
+                 value="<%= connector.config['sheet_name'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="Sheet1" />
+          <p class="mt-1 text-sm text-gray-500">Name or index of the sheet to read (default: first sheet)</p>
+        </div>
+
+        <!-- Has Header Row -->
+        <div class="flex items-start">
+          <div class="flex items-center h-5 mt-8">
+            <input type="checkbox"
+                   name="connector[config][has_header]"
+                   id="connector_config_has_header_excel"
+                   value="true"
+                   <%= 'checked' if connector.config['has_header'] == 'true' || connector.config['has_header'] == true %>
+                   class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer" />
+          </div>
+          <div class="ml-3">
+            <label for="connector_config_has_header_excel" class="text-sm font-medium text-gray-700">Has Header Row</label>
+            <p class="text-sm text-gray-500">First row contains column names</p>
+          </div>
+        </div>
+
+        <!-- Start Row (Optional) -->
+        <div>
+          <label for="connector_config_start_row" class="block text-sm font-medium text-gray-700">Start Row</label>
+          <input type="number"
+                 name="connector[config][start_row]"
+                 id="connector_config_start_row"
+                 value="<%= connector.config['start_row'] || 1 %>"
+                 min="1"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="1" />
+          <p class="mt-1 text-sm text-gray-500">Row number to start reading from (default: 1)</p>
+        </div>
+
+        <!-- End Row (Optional) -->
+        <div>
+          <label for="connector_config_end_row" class="block text-sm font-medium text-gray-700">End Row</label>
+          <input type="number"
+                 name="connector[config][end_row]"
+                 id="connector_config_end_row"
+                 value="<%= connector.config['end_row'] %>"
+                 min="1"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="(Read all rows)" />
+          <p class="mt-1 text-sm text-gray-500">Last row to read (leave blank for all rows)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex items-center justify-end space-x-3">
+    <%= link_to "Cancel", connector.persisted? ? connector_path(connector) : connectors_path, 
+        class: "px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
+    <%= form.submit class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
+  </div>
+<% end %>
+
+<script>
+  // Show the appropriate connector fields based on type
+  function initializeConnectorForm() {
+    const connectorTypeSelect = document.getElementById('connector_connector_type');
+    const snowflakeFields = document.getElementById('snowflake-fields');
+    const csvFields = document.getElementById('csv-fields');
+    const excelFields = document.getElementById('excel-fields');
+    
+    function updateFieldsVisibility() {
+      const selectedType = connectorTypeSelect?.value;
+      
+      // Hide all fields first
+      snowflakeFields?.classList.add('hidden');
+      csvFields?.classList.add('hidden');
+      excelFields?.classList.add('hidden');
+      
+      // Show the appropriate fields
+      if (selectedType === 'snowflake') {
+        snowflakeFields?.classList.remove('hidden');
+      } else if (selectedType === 'file_csv') {
+        csvFields?.classList.remove('hidden');
+      } else if (selectedType === 'file_excel') {
+        excelFields?.classList.remove('hidden');
+      }
+    }
+    
+    // Show fields on page load
+    updateFieldsVisibility();
+    
+    // Update when connector type changes
+    connectorTypeSelect?.addEventListener('change', updateFieldsVisibility);
+  }
+  
+  // Run on both regular page load and Turbo navigation
+  document.addEventListener('DOMContentLoaded', initializeConnectorForm);
+  document.addEventListener('turbo:load', initializeConnectorForm);
+  document.addEventListener('turbo:render', initializeConnectorForm);
+</script>

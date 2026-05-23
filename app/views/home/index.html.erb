@@ -1,0 +1,413 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Welcome Card -->
+  <div class="bg-primary rounded-lg shadow-lg p-6 mb-8">
+    <h1 class="text-3xl font-bold text-white mb-2">Welcome back, <%= current_user.name.split.first %>!</h1>
+    <p class="text-white opacity-90">Here's an overview of your data pipeline system.</p>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Total Pipelines -->
+    <%= link_to pipelines_path, class: "block" do %>
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-10 w-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm font-medium text-gray-500">Total Pipelines</p>
+            <p class="text-3xl font-bold text-primary-dark"><%= @total_pipelines %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Active Connectors -->
+    <%= link_to connectors_path, class: "block" do %>
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-10 w-10 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm font-medium text-gray-500">Active Connectors</p>
+            <p class="text-3xl font-bold text-primary-dark"><%= @active_connectors %> <span class="text-lg text-gray-500">/ <%= @total_connectors %></span></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Datasets -->
+    <%= link_to datasets_path, class: "block" do %>
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-10 w-10 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+            </svg>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm font-medium text-gray-500">Datasets</p>
+            <p class="text-3xl font-bold text-primary-dark"><%= @total_datasets %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Last Run -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <svg class="h-10 w-10 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div class="ml-4 min-w-0 flex-1">
+          <p class="text-sm font-medium text-gray-500">Last Run</p>
+          <% if @last_run %>
+            <p class="text-lg font-semibold text-primary-dark whitespace-nowrap"><%= time_ago_in_words(@last_run.started_at) %> ago</p>
+          <% else %>
+            <p class="text-lg font-semibold text-gray-500">Never</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- Execution Timeline Chart -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Pipeline Executions (Last 7 Days)</h2>
+      </div>
+      <div class="p-6" style="height: 300px;">
+        <canvas
+          data-controller="chart"
+          data-chart-type-value="bar"
+          data-chart-data-value="<%= {
+            labels: @execution_timeline[:labels],
+            datasets: [
+              {
+                label: 'Succeeded',
+                data: @execution_timeline[:succeeded],
+                backgroundColor: 'rgba(34, 197, 94, 0.8)',
+                borderColor: 'rgb(34, 197, 94)',
+                borderWidth: 1
+              },
+              {
+                label: 'Failed',
+                data: @execution_timeline[:failed],
+                backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                borderColor: 'rgb(239, 68, 68)',
+                borderWidth: 1
+              }
+            ]
+          }.to_json %>"
+          data-chart-options-value="<%= {
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                position: 'top'
+              }
+            }
+          }.to_json %>">
+        </canvas>
+      </div>
+    </div>
+
+    <!-- Success Rate Pie Chart -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Success Rate (Last 30 Days)</h2>
+      </div>
+      <div class="p-6" style="height: 300px;">
+        <% total_runs = @success_rate_data[:succeeded] + @success_rate_data[:failed] + @success_rate_data[:running] %>
+        <% if total_runs > 0 %>
+          <canvas
+            data-controller="chart"
+            data-chart-type-value="doughnut"
+            data-chart-data-value="<%= {
+              labels: ['Succeeded', 'Failed', 'Running'],
+              datasets: [{
+                data: [
+                  @success_rate_data[:succeeded],
+                  @success_rate_data[:failed],
+                  @success_rate_data[:running]
+                ],
+                backgroundColor: [
+                  'rgba(34, 197, 94, 0.8)',
+                  'rgba(239, 68, 68, 0.8)',
+                  'rgba(59, 130, 246, 0.8)'
+                ],
+                borderColor: [
+                  'rgb(34, 197, 94)',
+                  'rgb(239, 68, 68)',
+                  'rgb(59, 130, 246)'
+                ],
+                borderWidth: 2
+              }]
+            }.to_json %>"
+            data-chart-options-value="<%= {
+              plugins: {
+                legend: {
+                  position: 'right'
+                }
+              }
+            }.to_json %>">
+          </canvas>
+        <% else %>
+          <div class="flex items-center justify-center h-full text-gray-400">
+            <div class="text-center">
+              <svg class="mx-auto h-12 w-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+              <p class="text-sm">No data yet</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Top Pipelines Chart -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Most Active Pipelines</h2>
+      </div>
+      <div class="p-6" style="height: 300px;">
+        <% if @top_pipelines[:data].any? %>
+          <canvas
+            data-controller="chart"
+            data-chart-type-value="bar"
+            data-chart-data-value="<%= {
+              labels: @top_pipelines[:labels],
+              datasets: [{
+                label: 'Executions',
+                data: @top_pipelines[:data],
+                backgroundColor: 'rgba(99, 102, 241, 0.8)',
+                borderColor: 'rgb(99, 102, 241)',
+                borderWidth: 1
+              }]
+            }.to_json %>"
+            data-chart-options-value="<%= {
+              indexAxis: 'y',
+              scales: {
+                x: {
+                  beginAtZero: true,
+                  ticks: {
+                    stepSize: 1
+                  }
+                }
+              },
+              plugins: {
+                legend: {
+                  display: false
+                }
+              }
+            }.to_json %>">
+          </canvas>
+        <% else %>
+          <div class="flex items-center justify-center h-full text-gray-400">
+            <div class="text-center">
+              <svg class="mx-auto h-12 w-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+              <p class="text-sm">No pipeline runs yet</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Data Volume Trend Chart -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Data Processed (Last 30 Days)</h2>
+      </div>
+      <div class="p-6" style="height: 300px;">
+        <% if @data_volume_trend[:data].any? { |v| v > 0 } %>
+          <canvas
+            data-controller="chart"
+            data-chart-type-value="line"
+            data-chart-data-value="<%= {
+              labels: @data_volume_trend[:labels],
+              datasets: [{
+                label: 'Rows Processed',
+                data: @data_volume_trend[:data],
+                fill: true,
+                backgroundColor: 'rgba(14, 165, 233, 0.1)',
+                borderColor: 'rgb(14, 165, 233)',
+                borderWidth: 2,
+                tension: 0.4
+              }]
+            }.to_json %>"
+            data-chart-options-value="<%= {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              },
+              plugins: {
+                legend: {
+                  display: false
+                }
+              }
+            }.to_json %>">
+          </canvas>
+        <% else %>
+          <div class="flex items-center justify-center h-full text-gray-400">
+            <div class="text-center">
+              <svg class="mx-auto h-12 w-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+              </svg>
+              <p class="text-sm">No data processed yet</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Recent Pipeline Runs (takes 2 columns) -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl font-semibold text-gray-900">Recent Pipeline Runs</h2>
+            <%= link_to "View All", pipelines_path, class: "text-sm text-primary hover:text-primary-dark" %>
+          </div>
+        </div>
+        <% if @recent_runs.any? %>
+          <div class="divide-y divide-gray-200">
+            <% @recent_runs.each do |run| %>
+              <div class="px-6 py-4 hover:bg-gray-50">
+                <div class="flex items-center justify-between">
+                  <div class="flex-1 min-w-0">
+                    <%= link_to run.pipeline.name, pipeline_path(run.pipeline), class: "text-sm font-medium text-primary hover:text-primary-dark truncate" %>
+                    <p class="text-xs text-gray-500 mt-1">
+                      <%= time_ago_in_words(run.started_at) %> ago
+                      <% if run.duration %>
+                        · <%= run.duration %>s duration
+                      <% end %>
+                      <% if run.row_count %>
+                        · <%= number_with_delimiter(run.row_count) %> rows
+                      <% end %>
+                    </p>
+                  </div>
+                  <div class="ml-4 flex-shrink-0">
+                    <% badge_class = case run.status
+                                     when "succeeded" then "bg-green-100 text-green-800"
+                                     when "failed" then "bg-red-100 text-red-800"
+                                     when "running" then "bg-blue-100 text-blue-800"
+                                     else "bg-gray-100 text-gray-800"
+                                     end %>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= badge_class %>">
+                      <%= run.status.titleize %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-12">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No pipeline runs yet</h3>
+            <p class="mt-1 text-sm text-gray-500">Get started by running your first pipeline.</p>
+            <div class="mt-6">
+              <%= link_to "Create Pipeline", new_pipeline_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- System Health Sidebar -->
+    <div class="lg:col-span-1 space-y-6">
+      <!-- System Health Widget -->
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-900">System Health</h2>
+        </div>
+        <div class="px-6 py-4 space-y-4">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-medium text-gray-700">Recent Failures (24h)</span>
+              <% if @recent_failures == 0 %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <svg class="-ml-0.5 mr-1.5 h-2 w-2 text-green-400" fill="currentColor" viewBox="0 0 8 8">
+                    <circle cx="4" cy="4" r="3" />
+                  </svg>
+                  Healthy
+                </span>
+              <% else %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                  <%= @recent_failures %> failures
+                </span>
+              <% end %>
+            </div>
+          </div>
+          
+          <div class="border-t border-gray-200 pt-4">
+            <p class="text-sm text-gray-600">
+              <span class="font-medium"><%= @total_pipelines %></span> pipelines configured
+            </p>
+            <p class="text-sm text-gray-600 mt-1">
+              <span class="font-medium"><%= @active_connectors %></span> connectors active
+            </p>
+            <p class="text-sm text-gray-600 mt-1">
+              <span class="font-medium"><%= @total_datasets %></span> datasets available
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions Widget -->
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-900">Quick Actions</h2>
+        </div>
+        <div class="px-6 py-4 space-y-3">
+          <%= link_to new_pipeline_path, class: "block w-full text-left px-4 py-2 text-sm font-medium text-primary-dark bg-primary-pale rounded-md hover:bg-gray-200 transition-colors" do %>
+            <div class="flex items-center">
+              <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+              </svg>
+              New Pipeline
+            </div>
+          <% end %>
+          <%= link_to new_connector_path, class: "block w-full text-left px-4 py-2 text-sm font-medium text-success bg-green-50 rounded-md hover:bg-green-100 transition-colors" do %>
+            <div class="flex items-center">
+              <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+              </svg>
+              New Connector
+            </div>
+          <% end %>
+          <%= link_to new_dataset_path, class: "block w-full text-left px-4 py-2 text-sm font-medium text-info bg-blue-50 rounded-md hover:bg-blue-100 transition-colors" do %>
+            <div class="flex items-center">
+              <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+              </svg>
+              New Dataset
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

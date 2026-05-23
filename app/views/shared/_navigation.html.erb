@@ -1,0 +1,46 @@
+<nav class="space-y-1" role="navigation" aria-label="Main navigation">
+  <!-- Home / Dashboard -->
+  <%= link_to root_path, 
+      class: "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors #{current_page?(root_path) ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100'}" do %>
+    <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+    </svg>
+    <span data-sidebar-target="text">Home</span>
+  <% end %>
+
+  <!-- Connectors (for admins) -->
+  <%= link_to connectors_path,
+        class: "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors #{current_page?(connectors_path) ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100'}" do %>
+      <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+      </svg>
+      <span data-sidebar-target="text">Connectors</span>
+    <% end %>
+
+  <!-- Pipelines (all authenticated users can view) -->
+  <%= link_to pipelines_path,
+        class: "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors #{current_page?(pipelines_path) ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100'}" do %>
+      <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+      </svg>
+      <span data-sidebar-target="text">Pipelines</span>
+    <% end %>
+
+    <!-- Templates -->
+    <%= link_to templates_pipelines_path, 
+        class: "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors #{current_page?(templates_pipelines_path) ? 'bg-accent-cyan text-white' : 'text-gray-700 hover:bg-gray-100'}" do %>
+      <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+      </svg>
+      <span data-sidebar-target="text">Templates</span>
+    <% end %>
+
+  <!-- Datasets (all authenticated users) -->
+  <%= link_to datasets_path, 
+      class: "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors #{current_page?(datasets_path) ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100'}" do %>
+    <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+    </svg>
+    <span data-sidebar-target="text">Datasets</span>
+  <% end %>
+</nav>

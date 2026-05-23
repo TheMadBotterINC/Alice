@@ -1,0 +1,101 @@
+<header class="bg-white shadow-sm fixed top-0 left-0 right-0 z-40" role="banner">
+  <div class="px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Left: Logo and Mobile Menu Button -->
+      <div class="flex items-center">
+        <!-- Mobile menu button -->
+        <button type="button" 
+                data-sidebar-target="toggle"
+                data-action="click->sidebar#toggle"
+                class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary lg:hidden"
+                aria-label="Toggle sidebar menu">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+
+        <!-- Logo -->
+        <%= link_to root_path, class: "flex items-center ml-4 lg:ml-0" do %>
+          <h1 class="text-2xl font-bold text-primary-dark">Alice</h1>
+          <span class="ml-2 text-sm text-gray-500 hidden sm:inline">Managed Data Pipelines</span>
+        <% end %>
+      </div>
+
+      <!-- Right: Search and User Menu -->
+      <div class="flex items-center space-x-4">
+        <!-- Global Search (placeholder for now) -->
+        <div class="hidden md:block">
+          <div class="relative">
+            <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            </svg>
+          </div>
+        </div>
+
+        <!-- User Menu Dropdown -->
+        <div class="relative" data-controller="dropdown">
+          <button type="button" 
+                  data-action="click->dropdown#toggle"
+                  class="flex items-center space-x-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary rounded-lg p-2 hover:bg-gray-100"
+                  aria-expanded="false"
+                  aria-haspopup="true">
+            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-semibold">
+              <%= current_user.name.split.map(&:first).join.upcase %>
+            </div>
+            <span class="hidden md:block text-gray-700 font-medium"><%= current_user.name %></span>
+            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div data-dropdown-target="menu"
+               class="hidden absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
+               role="menu"
+               aria-orientation="vertical">
+            <!-- User Info -->
+            <div class="px-4 py-3">
+              <p class="text-sm font-medium text-gray-900"><%= current_user.name %></p>
+              <p class="text-sm text-gray-500 truncate"><%= current_user.email %></p>
+              <p class="text-xs text-gray-400 mt-1">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary-light text-white">
+                  <%= current_user.role.humanize %>
+                </span>
+              </p>
+            </div>
+
+            <!-- Menu Items -->
+            <div class="py-1">
+              <% if policy(User).index? %>
+                <%= link_to users_path, class: "flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100", role: "menuitem" do %>
+                  <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                  </svg>
+                  Manage Users
+                <% end %>
+              <% end %>
+              <%= link_to settings_path, class: "flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100", role: "menuitem" do %>
+                <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Settings
+              <% end %>
+            </div>
+
+            <!-- Sign Out -->
+            <div class="py-1">
+              <%= button_to sign_out_path, method: :delete, 
+                  class: "flex items-center w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-50",
+                  role: "menuitem" do %>
+                <svg class="w-4 h-4 mr-3 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                Sign Out
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,546 @@
+<%= form_with(model: pipeline, class: "space-y-6", data: { controller: "form-validator pipeline-form", form_validator_target: "form", action: "submit->form-validator#validateAndSubmit" }) do |form| %>
+  <% if pipeline.errors.any? %>
+    <div class="rounded-md bg-red-50 p-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            <%= pluralize(pipeline.errors.count, "error") %> prohibited this pipeline from being saved:
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="list-disc pl-5 space-y-1">
+              <% pipeline.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @preselected_dataset.present? %>
+    <div class="rounded-md bg-blue-50 p-4 border border-blue-200">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3 flex-1">
+          <h3 class="text-sm font-medium text-blue-800">
+            Dataset Pre-selected as Source
+          </h3>
+          <div class="mt-2 text-sm text-blue-700">
+            <p>
+              The dataset <strong><%= @preselected_dataset.name %></strong> (<code class="bg-blue-100 px-1 py-0.5 rounded text-xs"><%= @preselected_dataset.fully_qualified_name %></code>) has been automatically selected as a source for this pipeline.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="bg-white shadow-sm rounded-lg p-6 space-y-6">
+    <!-- Name Field -->
+    <div>
+      <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :name, 
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+          placeholder: "e.g., Daily Sales Pipeline" %>
+    </div>
+
+    <!-- Description Field -->
+    <div>
+      <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_area :description, 
+          rows: 2,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+          placeholder: "Brief description of what this pipeline does" %>
+      <p class="mt-1 text-sm text-gray-500">Optional description to help others understand this pipeline's purpose.</p>
+    </div>
+
+    <!-- Data Sources Section -->
+    <div class="border-l-4 border-blue-500 pl-4" data-controller="source-selector" data-source-selector-row-limit-field-outlet=".row-limit-field">
+      <h3 class="text-base font-semibold text-gray-900 mb-3">Data Sources</h3>
+      <p class="text-sm text-gray-600 mb-4">Select the type of sources for this pipeline. At least one source is required.</p>
+      
+      <!-- Source Type Selector -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Source Type</label>
+        <div class="flex space-x-4">
+          <label class="inline-flex items-center cursor-pointer">
+            <input type="radio" 
+                   name="source_type" 
+                   value="connectors"
+                   data-source-selector-target="typeRadio"
+                   data-action="change->source-selector#switchType"
+                   <%= 'checked' if pipeline.source_connectors.any? || pipeline.source_datasets.empty? %>
+                   class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+            <span class="ml-2 text-sm text-gray-700">Connectors (Database/API sources)</span>
+          </label>
+          <label class="inline-flex items-center cursor-pointer">
+            <input type="radio" 
+                   name="source_type" 
+                   value="datasets"
+                   data-source-selector-target="typeRadio"
+                   data-action="change->source-selector#switchType"
+                   <%= 'checked' if @preselected_dataset.present? || (pipeline.source_datasets.any? && pipeline.source_connectors.empty?) %>
+                   class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+            <span class="ml-2 text-sm text-gray-700">Datasets (Pipeline chaining)</span>
+          </label>
+        </div>
+        <p class="mt-2 text-xs text-gray-500">💡 Connectors pull data from external sources. Datasets allow you to chain pipelines together.</p>
+      </div>
+      
+      <!-- Source Connectors Section -->
+      <div data-source-selector-target="connectorsSection" 
+           data-controller="connector-table-inputs"
+           class="<%= 'hidden' unless pipeline.source_connectors.any? || pipeline.source_datasets.empty? %>">
+        <%= form.label :source_connector_ids, "Select Connectors", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <% if @connectors.any? %>
+          <div class="mt-2 space-y-3 max-h-96 overflow-y-auto border border-gray-300 rounded-md p-3 bg-gray-50">
+            <% @connectors.each do |connector| %>
+              <div class="border-b border-gray-200 pb-3 last:border-b-0 last:pb-0">
+                <div class="flex items-center">
+                  <%= check_box_tag "pipeline[source_connector_ids][]", 
+                      connector.id, 
+                      pipeline.source_connectors.include?(connector),
+                      id: "pipeline_source_connector_ids_#{connector.id}",
+                      data: { 
+                        connector_type: connector.connector_type,
+                        action: "change->connector-table-inputs#toggleTableInputs"
+                      },
+                      class: "w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer" %>
+                  <%= label_tag "pipeline_source_connector_ids_#{connector.id}", 
+                      class: "ml-2 text-sm text-gray-700 cursor-pointer" do %>
+                    <span class="font-medium"><%= connector.name %></span>
+                    <span class="text-gray-500">(<%= connector.connector_type.titleize %>)</span>
+                  <% end %>
+                </div>
+                
+                <% unless connector.file_connector? %>
+                  <!-- Table selection for database connectors -->
+                  <div class="ml-7 mt-2 space-y-2 <%= 'hidden' unless pipeline.source_connectors.include?(connector) %>" 
+                       id="table_inputs_<%= connector.id %>"
+                       data-connector-table-inputs-target="tableInputs"
+                       data-connector-id="<%= connector.id %>">
+                    <div>
+                      <label class="block text-xs font-medium text-gray-600 mb-1">Select Table</label>
+                      <select id="table_select_<%= connector.id %>"
+                              data-connector-table-inputs-target="tableSelect"
+                              data-connector-id="<%= connector.id %>"
+                              class="w-full text-xs rounded border-gray-300 shadow-sm focus:border-primary focus:ring-primary">
+                        <option value="">Loading tables...</option>
+                      </select>
+                      <p class="text-xs text-gray-500 italic mt-1">Select which table to use from this connector</p>
+                    </div>
+                    <!-- Hidden fields to store schema and table separately -->
+                    <%= hidden_field_tag "pipeline[connector_tables][#{connector.id}][schema]", "", id: "schema_#{connector.id}" %>
+                    <%= hidden_field_tag "pipeline[connector_tables][#{connector.id}][table]", "", id: "table_#{connector.id}" %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-sm text-gray-500 italic">No connectors available. <%= link_to "Create a connector", new_connector_path, class: "text-blue-600 hover:text-blue-800 underline" %> to get started.</p>
+        <% end %>
+        <%= hidden_field_tag "pipeline[source_connector_ids][]", "" %>
+      </div>
+      
+      <!-- Source Datasets Section -->
+      <div data-source-selector-target="datasetsSection" class="<%= 'hidden' unless @preselected_dataset.present? || (pipeline.source_datasets.any? && pipeline.source_connectors.empty?) %>">
+        <%= form.label :source_dataset_ids, "Select Datasets", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <% if @datasets.any? %>
+          <div class="mt-2 space-y-2 max-h-48 overflow-y-auto border border-blue-200 rounded-md p-3 bg-blue-50">
+            <% @datasets.where(status: [:draft, :active]).each do |dataset| %>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center flex-1">
+                  <%= check_box_tag "pipeline[source_dataset_ids][]", 
+                      dataset.id, 
+                      pipeline.source_datasets.include?(dataset),
+                      id: "pipeline_source_dataset_ids_#{dataset.id}",
+                      class: "w-5 h-5 rounded-md border-2 border-blue-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer" %>
+                  <%= label_tag "pipeline_source_dataset_ids_#{dataset.id}", 
+                      class: "ml-2 text-sm text-gray-700 cursor-pointer flex-1" do %>
+                    <span class="font-medium"><%= dataset.name %></span>
+                    <span class="text-xs text-gray-500 block"><%= dataset.fully_qualified_name %></span>
+                  <% end %>
+                </div>
+                <% status_color = case dataset.status
+                                  when "active" then "green"
+                                  when "draft" then "yellow"
+                                  else "gray"
+                                  end %>
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-<%= status_color %>-100 text-<%= status_color %>-800 ml-2">
+                  <%= dataset.status.titleize %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-sm text-gray-500 italic">No datasets available yet. Create datasets by running pipelines with dataset destinations.</p>
+        <% end %>
+        <%= hidden_field_tag "pipeline[source_dataset_ids][]", "" %>
+      </div>
+    </div>
+
+    <!-- Source Row Limit Field (hidden for file-only sources) -->
+    <div class="row-limit-field" data-controller="row-limit-visibility" data-row-limit-visibility-connectors-value="<%= @connectors.map { |c| { id: c.id, is_file: c.file_connector? } }.to_json %>">
+      <%= form.label :source_row_limit, "Source Row Limit (Optional)", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.number_field :source_row_limit,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+          placeholder: "e.g., 100000",
+          min: 1,
+          step: 1 %>
+      <p class="mt-1 text-sm text-gray-500">
+        Limit the number of rows fetched from database connectors (e.g., Snowflake). Useful for large datasets that may exceed API limits.
+        If not specified for databases, a default limit of 100,000 rows applies. File sources always process the entire file.
+      </p>
+    </div>
+
+    <!-- Transformation Section: Visual Builder | SQL Editor -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-3">Transformation</label>
+
+      <!-- Visual Builder Card (only show for visual mode pipelines) -->
+      <% if pipeline.persisted? && pipeline.visual_mode? %>
+        <div class="mb-4 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300 rounded-lg p-6">
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <div class="flex items-center space-x-2 mb-2">
+                <h3 class="text-lg font-semibold text-gray-900">🎨 Visual Query Builder</h3>
+              </div>
+              <p class="text-sm text-gray-600">
+                Build your transformation query visually with our Metabase-style interface. 
+                Drag columns, add joins, filters, and more in a beautiful full-screen experience.
+              </p>
+            </div>
+            <%= link_to visual_builder_pipeline_path(pipeline), 
+                class: "ml-4 inline-flex items-center px-6 py-3 border border-transparent rounded-lg shadow-lg text-base font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform hover:scale-105 transition-all" do %>
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+              Open Visual Builder
+            <% end %>
+          </div>
+        </div>
+      <% elsif !pipeline.persisted? %>
+        <!-- Only show Launch Visual Builder card for new pipelines, not SQL-mode pipelines -->
+        <div class="mb-4 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300 rounded-lg p-6">
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <div class="flex items-center space-x-2 mb-2">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3z"/>
+                </svg>
+                <h3 class="text-lg font-semibold text-gray-900">Visual Query Builder</h3>
+              </div>
+              <p class="text-sm text-gray-600">
+                Build your transformation query visually! No SQL required. 
+                Add columns, joins, filters, and more in our beautiful interface.
+              </p>
+            </div>
+            <%= link_to new_visual_builder_pipelines_path, 
+                class: "ml-4 inline-flex items-center px-6 py-3 border border-transparent rounded-lg shadow-lg text-base font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform hover:scale-105 transition-all" do %>
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              Launch Visual Builder
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <%= form.hidden_field :transformation_mode, value: pipeline.transformation_mode.presence || 'sql' %>
+      <%= form.hidden_field :transformation_config, value: (pipeline.transformation_config.present? ? pipeline.transformation_config.to_json : '') %>
+
+      <!-- SQL Editor -->
+      <div class="mt-4">
+        <h3 class="text-sm font-medium text-gray-700 mb-2">SQL Transformation Query</h3>
+        <div class="sql-editor-wrapper" data-controller="sql-highlighter">
+          <%= form.text_area :transformation_sql,
+              rows: 12,
+              data: { 'sql-highlighter-target': 'textarea' },
+              class: "block w-full rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono #{pipeline.errors[:transformation_sql].any? ? 'border-red-500' : 'border-gray-300'}",
+              placeholder: "SELECT\n  column1,\n  column2,\n  SUM(amount) as total\nFROM source_table\nWHERE date >= CURRENT_DATE - 7\nGROUP BY column1, column2" %>
+        </div>
+        <% if pipeline.errors[:transformation_sql].any? %>
+          <p class="mt-2 text-sm text-red-600">
+            <span class="font-semibold">SQL Validation Error:</span> <%= pipeline.errors[:transformation_sql].first %>
+          </p>
+        <% end %>
+        <p class="mt-1 text-sm text-gray-500">
+          Write the SQL query to transform your data, or use the Visual Builder above for a guided experience.
+        </p>
+      </div>
+    </div>
+
+    <!-- Destination Section -->
+    <div data-controller="destination-selector">
+      <label class="block text-sm font-medium text-gray-700 mb-2">Destination (Optional)</label>
+      
+      <!-- Destination Type Selector -->
+      <div class="mb-4">
+        <div class="flex space-x-4">
+          <label class="inline-flex items-center cursor-pointer">
+            <input type="radio" 
+                   name="destination_type" 
+                   value="none"
+                   data-destination-selector-target="typeRadio"
+                   data-action="change->destination-selector#switchType"
+                   <%= 'checked' if pipeline.destination_connector_id.blank? && pipeline.destination_dataset_id.blank? %>
+                   class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+            <span class="ml-2 text-sm text-gray-700">None (transform only)</span>
+          </label>
+          <label class="inline-flex items-center cursor-pointer">
+            <input type="radio" 
+                   name="destination_type" 
+                   value="dataset"
+                   data-destination-selector-target="typeRadio"
+                   data-action="change->destination-selector#switchType"
+                   <%= 'checked' if pipeline.destination_dataset_id.present? %>
+                   class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+            <span class="ml-2 text-sm text-gray-700">Dataset (recommended)</span>
+          </label>
+          <label class="inline-flex items-center cursor-pointer">
+            <input type="radio" 
+                   name="destination_type" 
+                   value="connector"
+                   data-destination-selector-target="typeRadio"
+                   data-action="change->destination-selector#switchType"
+                   <%= 'checked' if pipeline.destination_connector_id.present? %>
+                   class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+            <span class="ml-2 text-sm text-gray-700">Connector (e.g., Power BI, Looking Glass)</span>
+          </label>
+          <label class="inline-flex items-center cursor-pointer">
+            <input type="radio" 
+                   name="destination_type" 
+                   value="file_export"
+                   data-destination-selector-target="typeRadio"
+                   data-action="change->destination-selector#switchType"
+                   <%= 'checked' if pipeline.file_export? %>
+                   class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+            <span class="ml-2 text-sm text-gray-700">Download File (CSV/Excel export)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Dataset Selector -->
+      <div data-destination-selector-target="datasetSection" class="<%= 'hidden' unless pipeline.destination_dataset_id.present? %>">
+        <%= form.label :destination_dataset_id, "Destination Dataset", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.collection_select :destination_dataset_id, 
+            @datasets, 
+            :id, 
+            :fully_qualified_name,
+            { prompt: "Select a dataset...", include_blank: true },
+            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
+        <p class="mt-1 text-sm text-gray-500">
+          Select a specific dataset where transformed data will be written. 
+          Datasets include schema and table information for precise targeting.
+        </p>
+      </div>
+
+      <!-- Connector Selector -->
+      <div data-destination-selector-target="connectorSection" class="<%= 'hidden' unless pipeline.destination_connector_id.present? %>">
+        <div class="space-y-4" data-controller="powerbi-config">
+          <%= form.label :destination_connector_id, "Destination Connector", class: "block text-sm font-medium text-gray-700" %>
+          <% destination_connectors = @connectors.select { |c| c.supports_write? } %>
+          <%= form.collection_select :destination_connector_id, 
+              destination_connectors, 
+              :id, 
+              ->(c) { "#{c.name} (#{c.connector_type.titleize})" },
+              { prompt: "Select a connector...", include_blank: true },
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+              data: { action: "change->powerbi-config#toggleFields" } %>
+          <p class="mt-1 text-sm text-gray-500">
+            Select a connector where transformed data will be written.
+          </p>
+          
+          <!-- Power BI Configuration (shown only when Power BI connector selected) -->
+          <% selected_connector = @connectors.find { |c| c.id == pipeline.destination_connector_id } %>
+          <% is_powerbi = selected_connector&.connector_type == 'powerbi' %>
+          <div data-powerbi-config-target="fields" class="<%= 'hidden' unless is_powerbi %> pl-4 border-l-2 border-blue-200 space-y-3">
+            <h4 class="text-sm font-medium text-gray-700">Power BI Settings</h4>
+            
+            <div>
+              <label class="block text-sm text-gray-700">Workspace <span class="text-red-500">*</span></label>
+              <div class="space-y-2">
+                <select data-powerbi-config-target="workspaceSelect"
+                        data-action="change->powerbi-config#syncToHiddenField"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                  <option value="">Select a connector first...</option>
+                </select>
+                <div data-powerbi-config-target="manualInput" class="hidden">
+                  <label class="block text-xs text-gray-600 mb-1">Or enter workspace ID manually:</label>
+                  <input type="text" 
+                         data-powerbi-config-target="manualField"
+                         data-action="input->powerbi-config#syncToHiddenField"
+                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" 
+                         placeholder="e.g., 12345678-1234-1234-1234-123456789012">
+                </div>
+                <input type="hidden" 
+                       name="pipeline[destination_config][workspace_id]" 
+                       data-powerbi-config-target="hiddenField"
+                       value="<%= pipeline.destination_config.try(:[], 'workspace_id') %>">
+              </div>
+              <p class="mt-1 text-xs text-gray-500">Select from dropdown or enter manually below if workspaces fail to load</p>
+            </div>
+            
+            <div>
+              <label class="block text-sm text-gray-700">Dataset Name <span class="text-red-500">*</span></label>
+              <input type="text" 
+                     name="pipeline[destination_config][dataset_name]" 
+                     value="<%= pipeline.destination_config.try(:[], 'dataset_name') %>" 
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" 
+                     placeholder="e.g., Sales Data">
+              <p class="mt-1 text-xs text-gray-500">Name for the Power BI dataset (will be created if it doesn't exist)</p>
+            </div>
+            
+            <div>
+              <label class="block text-sm text-gray-700">Table Name (Optional)</label>
+              <input type="text" 
+                     name="pipeline[destination_config][table_name]" 
+                     value="<%= pipeline.destination_config.try(:[], 'table_name') %>" 
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" 
+                     placeholder="data">
+              <p class="mt-1 text-xs text-gray-500">Table name within the dataset (defaults to 'data')</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- File Export Options -->
+      <div data-destination-selector-target="fileExportSection" class="<%= 'hidden' unless pipeline.file_export? %>">
+        <div class="space-y-4">
+          <!-- Format Selector -->
+          <div>
+            <%= form.label :export_format, "File Format", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :export_format,
+                [["CSV (Comma-separated values)", "csv"], ["Excel (Microsoft Excel .xlsx)", "excel"]],
+                { prompt: "Select format..." },
+                class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
+          </div>
+          
+          <!-- CSV Options -->
+          <div id="csv-export-options" class="<%= 'hidden' unless pipeline.export_format == 'csv' %> pl-4 border-l-2 border-gray-200">
+            <h4 class="text-sm font-medium text-gray-700 mb-3">CSV Options</h4>
+            <div class="space-y-3">
+              <div>
+                <label class="block text-sm text-gray-700">Delimiter</label>
+                <select name="pipeline[export_options][delimiter]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                  <option value="," <%= 'selected' if pipeline.export_options_hash['delimiter'] == ',' || pipeline.export_options_hash['delimiter'].blank? %>>,  (Comma)</option>
+                  <option value="\t" <%= 'selected' if pipeline.export_options_hash['delimiter'] == "\t" %>>⇥  (Tab - TSV)</option>
+                  <option value=";" <%= 'selected' if pipeline.export_options_hash['delimiter'] == ';' %>>;  (Semicolon)</option>
+                  <option value="|" <%= 'selected' if pipeline.export_options_hash['delimiter'] == '|' %>>|  (Pipe)</option>
+                </select>
+              </div>
+              <div class="flex items-center">
+                <input type="checkbox" name="pipeline[export_options][has_header]" value="true" <%= 'checked' if pipeline.export_options_hash['has_header'] == 'true' || pipeline.export_options_hash['has_header'] == true || pipeline.export_options_hash['has_header'].nil? %> class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer">
+                <label class="ml-2 text-sm text-gray-700">Include header row</label>
+              </div>
+              <div>
+                <div class="flex items-center">
+                  <input type="checkbox" name="pipeline[export_options][high_precision]" value="true" <%= 'checked' if pipeline.export_options_hash['high_precision'] == 'true' || pipeline.export_options_hash['high_precision'] == true %> class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer">
+                  <label class="ml-2 text-sm text-gray-700">High precision numbers</label>
+                </div>
+                <p class="ml-7 mt-1 text-xs text-gray-500">
+                  Preserve full floating point precision. By default, numbers are rounded to 6 decimal places to avoid display issues like <code class="font-mono bg-gray-100 px-1 rounded">161.29999999999998</code>.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Excel Options -->
+          <div id="excel-export-options" class="<%= 'hidden' unless pipeline.export_format == 'excel' %> pl-4 border-l-2 border-gray-200">
+            <h4 class="text-sm font-medium text-gray-700 mb-3">Excel Options</h4>
+            <div class="space-y-3">
+              <div>
+                <label class="block text-sm text-gray-700">Sheet Name</label>
+                <input type="text" name="pipeline[export_options][sheet_name]" value="<%= pipeline.export_options_hash['sheet_name'] || 'Sheet1' %>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" placeholder="Sheet1">
+              </div>
+              <div class="flex items-center">
+                <input type="checkbox" name="pipeline[export_options][has_header]" value="true" <%= 'checked' if pipeline.export_options_hash['has_header'] == 'true' || pipeline.export_options_hash['has_header'] == true || pipeline.export_options_hash['has_header'].nil? %> class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer">
+                <label class="ml-2 text-sm text-gray-700">Include header row</label>
+              </div>
+              <div>
+                <div class="flex items-center">
+                  <input type="checkbox" name="pipeline[export_options][high_precision]" value="true" <%= 'checked' if pipeline.export_options_hash['high_precision'] == 'true' || pipeline.export_options_hash['high_precision'] == true %> class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer">
+                  <label class="ml-2 text-sm text-gray-700">High precision numbers</label>
+                </div>
+                <p class="ml-7 mt-1 text-xs text-gray-500">
+                  Preserve full floating point precision. By default, numbers are rounded to 6 decimal places to avoid display issues like <code class="font-mono bg-gray-100 px-1 rounded">161.29999999999998</code>.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <p class="mt-2 text-sm text-gray-500">
+            💾 Files will be generated after each pipeline run and available for download from the run history.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Write Disposition Field -->
+    <div>
+      <%= form.label :write_disposition, "Write Disposition", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.select :write_disposition, 
+          [["Append (add to existing data)", "append"], ["Truncate and Load (replace all data)", "truncate_and_load"], ["Merge (update existing, insert new)", "merge"]],
+          {},
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+          data: { action: "change->pipeline-form#toggleMergeKey" } %>
+      <p class="mt-1 text-sm text-gray-500">How should new data be written to the destination?</p>
+    </div>
+
+    <!-- Merge Key Field (shown only when merge disposition is selected) -->
+    <div id="merge-key-field" class="<%= 'hidden' unless pipeline.write_disposition == 'merge' %>">
+      <%= form.label :merge_key, "Merge Key", class: "block text-sm font-medium text-gray-700" %>
+      <div class="merge-key-input-wrapper">
+        <%= form.text_field :merge_key, 
+            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm transition-colors duration-200",
+            placeholder: "id" %>
+        <!-- Validation message will be inserted here by JavaScript -->
+      </div>
+      <p class="mt-1 text-sm text-gray-500 merge-key-help-text">
+        Column name(s) used to match existing records. For multiple columns, separate with commas (e.g., <code class="font-mono bg-gray-100 px-1 rounded">id, date</code>).
+      </p>
+      <div class="mt-2 bg-blue-50 border border-blue-200 rounded-md p-3">
+        <p class="text-sm text-blue-800">
+          <strong>💡 How Merge Works:</strong> Existing rows matching the merge key will be updated with new data. 
+          Rows not matching will be inserted as new records.
+        </p>
+      </div>
+    </div>
+
+    <!-- Schedule Field -->
+    <div>
+      <%= form.label :schedule, "Schedule (Cron)", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :schedule, 
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono",
+          placeholder: "0 2 * * * (runs at 2:00 AM daily)" %>
+      <p class="mt-1 text-sm text-gray-500">Optional cron expression for scheduling. Leave blank for manual runs only.</p>
+      <div class="mt-2 text-xs text-gray-500 space-y-1">
+        <p>Examples:</p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li><code class="font-mono bg-gray-100 px-1 rounded">0 2 * * *</code> - Every day at 2:00 AM</li>
+          <li><code class="font-mono bg-gray-100 px-1 rounded">0 */6 * * *</code> - Every 6 hours</li>
+          <li><code class="font-mono bg-gray-100 px-1 rounded">0 3 * * 0</code> - Every Sunday at 3:00 AM</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex items-center justify-end space-x-3">
+    <%= link_to "Cancel", pipeline.persisted? ? pipeline_path(pipeline) : pipelines_path, 
+        class: "px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
+    <%= form.submit class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
+  </div>
+<% end %>

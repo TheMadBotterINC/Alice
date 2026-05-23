@@ -1,0 +1,372 @@
+<div class="max-w-4xl mx-auto" data-controller="connector-wizard" data-connector-wizard-total-steps-value="3">
+  <!-- Header -->
+  <div class="mb-8">
+    <div class="flex items-center">
+      <%= link_to connectors_path, class: "text-gray-400 hover:text-gray-600" do %>
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      <% end %>
+      <h1 class="ml-2 text-3xl font-bold text-gray-900">Create New Connector</h1>
+    </div>
+    <p class="mt-2 text-sm text-gray-600">Follow the steps to connect your data source</p>
+  </div>
+
+  <!-- Progress Steps -->
+  <div class="mb-8">
+    <div class="flex items-center justify-between" id="progress-steps">
+      <div class="flex items-center" data-step-number="1">
+        <div class="step-circle flex items-center justify-center h-8 w-8 rounded-full border-2 bg-primary border-primary text-white text-sm font-semibold">1</div>
+        <div class="ml-3">
+          <div class="step-label text-sm font-medium text-primary">Choose Type</div>
+        </div>
+      </div>
+      <div class="flex-1 h-0.5 bg-gray-200 mx-2"></div>
+      <div class="flex items-center" data-step-number="2">
+        <div class="step-circle flex items-center justify-center h-8 w-8 rounded-full border-2 bg-gray-200 border-gray-300 text-gray-500 text-sm font-semibold">2</div>
+        <div class="ml-3">
+          <div class="step-label text-sm font-medium text-gray-500">Configure</div>
+        </div>
+      </div>
+      <div class="flex-1 h-0.5 bg-gray-200 mx-2"></div>
+      <div class="flex items-center hidden" data-step-number="3" id="step-3-indicator">
+        <div class="step-circle flex items-center justify-center h-8 w-8 rounded-full border-2 bg-gray-200 border-gray-300 text-gray-500 text-sm font-semibold">3</div>
+        <div class="ml-3">
+          <div class="step-label text-sm font-medium text-gray-500">Advanced</div>
+        </div>
+      </div>
+      <div class="flex-1 h-0.5 bg-gray-200 mx-2 hidden" id="step-3-connector"></div>
+      <div class="flex items-center" data-step-number="4" id="step-4-indicator">
+        <div class="step-circle flex items-center justify-center h-8 w-8 rounded-full border-2 bg-gray-200 border-gray-300 text-gray-500 text-sm font-semibold">4</div>
+        <div class="ml-3">
+          <div class="step-label text-sm font-medium text-gray-500">Test & Create</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= form_with(model: @connector, class: "space-y-6") do |form| %>
+    <!-- Hidden field for connector type -->
+    <%= form.hidden_field :connector_type %>
+
+    <!-- Step 1: Choose Connector Type -->
+    <div data-connector-wizard-target="step" class="bg-white shadow-sm rounded-lg p-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">Choose Your Data Source</h2>
+      <p class="text-gray-600 mb-8">Select the type of connector you want to create</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Snowflake Card -->
+        <div data-connector-type="snowflake" 
+             data-action="click->connector-wizard#selectType"
+             class="relative group cursor-pointer rounded-lg border-2 border-gray-200 p-6 hover:border-primary transition-all duration-200">
+          <div class="flex items-center mb-4">
+            <div class="text-4xl">❄️</div>
+            <h3 class="ml-4 text-xl font-semibold text-gray-900">Snowflake</h3>
+          </div>
+          <p class="text-gray-600 mb-4">Connect to Snowflake Data Warehouse for cloud-based data storage and processing</p>
+          <div class="text-sm text-gray-500">
+            <div class="flex items-center mb-1">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              REST API connectivity
+            </div>
+            <div class="flex items-center">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              No ODBC driver required
+            </div>
+          </div>
+        </div>
+
+        <!-- Power BI Card -->
+        <div data-connector-type="powerbi" 
+             data-action="click->connector-wizard#selectType"
+             class="relative group cursor-pointer rounded-lg border-2 border-gray-200 p-6 hover:border-primary transition-all duration-200">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 flex items-center justify-center">
+              <!-- Official Power BI Logo -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" class="w-10 h-10">
+                <defs>
+                  <linearGradient id="powerbi-grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#E6AD10;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#C87E0E;stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="powerbi-grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#F6D751;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#E6AD10;stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="powerbi-grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#F9E589;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#F6D751;stop-opacity:1" />
+                  </linearGradient>
+                </defs>
+                <rect x="56" y="24" width="16" height="56" rx="2" fill="url(#powerbi-grad1)" />
+                <rect x="40" y="40" width="16" height="40" rx="2" fill="url(#powerbi-grad2)" />
+                <rect x="24" y="56" width="16" height="24" rx="2" fill="url(#powerbi-grad3)" />
+              </svg>
+            </div>
+            <h3 class="ml-4 text-xl font-semibold text-gray-900">Power BI</h3>
+          </div>
+          <p class="text-gray-600 mb-4">Push data directly to Power BI datasets for instant dashboard updates</p>
+          <div class="text-sm text-gray-500">
+            <div class="flex items-center mb-1">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Direct push to datasets
+            </div>
+            <div class="flex items-center">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              No warehouse needed
+            </div>
+          </div>
+        </div>
+
+        <!-- SharePoint Card -->
+        <div data-connector-type="sharepoint" 
+             data-action="click->connector-wizard#selectType"
+             class="relative group cursor-pointer rounded-lg border-2 border-gray-200 p-6 hover:border-primary transition-all duration-200">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 flex items-center justify-center">
+              <!-- Official Microsoft SharePoint Logo -->
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-10 h-10">
+                <circle cx="15.5" cy="11.5" r="9.5" fill="url(#paint0_linear_87_7767)"/>
+                <circle cx="24" cy="17" r="8" fill="url(#paint1_linear_87_7767)"/>
+                <mask id="mask0_87_7767" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="10" y="6" width="13" height="24">
+                  <path d="M23 23.5C23 27.0899 20.0899 30 16.5 30C12.9101 30 10 27.0899 10 23.5C10 19.9102 10 6 10 6H23C23 6 23 21.1988 23 23.5Z" fill="#C4C4C4"/>
+                </mask>
+                <g mask="url(#mask0_87_7767)">
+                  <circle cx="16.5" cy="23.5" r="6.5" fill="url(#paint2_linear_87_7767)"/>
+                  <path d="M7 12C7 10.3431 8.34315 9 10 9H17C18.6569 9 20 10.3431 20 12V24C20 25.6569 18.6569 27 17 27H7V12Z" fill="#000000" fill-opacity="0.3"/>
+                </g>
+                <rect y="7" width="18" height="18" rx="2" fill="url(#paint3_linear_87_7767)"/>
+                <path d="M13 18.1229C13 16.5726 11.9602 15.8883 9.79665 15.0922C8.10273 14.4637 7.70021 14.2821 7.70021 13.6816C7.70021 13.1648 8.20335 12.8156 9.0587 12.8156C9.93082 12.8156 10.7526 13.1089 11.6751 13.6117L12.6143 11.9497C11.6247 11.3352 10.4507 11 9.02516 11C6.84486 11 5.28512 12.1173 5.28512 13.8212C5.28512 15.567 6.52621 16.1257 8.60587 16.8659C10.2662 17.4525 10.5849 17.7458 10.5849 18.2626C10.5849 18.8771 9.9979 19.1844 9.07547 19.1844C7.98532 19.1844 7.02935 18.8073 6.07338 18.1927L5 19.7849C6.174 20.595 7.63312 21 9.12579 21C11.3732 21 13 19.9385 13 18.1229Z" fill="white"/>
+                <defs>
+                  <linearGradient id="paint0_linear_87_7767" x1="6" y1="11.5" x2="26.5833" y2="11.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#103A3B"/>
+                    <stop offset="1" stop-color="#116B6E"/>
+                  </linearGradient>
+                  <linearGradient id="paint1_linear_87_7767" x1="18" y1="13" x2="32" y2="21" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#1D9097"/>
+                    <stop offset="1" stop-color="#29BBC2"/>
+                  </linearGradient>
+                  <linearGradient id="paint2_linear_87_7767" x1="12" y1="21.5" x2="23" y2="26.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#28A6B5"/>
+                    <stop offset="1" stop-color="#31D6EC"/>
+                  </linearGradient>
+                  <linearGradient id="paint3_linear_87_7767" x1="0" y1="16" x2="19.5" y2="16" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#105557"/>
+                    <stop offset="1" stop-color="#116B6E"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <h3 class="ml-4 text-xl font-semibold text-gray-900">SharePoint</h3>
+          </div>
+          <p class="text-gray-600 mb-4">Connect to SharePoint Online for secure file access with OAuth</p>
+          <div class="text-sm text-gray-500">
+            <div class="flex items-center mb-1">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              OAuth authentication
+            </div>
+            <div class="flex items-center">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Auto-detects CSV, TSV, Excel
+            </div>
+          </div>
+        </div>
+
+        <!-- DuckDB Card -->
+        <div data-connector-type="duckdb"
+             data-action="click->connector-wizard#selectType"
+             class="relative group cursor-pointer rounded-lg border-2 border-gray-200 p-6 hover:border-primary transition-all duration-200">
+          <div class="flex items-center mb-4">
+            <div class="text-4xl">🦆</div>
+            <h3 class="ml-4 text-xl font-semibold text-gray-900">DuckDB</h3>
+          </div>
+          <p class="text-gray-600 mb-4">Connect to local DuckDB database files for fast analytical queries</p>
+          <div class="text-sm text-gray-500">
+            <div class="flex items-center mb-1">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Fast in-process analytics
+            </div>
+            <div class="flex items-center">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Local file access
+            </div>
+          </div>
+        </div>
+
+        <!-- CSV Files Card -->
+        <div data-connector-type="file" 
+             data-file-format="csv"
+             data-action="click->connector-wizard#selectType"
+             class="relative group cursor-pointer rounded-lg border-2 border-gray-200 p-6 hover:border-primary transition-all duration-200">
+          <div class="flex items-center mb-4">
+            <div class="text-4xl">📄</div>
+            <h3 class="ml-4 text-xl font-semibold text-gray-900">CSV / TSV Files</h3>
+          </div>
+          <p class="text-gray-600 mb-4">Read from or write to CSV and TSV (tab-separated) text files</p>
+          <div class="text-sm text-gray-500">
+            <div class="flex items-center mb-1">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Simple file format
+            </div>
+            <div class="flex items-center">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Perfect for exports
+            </div>
+          </div>
+        </div>
+
+        <!-- Excel Files Card -->
+        <div data-connector-type="file" 
+             data-file-format="excel"
+             data-action="click->connector-wizard#selectType"
+             class="relative group cursor-pointer rounded-lg border-2 border-gray-200 p-6 hover:border-primary transition-all duration-200">
+          <div class="flex items-center mb-4">
+            <div class="text-4xl">📊</div>
+            <h3 class="ml-4 text-xl font-semibold text-gray-900">Excel Files</h3>
+          </div>
+          <p class="text-gray-600 mb-4">Read from or write to Excel (.xlsx) spreadsheet files</p>
+          <div class="text-sm text-gray-500">
+            <div class="flex items-center mb-1">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Business-friendly format
+            </div>
+            <div class="flex items-center">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Share with stakeholders
+            </div>
+          </div>
+        </div>
+
+        <!-- PostgreSQL Card -->
+        <div data-connector-type="postgresql" 
+             data-action="click->connector-wizard#selectType"
+             class="relative group cursor-pointer rounded-lg border-2 border-gray-200 p-6 hover:border-primary transition-all duration-200">
+          <div class="flex items-center mb-4">
+            <div class="text-4xl">🐘</div>
+            <h3 class="ml-4 text-xl font-semibold text-gray-900">PostgreSQL</h3>
+          </div>
+          <p class="text-gray-600 mb-4">Connect to PostgreSQL databases for relational data access</p>
+          <div class="text-sm text-gray-500">
+            <div class="flex items-center mb-1">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Standard RDBMS
+            </div>
+            <div class="flex items-center">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              SQL query support
+            </div>
+          </div>
+        </div>
+
+        <!-- File Upload Card -->
+        <div data-connector-type="file_upload" 
+             data-action="click->connector-wizard#selectType"
+             class="relative group cursor-pointer rounded-lg border-2 border-gray-200 p-6 hover:border-primary transition-all duration-200">
+          <div class="flex items-center mb-4">
+            <div class="text-4xl">📤</div>
+            <h3 class="ml-4 text-xl font-semibold text-gray-900">File Upload</h3>
+          </div>
+          <p class="text-gray-600 mb-4">Upload files during pipeline runs with auto-format detection</p>
+          <div class="text-sm text-gray-500">
+            <div class="flex items-center mb-1">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Auto-detects CSV, TSV, Excel
+            </div>
+            <div class="flex items-center">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Upload at pipeline run time
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Configuration -->
+    <div data-connector-wizard-target="step" class="bg-white shadow-sm rounded-lg p-8 hidden">
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">Configure Connection</h2>
+      <p class="text-gray-600 mb-8">Enter the connection details for your data source</p>
+      
+      <%= render "wizard_config_forms", form: form, connector: @connector %>
+    </div>
+
+    <!-- Step 3: Test & Create -->
+    <div data-connector-wizard-target="step" class="bg-white shadow-sm rounded-lg p-8 hidden">
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">Review & Test Connection</h2>
+      <p class="text-gray-600 mb-8">Review your settings and test the connection before creating</p>
+      
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <div class="flex">
+          <svg class="h-5 w-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+          <div class="ml-3">
+            <p class="text-sm text-blue-700">We'll test the connection when you click "Create Connector". If successful, your connector will be created and marked as connected.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="review-details" class="space-y-4">
+        <!-- Configuration details will be populated here via JavaScript -->
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="flex items-center justify-between">
+      <button type="button"
+              data-connector-wizard-target="backButton"
+              data-action="click->connector-wizard#back"
+              class="hidden px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+        ← Back
+      </button>
+      
+      <div class="flex space-x-3 ml-auto">
+        <%= link_to "Cancel", connectors_path, 
+            class: "px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
+        
+        <button type="button"
+                data-connector-wizard-target="nextButton"
+                data-action="click->connector-wizard#next"
+                disabled
+                class="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary opacity-50 cursor-not-allowed">
+          Next →
+        </button>
+        
+        <%= form.submit "Create Connector",
+            data: { connector_wizard_target: "submitButton" },
+            class: "hidden px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+      </div>
+    </div>
+  <% end %>
+</div>

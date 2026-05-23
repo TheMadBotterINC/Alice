@@ -1,0 +1,113 @@
+<div class="min-h-screen flex">
+  <!-- Left Side: Pipes Background with Branding -->
+  <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden" style="background: url(<%= image_path('Blue_Background_Pipelines_2.jpg') %>) center center; background-size: cover;">
+    <!-- Dark overlay for better text contrast -->
+    <div class="absolute inset-0 bg-primary/30"></div>
+    
+    <div class="relative z-10 flex flex-col justify-center px-16 text-white">
+      <!-- Alice Logo and Title -->
+      <div class="flex items-center gap-4 mb-12">
+        <%= image_tag 'Alice_Logo.svg', alt: 'Alice', class: 'w-24 h-24' %>
+        <div>
+          <h1 class="text-5xl font-bold mb-1">Alice</h1>
+          <p class="text-xl font-light opacity-90">Managed Data Pipelines</p>
+        </div>
+      </div>
+      
+      <!-- Features List -->
+      <div class="space-y-8 mt-4">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+            <%= image_tag 'icon_pipelines.svg', alt: 'Pipelines', class: 'w-12 h-12' %>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-1">Multi-Source Pipelines</h3>
+            <p class="text-white/90 text-base">Connect and transform data from multiple sources with ease</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+            <%= image_tag 'icon_sql.svg', alt: 'SQL', class: 'w-12 h-12' %>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-1">SQL Transformations</h3>
+            <p class="text-white/90 text-base">Powerful DuckDB engine for complex data transformations</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+            <%= image_tag 'icon_schedule.svg', alt: 'Schedule', class: 'w-12 h-12' %>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-1">Scheduled Execution</h3>
+            <p class="text-white/90 text-base">Automate your data pipelines with flexible scheduling</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Login Form -->
+  <div class="flex-1 flex items-center justify-center bg-white px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-md w-full">
+      <!-- Mobile Logo -->
+      <div class="lg:hidden flex items-center justify-center gap-3 mb-8">
+        <%= image_tag 'Alice_Logo.svg', alt: 'Alice', class: 'w-16 h-16' %>
+        <div class="text-left">
+          <h1 class="text-3xl font-bold text-primary-dark">Alice</h1>
+          <p class="text-gray-600 text-sm">Managed Data Pipelines</p>
+        </div>
+      </div>
+
+      <!-- Login Card -->
+      <div class="">
+        <div class="mb-8">
+          <h2 class="text-4xl font-bold text-gray-900 mb-2">Welcome back</h2>
+          <p class="text-gray-600 text-base">Sign in to your account to continue</p>
+        </div>
+
+        <%= form_with url: sign_in_path, method: :post, class: "space-y-5" do |form| %>
+          <!-- Email Field -->
+          <div>
+            <%= form.label :email, "Email Address", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.email_field :email, 
+                autofocus: true,
+                autocomplete: "email",
+                required: true,
+                placeholder: "Enter your email address",
+                class: "w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-gray-900 placeholder-gray-400" %>
+          </div>
+
+          <!-- Password Field -->
+          <div>
+            <%= form.label :password, "Password", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.password_field :password,
+                autocomplete: "current-password",
+                required: true,
+                placeholder: "Enter your password",
+                class: "w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-gray-900 placeholder-gray-400" %>
+          </div>
+
+          <!-- Remember Me Checkbox -->
+          <div class="flex items-center">
+            <%= form.check_box :remember_me, class: "w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary" %>
+            <%= form.label :remember_me, "Remember me", class: "ml-2 text-sm text-gray-600" %>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-2">
+            <%= form.submit "Sign in to Alice", 
+                class: "w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3.5 px-4 rounded-lg transition-all duration-200 cursor-pointer text-base" %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Footer -->
+      <p class="text-center text-sm text-gray-500 mt-8">
+        &copy;<%= Time.current.year %> Alice. All rights reserved.
+      </p>
+    </div>
+  </div>
+</div>

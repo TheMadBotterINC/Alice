@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&display=swap');
+
+/* Alice Brand Colors */
+@theme {
+  /* Primary Colors */
+  --color-primary-dark: #1a134a;
+  --color-primary: #27a2d6;
+  --color-primary-light: #44c8f5;
+  --color-primary-pale: #ecebd8;
+  
+  /* Secondary */
+  --color-secondary: #0085bf;
+  
+  /* Accent Colors */
+  --color-accent-red: #f04d3f;
+  --color-accent-green: #26a74a;
+  --color-accent-cyan: #17a2b9;
+  
+  /* Semantic Colors */
+  --color-success: #26a74a;
+  --color-danger: #f04d3f;
+  --color-warning: #ffc107;
+  --color-info: #17a2b9;
+  
+  /* Font Family */
+  --font-sans: 'Raleway', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Global Form Input Styling - More Padding */
+/* Using higher specificity and !important to override Tailwind utilities */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="url"],
+input[type="tel"],
+input[type="search"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"],
+textarea:not([data-sql-highlighter-target="textarea"]),
+select {
+  font-family: 'Raleway', ui-sans-serif, system-ui, sans-serif !important;
+  padding-top: 0.625rem !important;    /* 10px */
+  padding-bottom: 0.625rem !important; /* 10px */
+  padding-left: 0.875rem !important;   /* 14px */
+  padding-right: 0.875rem !important;  /* 14px */
+  font-size: 0.9375rem !important;     /* Slightly larger for readability */
+  line-height: 1.5rem !important;
+}

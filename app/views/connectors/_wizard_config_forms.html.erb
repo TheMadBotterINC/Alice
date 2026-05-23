@@ -1,0 +1,918 @@
+<!-- Common Fields -->
+<div class="space-y-6">
+  <!-- Connector Name -->
+  <div>
+    <%= form.label :name, "Connector Name", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_field :name, 
+        required: true,
+        class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+        placeholder: "e.g., Production Snowflake" %>
+    <p class="mt-1 text-sm text-gray-500">A descriptive name for this connector</p>
+  </div>
+
+  <!-- Snowflake Fields -->
+  <div id="snowflake-fields" class="hidden space-y-6">
+    <div class="border-t border-gray-200 pt-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Snowflake Connection Details</h3>
+      
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <!-- Account -->
+        <div>
+          <label for="connector_config_account" class="block text-sm font-medium text-gray-700">Account Identifier</label>
+          <input type="text" 
+                 name="connector[config][account]" 
+                 id="connector_config_account"
+                 value="<%= connector.config['account'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="xy12345.us-east-1" />
+          <p class="mt-1 text-sm text-gray-500">Found in your Snowflake URL</p>
+        </div>
+
+        <!-- Username -->
+        <div>
+          <label for="connector_config_username" class="block text-sm font-medium text-gray-700">Username</label>
+          <input type="text" 
+                 name="connector[config][username]" 
+                 id="connector_config_username"
+                 value="<%= connector.config['username'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="alice_user" />
+          <p class="mt-1 text-sm text-gray-500">Snowflake username</p>
+        </div>
+
+        <!-- Authentication Info -->
+        <div class="sm:col-span-2">
+          <div class="bg-blue-50 border border-blue-200 rounded-md p-3">
+            <p class="text-sm text-blue-700">
+              <strong>Key-pair authentication required.</strong> Snowflake SQL API requires RSA key-pair authentication for secure access.
+            </p>
+          </div>
+        </div>
+
+        <!-- Private Key (Required) -->
+        <div class="sm:col-span-2">
+          <label for="connector_config_private_key" class="block text-sm font-medium text-gray-700">
+            Private Key <span class="text-red-500">*</span>
+          </label>
+          <textarea 
+                 name="connector[config][private_key]" 
+                 id="connector_config_private_key"
+                 rows="6"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-xs"
+                 placeholder="-----BEGIN PRIVATE KEY-----&#10;MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC...&#10;-----END PRIVATE KEY-----"><%= connector.config['private_key'] %></textarea>
+          <p class="mt-1 text-sm text-gray-500">
+            RSA private key in PEM format. 
+            <a href="https://docs.snowflake.com/en/user-guide/key-pair-auth" target="_blank" class="text-blue-600 hover:underline">Learn how to generate</a>
+          </p>
+        </div>
+
+        <!-- Database -->
+        <div>
+          <label for="connector_config_database" class="block text-sm font-medium text-gray-700">Database</label>
+          <input type="text" 
+                 name="connector[config][database]" 
+                 id="connector_config_database"
+                 value="<%= connector.config['database'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="ANALYTICS_DB" />
+          <p class="mt-1 text-sm text-gray-500">Target database name</p>
+        </div>
+
+        <!-- Warehouse -->
+        <div>
+          <label for="connector_config_warehouse" class="block text-sm font-medium text-gray-700">Warehouse</label>
+          <input type="text" 
+                 name="connector[config][warehouse]" 
+                 id="connector_config_warehouse"
+                 value="<%= connector.config['warehouse'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="COMPUTE_WH" />
+          <p class="mt-1 text-sm text-gray-500">Compute warehouse to use</p>
+        </div>
+
+        <!-- Schema (Optional) -->
+        <div>
+          <label for="connector_config_schema" class="block text-sm font-medium text-gray-700">Schema (Optional)</label>
+          <input type="text" 
+                 name="connector[config][schema]" 
+                 id="connector_config_schema"
+                 value="<%= connector.config['schema'] || 'PUBLIC' %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="PUBLIC" />
+          <p class="mt-1 text-sm text-gray-500">Default schema (defaults to PUBLIC)</p>
+        </div>
+
+        <!-- Role (Optional) -->
+        <div>
+          <label for="connector_config_role" class="block text-sm font-medium text-gray-700">Role (Optional)</label>
+          <input type="text" 
+                 name="connector[config][role]" 
+                 id="connector_config_role"
+                 value="<%= connector.config['role'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="ANALYST" />
+          <p class="mt-1 text-sm text-gray-500">Optional role to assume</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DuckDB Fields -->
+  <div id="duckdb-fields" class="hidden space-y-6">
+    <div class="border-t border-gray-200 pt-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">DuckDB Connection Details</h3>
+      
+      <div class="space-y-6">
+        <!-- Database Path -->
+        <div>
+          <label for="connector_config_database_path" class="block text-sm font-medium text-gray-700">Database File Path</label>
+          <input type="text" 
+                 name="connector[config][database_path]" 
+                 id="connector_config_database_path"
+                 value="<%= connector.config['database_path'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="/path/to/database.duckdb" />
+          <p class="mt-1 text-sm text-gray-500">Path to your local DuckDB file</p>
+        </div>
+
+        <!-- Read Only -->
+        <div class="flex items-start">
+          <div class="flex items-center h-5">
+            <input type="checkbox" 
+                   name="connector[config][read_only]" 
+                   id="connector_config_read_only"
+                   value="1"
+                   <%= 'checked' if connector.config['read_only'] %>
+                   class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer" />
+          </div>
+          <div class="ml-3 text-sm">
+            <label for="connector_config_read_only" class="font-medium text-gray-700">Read-only mode</label>
+            <p class="text-gray-500">Prevent writes to this database</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSV/TSV Fields -->
+  <div id="csv-fields" class="hidden space-y-6" data-step="2" data-controller="file-connector-mode">
+    <div class="border-t border-gray-200 pt-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">CSV / TSV File Configuration</h3>
+      
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <!-- Mode Selector -->
+        <div class="sm:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-3">Connector Usage Mode</label>
+          <div class="grid grid-cols-2 gap-4">
+            <!-- File Path Mode -->
+            <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none" data-file-connector-mode-target="modeOption">
+              <input type="radio" 
+                     name="connector[config][mode]" 
+                     value="file_path" 
+                     <%= 'checked' if connector.config['mode'] == 'file_path' || connector.config['mode'].blank? %>
+                     data-action="change->file-connector-mode#toggleMode"
+                     class="sr-only" />
+              <span class="flex flex-1">
+                <span class="flex flex-col">
+                  <span class="block text-sm font-medium text-gray-900">
+                    📁 Read from File Path
+                  </span>
+                  <span class="mt-1 flex items-center text-sm text-gray-500">
+                    Read from a specific server file location
+                  </span>
+                </span>
+              </span>
+              <svg class="h-5 w-5 text-primary hidden" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+            </label>
+
+            <!-- Upload File Mode -->
+            <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none" data-file-connector-mode-target="modeOption">
+              <input type="radio" 
+                     name="connector[config][mode]" 
+                     value="upload" 
+                     <%= 'checked' if connector.config['mode'] == 'upload' %>
+                     data-action="change->file-connector-mode#toggleMode"
+                     class="sr-only" />
+              <span class="flex flex-1">
+                <span class="flex flex-col">
+                  <span class="block text-sm font-medium text-gray-900">
+                    📤 Upload File
+                  </span>
+                  <span class="mt-1 flex items-center text-sm text-gray-500">
+                    Upload a file when running the pipeline
+                  </span>
+                  <span class="mt-1 text-xs text-blue-600">
+                    👉 File upload happens in the pipeline run step
+                  </span>
+                </span>
+              </span>
+              <svg class="h-5 w-5 text-primary hidden" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+            </label>
+          </div>
+        </div>
+
+        <!-- File Path (only shown in file_path mode) -->
+        <div class="sm:col-span-2" data-file-connector-mode-target="filePathField">
+          <label for="connector_config_file_path" class="block text-sm font-medium text-gray-700">
+            File Path <span class="text-red-500">*</span>
+          </label>
+          <input type="text"
+                 name="connector[config][file_path]"
+                 id="connector_config_file_path"
+                 value="<%= connector.config['file_path'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="/path/to/file.csv" />
+          <p class="mt-1 text-sm text-gray-500">
+            <strong>Server-side path</strong> to read CSV/TSV data from (e.g., /var/data/source.csv)
+          </p>
+        </div>
+
+        <!-- Delimiter -->
+        <div>
+          <label for="connector_config_delimiter" class="block text-sm font-medium text-gray-700">Delimiter</label>
+          <select name="connector[config][delimiter]"
+                  id="connector_config_delimiter"
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+            <option value="," <%= 'selected' if connector.config['delimiter'] == ',' || connector.config['delimiter'].blank? %>>,  (Comma - CSV)</option>
+            <option value="\t" <%= 'selected' if connector.config['delimiter'] == "\t" %>>⇥  (Tab - TSV)</option>
+            <option value=";" <%= 'selected' if connector.config['delimiter'] == ';' %>>;  (Semicolon)</option>
+            <option value="|" <%= 'selected' if connector.config['delimiter'] == '|' %>>|  (Pipe)</option>
+          </select>
+          <p class="mt-1 text-sm text-gray-500">Field separator character</p>
+        </div>
+
+        <!-- Has Header Row -->
+        <div class="flex items-start">
+          <div class="flex items-center h-5 mt-8">
+            <input type="checkbox"
+                   name="connector[config][has_header]"
+                   id="connector_config_has_header"
+                   value="true"
+                   <%= 'checked' if connector.config['has_header'] == 'true' || connector.config['has_header'] == true %>
+                   class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer" />
+          </div>
+          <div class="ml-3">
+            <label for="connector_config_has_header" class="text-sm font-medium text-gray-700">Has Header Row</label>
+            <p class="text-sm text-gray-500">First row contains column names</p>
+          </div>
+        </div>
+
+        <!-- Encoding (Optional) -->
+        <div>
+          <label for="connector_config_encoding" class="block text-sm font-medium text-gray-700">Encoding</label>
+          <select name="connector[config][encoding]"
+                  id="connector_config_encoding"
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+            <option value="utf-8" <%= 'selected' if connector.config['encoding'] == 'utf-8' || connector.config['encoding'].blank? %>>UTF-8</option>
+            <option value="utf-16" <%= 'selected' if connector.config['encoding'] == 'utf-16' %>>UTF-16</option>
+            <option value="iso-8859-1" <%= 'selected' if connector.config['encoding'] == 'iso-8859-1' %>>ISO-8859-1 (Latin-1)</option>
+            <option value="windows-1252" <%= 'selected' if connector.config['encoding'] == 'windows-1252' %>>Windows-1252</option>
+          </select>
+          <p class="mt-1 text-sm text-gray-500">Character encoding of the file</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- File Upload Fields -->
+  <div id="file_upload-fields" class="hidden space-y-6" data-step="2">
+    <div class="border-t border-gray-200 pt-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">File Upload Configuration</h3>
+      
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <div class="flex">
+          <svg class="h-5 w-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+          <div class="ml-3">
+            <p class="text-sm text-blue-700">
+              <strong>File upload happens during pipeline run.</strong> The system will automatically detect whether the uploaded file is CSV, TSV, or Excel format.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Auto-detection info -->
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+          <h4 class="text-sm font-medium text-gray-900 mb-2">Supported Formats</h4>
+          <ul class="text-sm text-gray-600 space-y-1">
+            <li class="flex items-center">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              CSV (Comma-Separated Values) - .csv
+            </li>
+            <li class="flex items-center">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              TSV (Tab-Separated Values) - .tsv
+            </li>
+            <li class="flex items-center">
+              <svg class="h-4 w-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              Excel - .xlsx, .xls
+            </li>
+          </ul>
+        </div>
+
+        <!-- Hidden field to indicate mode -->
+        <input type="hidden" name="connector[config][mode]" value="upload" />
+      </div>
+    </div>
+  </div>
+
+  <!-- PostgreSQL Fields -->
+  <div id="postgresql-fields" class="hidden space-y-6">
+    <div class="border-t border-gray-200 pt-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">PostgreSQL Connection Details</h3>
+      
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <!-- Host -->
+        <div>
+          <label for="connector_config_host" class="block text-sm font-medium text-gray-700">Host</label>
+          <input type="text" 
+                 name="connector[config][host]" 
+                 id="connector_config_host"
+                 value="<%= connector.config['host'] %>"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="localhost or 192.168.1.100" />
+          <p class="mt-1 text-sm text-gray-500">Server hostname or IP address</p>
+        </div>
+
+        <!-- Port -->
+        <div>
+          <label for="connector_config_port" class="block text-sm font-medium text-gray-700">Port</label>
+          <input type="number" 
+                 name="connector[config][port]" 
+                 id="connector_config_port"
+                 value="<%= connector.config['port'] || 5432 %>"
+                 min="1"
+                 max="65535"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="5432" />
+          <p class="mt-1 text-sm text-gray-500">Port number (default: 5432)</p>
+        </div>
+
+        <!-- Database -->
+        <div>
+          <label for="connector_config_database" class="block text-sm font-medium text-gray-700">Database</label>
+          <input type="text" 
+                 name="connector[config][database]" 
+                 id="connector_config_database_pg"
+                 value="<%= connector.config['database'] %>"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="my_database" />
+          <p class="mt-1 text-sm text-gray-500">Database name to connect to</p>
+        </div>
+
+        <!-- Schema (Optional) -->
+        <div>
+          <label for="connector_config_schema" class="block text-sm font-medium text-gray-700">Schema (Optional)</label>
+          <input type="text" 
+                 name="connector[config][schema]" 
+                 id="connector_config_schema_pg"
+                 value="<%= connector.config['schema'] || 'public' %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="public" />
+          <p class="mt-1 text-sm text-gray-500">Schema to use (default: public)</p>
+        </div>
+
+        <!-- Username -->
+        <div>
+          <label for="connector_config_username" class="block text-sm font-medium text-gray-700">Username</label>
+          <input type="text" 
+                 name="connector[config][username]" 
+                 id="connector_config_username_pg"
+                 value="<%= connector.config['username'] %>"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="postgres" />
+          <p class="mt-1 text-sm text-gray-500">PostgreSQL username</p>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="connector_config_password" class="block text-sm font-medium text-gray-700">Password</label>
+          <input type="password" 
+                 name="connector[config][password]" 
+                 id="connector_config_password"
+                 value="<%= connector.config['password'] %>"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="••••••••" />
+          <p class="mt-1 text-sm text-gray-500">PostgreSQL password</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PostgreSQL PGLake/Iceberg Configuration (Step 3 for PostgreSQL only) -->
+  <div id="postgresql-pglake-fields" class="hidden space-y-6" data-step="3">
+    <div class="border-t border-gray-200 pt-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">PGLake / Iceberg Configuration</h3>
+      <p class="text-sm text-gray-600 mb-6">Configure advanced PGLake features for Iceberg tables and data lake access (optional)</p>
+      
+      <!-- Enable PGLake Features Toggle -->
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <div class="flex items-start">
+          <div class="flex items-center h-5 mt-0.5">
+            <input type="checkbox" 
+                   name="connector[config][enable_pglake]" 
+                   id="connector_config_enable_pglake"
+                   value="true"
+                   <%= 'checked' if connector.config['enable_pglake'] == 'true' || connector.config['enable_pglake'] == true %>
+                   data-action="change->connector-wizard#togglePGLakeFields"
+                   class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer" />
+          </div>
+          <div class="ml-3">
+            <label for="connector_config_enable_pglake" class="text-sm font-medium text-blue-900">Enable PGLake Features</label>
+            <p class="text-sm text-blue-700 mt-1">
+              Enable this to use Iceberg tables, S3 data lake access, and advanced PGLake features. Leave unchecked for standard PostgreSQL connection.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="pglake-config-fields" class="<%= 'hidden' unless connector.config['enable_pglake'] == 'true' || connector.config['enable_pglake'] == true %> space-y-6">
+        <!-- S3 Configuration Section -->
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+          <h4 class="text-base font-semibold text-gray-900 mb-4">S3 / Object Storage Configuration</h4>
+          
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <!-- S3 Endpoint -->
+            <div class="sm:col-span-2">
+              <label for="connector_config_s3_endpoint" class="block text-sm font-medium text-gray-700">S3 Endpoint (Optional)</label>
+              <input type="text" 
+                     name="connector[config][s3_endpoint]" 
+                     id="connector_config_s3_endpoint"
+                     value="<%= connector.config['s3_endpoint'] %>"
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                     placeholder="http://localhost:9000 or leave empty for AWS S3" />
+              <p class="mt-1 text-sm text-gray-500">Leave empty for AWS S3, or specify endpoint for MinIO or S3-compatible storage</p>
+            </div>
+
+            <!-- AWS Access Key ID -->
+            <div>
+              <label for="connector_config_aws_access_key_id" class="block text-sm font-medium text-gray-700">AWS Access Key ID</label>
+              <input type="text" 
+                     name="connector[config][aws_access_key_id]" 
+                     id="connector_config_aws_access_key_id"
+                     value="<%= connector.config['aws_access_key_id'] %>"
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-sm"
+                     placeholder="AKIAIOSFODNN7EXAMPLE" />
+              <p class="mt-1 text-sm text-gray-500">AWS access key or leave empty to use credentials chain</p>
+            </div>
+
+            <!-- AWS Secret Access Key -->
+            <div>
+              <label for="connector_config_aws_secret_access_key" class="block text-sm font-medium text-gray-700">AWS Secret Access Key</label>
+              <input type="password" 
+                     name="connector[config][aws_secret_access_key]" 
+                     id="connector_config_aws_secret_access_key"
+                     value="<%= connector.config['aws_secret_access_key'] %>"
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-sm"
+                     placeholder="••••••••" />
+              <p class="mt-1 text-sm text-gray-500">AWS secret key or leave empty to use credentials chain</p>
+            </div>
+
+            <!-- S3 Region -->
+            <div>
+              <label for="connector_config_aws_region" class="block text-sm font-medium text-gray-700">AWS Region</label>
+              <input type="text" 
+                     name="connector[config][aws_region]" 
+                     id="connector_config_aws_region"
+                     value="<%= connector.config['aws_region'] || 'us-east-1' %>"
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                     placeholder="us-east-1" />
+              <p class="mt-1 text-sm text-gray-500">AWS region for S3 access</p>
+            </div>
+
+            <!-- S3 Bucket/Scope -->
+            <div>
+              <label for="connector_config_s3_bucket" class="block text-sm font-medium text-gray-700">S3 Bucket</label>
+              <input type="text" 
+                     name="connector[config][s3_bucket]" 
+                     id="connector_config_s3_bucket"
+                     value="<%= connector.config['s3_bucket'] %>"
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                     placeholder="my-data-lake-bucket" />
+              <p class="mt-1 text-sm text-gray-500">S3 bucket name for data lake access</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Iceberg Configuration Section -->
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+          <h4 class="text-base font-semibold text-gray-900 mb-4">Iceberg Table Configuration</h4>
+          
+          <div class="space-y-6">
+            <!-- Iceberg Default Location -->
+            <div>
+              <label for="connector_config_iceberg_location_prefix" class="block text-sm font-medium text-gray-700">Default Location Prefix</label>
+              <input type="text" 
+                     name="connector[config][iceberg_location_prefix]" 
+                     id="connector_config_iceberg_location_prefix"
+                     value="<%= connector.config['iceberg_location_prefix'] %>"
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-sm"
+                     placeholder="s3://my-bucket/iceberg/" />
+              <p class="mt-1 text-sm text-gray-500">Default S3 path prefix where Iceberg tables will be stored (e.g., s3://my-bucket/iceberg/)</p>
+            </div>
+
+            <!-- Use SSL Toggle -->
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <input type="checkbox" 
+                       name="connector[config][s3_use_ssl]" 
+                       id="connector_config_s3_use_ssl"
+                       value="true"
+                       <%= 'checked' if connector.config['s3_use_ssl'] == 'true' || connector.config['s3_use_ssl'] == true || connector.config['s3_use_ssl'].nil? %>
+                       class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer" />
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="connector_config_s3_use_ssl" class="font-medium text-gray-700">Use SSL for S3</label>
+                <p class="text-gray-500">Enable SSL/TLS for S3 connections (recommended for production, disable for local MinIO)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info box about credentials -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+          <div class="flex">
+            <svg class="h-5 w-5 text-yellow-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+            <div class="ml-3">
+              <p class="text-sm text-yellow-700">
+                <strong>About AWS Credentials:</strong> PGLake follows the standard AWS credentials chain. If you don't provide access keys here, it will attempt to use environment variables, ~/.aws/credentials, or IAM roles.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Power BI Fields -->
+  <div id="powerbi-fields" class="hidden space-y-6">
+    <div class="border-t border-gray-200 pt-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Power BI Service Principal Credentials</h3>
+      
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <div class="flex">
+          <svg class="h-5 w-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+          <div class="ml-3">
+            <p class="text-sm text-blue-700">
+              <strong>Service Principal Authentication Required:</strong> You'll need to create a service principal (app registration) in Azure/Entra ID with Power BI API permissions. <a href="https://learn.microsoft.com/en-us/power-bi/developer/embedded/embed-service-principal" target="_blank" class="underline">Learn more</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6">
+        <!-- Tenant ID -->
+        <div>
+          <label for="connector_config_tenant_id" class="block text-sm font-medium text-gray-700">Tenant ID</label>
+          <input type="text" 
+                 name="connector[config][tenant_id]" 
+                 id="connector_config_tenant_id"
+                 value="<%= connector.config['tenant_id'] %>"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-sm"
+                 placeholder="12345678-1234-1234-1234-123456789012" />
+          <p class="mt-1 text-sm text-gray-500">Azure/Entra ID Tenant ID (Directory ID)</p>
+        </div>
+
+        <!-- Client ID -->
+        <div>
+          <label for="connector_config_client_id" class="block text-sm font-medium text-gray-700">Client ID</label>
+          <input type="text" 
+                 name="connector[config][client_id]" 
+                 id="connector_config_client_id"
+                 value="<%= connector.config['client_id'] %>"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-sm"
+                 placeholder="87654321-4321-4321-4321-210987654321" />
+          <p class="mt-1 text-sm text-gray-500">Application (client) ID from app registration</p>
+        </div>
+
+        <!-- Client Secret -->
+        <div>
+          <label for="connector_config_client_secret" class="block text-sm font-medium text-gray-700">Client Secret</label>
+          <input type="password" 
+                 name="connector[config][client_secret]" 
+                 id="connector_config_client_secret"
+                 value="<%= connector.config['client_secret'] %>"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-sm"
+                 placeholder="••••••••" />
+          <p class="mt-1 text-sm text-gray-500">Client secret value (not the secret ID)</p>
+        </div>
+      </div>
+
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-6">
+        <div class="flex">
+          <svg class="h-5 w-5 text-yellow-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          <div class="ml-3">
+            <p class="text-sm text-yellow-700">
+              <strong>Required API Permissions:</strong> Your service principal needs <code class="bg-yellow-100 px-1 rounded">Dataset.ReadWrite.All</code> delegated or application permission in Power BI Service.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SharePoint Fields -->
+  <div id="sharepoint-fields" class="hidden space-y-6">
+    <div class="border-t border-gray-200 pt-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">SharePoint OAuth Credentials</h3>
+      
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <div class="flex">
+          <svg class="h-5 w-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+          <div class="ml-3">
+            <p class="text-sm text-blue-700">
+              <strong>Azure AD App Registration Required:</strong> You need to create an app registration in Azure/Entra ID with Sites.Read.All or Files.Read.All permissions. <a href="https://learn.microsoft.com/en-us/graph/auth-register-app-v2" target="_blank" class="underline">Learn more</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6">
+        <!-- Tenant ID -->
+        <div>
+          <label for="connector_config_tenant_id_sp" class="block text-sm font-medium text-gray-700">Tenant ID</label>
+          <input type="text" 
+                 name="connector[config][tenant_id]" 
+                 id="connector_config_tenant_id_sp"
+                 value="<%= connector.config['tenant_id'] %>"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-sm"
+                 placeholder="12345678-1234-1234-1234-123456789012" />
+          <p class="mt-1 text-sm text-gray-500">Azure/Entra ID Tenant ID (Directory ID)</p>
+        </div>
+
+        <!-- Client ID -->
+        <div>
+          <label for="connector_config_client_id_sp" class="block text-sm font-medium text-gray-700">Client ID</label>
+          <input type="text" 
+                 name="connector[config][client_id]" 
+                 id="connector_config_client_id_sp"
+                 value="<%= connector.config['client_id'] %>"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-sm"
+                 placeholder="87654321-4321-4321-4321-210987654321" />
+          <p class="mt-1 text-sm text-gray-500">Application (client) ID from app registration</p>
+        </div>
+
+        <!-- Client Secret -->
+        <div>
+          <label for="connector_config_client_secret_sp" class="block text-sm font-medium text-gray-700">Client Secret</label>
+          <input type="password" 
+                 name="connector[config][client_secret]" 
+                 id="connector_config_client_secret_sp"
+                 value="<%= connector.config['client_secret'] %>"
+                 required
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-sm"
+                 placeholder="••••••••" />
+          <p class="mt-1 text-sm text-gray-500">Client secret value (not the secret ID)</p>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-200 mt-6 pt-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">SharePoint Location</h3>
+        
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <!-- Site ID -->
+          <div class="sm:col-span-2">
+            <label for="connector_config_site_id" class="block text-sm font-medium text-gray-700">Site ID (Optional)</label>
+            <input type="text" 
+                   name="connector[config][site_id]" 
+                   id="connector_config_site_id"
+                   value="<%= connector.config['site_id'] %>"
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-xs"
+                   placeholder="contoso.sharepoint.com,abc123,def456" />
+            <p class="mt-1 text-sm text-gray-500">SharePoint site ID from Microsoft Graph API</p>
+          </div>
+
+          <!-- OR Site URL -->
+          <div class="sm:col-span-2">
+            <div class="text-center text-sm text-gray-500 mb-2">- OR -</div>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label for="connector_config_site_url" class="block text-sm font-medium text-gray-700">Site URL (Optional)</label>
+            <input type="text" 
+                   name="connector[config][site_url]" 
+                   id="connector_config_site_url"
+                   value="<%= connector.config['site_url'] %>"
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                   placeholder="https://contoso.sharepoint.com/sites/teamsite" />
+            <p class="mt-1 text-sm text-gray-500">Full URL to your SharePoint site (provide either Site ID or Site URL)</p>
+          </div>
+
+          <!-- File Path -->
+          <div class="sm:col-span-2">
+            <label for="connector_config_file_path_sp" class="block text-sm font-medium text-gray-700">
+              File Path <span class="text-red-500">*</span>
+            </label>
+            <input type="text" 
+                   name="connector[config][file_path]" 
+                   id="connector_config_file_path_sp"
+                   value="<%= connector.config['file_path'] %>"
+                   required
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-sm"
+                   placeholder="/Documents/data/report.xlsx" />
+            <p class="mt-1 text-sm text-gray-500">Path to the file within SharePoint document library</p>
+          </div>
+
+          <!-- Drive ID (Optional) -->
+          <div>
+            <label for="connector_config_drive_id_sp" class="block text-sm font-medium text-gray-700">Drive ID (Optional)</label>
+            <input type="text" 
+                   name="connector[config][drive_id]" 
+                   id="connector_config_drive_id_sp"
+                   value="<%= connector.config['drive_id'] %>"
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-xs"
+                   placeholder="b!abc123..." />
+            <p class="mt-1 text-sm text-gray-500">Specific drive ID (defaults to root drive)</p>
+          </div>
+
+          <!-- Item ID (Optional) -->
+          <div>
+            <label for="connector_config_item_id_sp" class="block text-sm font-medium text-gray-700">Item ID (Optional)</label>
+            <input type="text" 
+                   name="connector[config][item_id]" 
+                   id="connector_config_item_id_sp"
+                   value="<%= connector.config['item_id'] %>"
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono text-xs"
+                   placeholder="01ABC..." />
+            <p class="mt-1 text-sm text-gray-500">Direct item ID for faster access</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-6">
+        <div class="flex">
+          <svg class="h-5 w-5 text-yellow-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          <div class="ml-3">
+            <p class="text-sm text-yellow-700">
+              <strong>Required API Permissions:</strong> Your service principal needs <code class="bg-yellow-100 px-1 rounded">Sites.Read.All</code> or <code class="bg-yellow-100 px-1 rounded">Files.Read.All</code> application permission with admin consent granted.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Excel Fields -->
+  <div id="excel-fields" class="hidden space-y-6" data-step="2" data-controller="file-connector-mode">
+    <div class="border-t border-gray-200 pt-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Excel File Configuration</h3>
+      
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <!-- Mode Selector -->
+        <div class="sm:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-3">Connector Usage Mode</label>
+          <div class="grid grid-cols-2 gap-4">
+            <!-- File Path Mode -->
+            <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none" data-file-connector-mode-target="modeOption">
+              <input type="radio" 
+                     name="connector[config][mode]" 
+                     value="file_path" 
+                     <%= 'checked' if connector.config['mode'] == 'file_path' || connector.config['mode'].blank? %>
+                     data-action="change->file-connector-mode#toggleMode"
+                     class="sr-only" />
+              <span class="flex flex-1">
+                <span class="flex flex-col">
+                  <span class="block text-sm font-medium text-gray-900">
+                    📁 Read from File Path
+                  </span>
+                  <span class="mt-1 flex items-center text-sm text-gray-500">
+                    Read from a specific server file location
+                  </span>
+                </span>
+              </span>
+              <svg class="h-5 w-5 text-primary hidden" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+            </label>
+
+            <!-- Upload File Mode -->
+            <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none" data-file-connector-mode-target="modeOption">
+              <input type="radio" 
+                     name="connector[config][mode]" 
+                     value="upload" 
+                     <%= 'checked' if connector.config['mode'] == 'upload' %>
+                     data-action="change->file-connector-mode#toggleMode"
+                     class="sr-only" />
+              <span class="flex flex-1">
+                <span class="flex flex-col">
+                  <span class="block text-sm font-medium text-gray-900">
+                    📤 Upload File
+                  </span>
+                  <span class="mt-1 flex items-center text-sm text-gray-500">
+                    Upload a file when running the pipeline
+                  </span>
+                  <span class="mt-1 text-xs text-blue-600">
+                    👉 File upload happens in the pipeline run step
+                  </span>
+                </span>
+              </span>
+              <svg class="h-5 w-5 text-primary hidden" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+            </label>
+          </div>
+        </div>
+
+        <!-- File Path (only shown in file_path mode) -->
+        <div class="sm:col-span-2" data-file-connector-mode-target="filePathField">
+          <label for="connector_config_file_path_excel" class="block text-sm font-medium text-gray-700">
+            File Path <span class="text-red-500">*</span>
+          </label>
+          <input type="text"
+                 name="connector[config][file_path]"
+                 id="connector_config_file_path_excel"
+                 value="<%= connector.config['file_path'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="/path/to/file.xlsx" />
+          <p class="mt-1 text-sm text-gray-500">Absolute path to the Excel (.xlsx) file</p>
+        </div>
+
+        <!-- Sheet Name -->
+        <div>
+          <label for="connector_config_sheet_name" class="block text-sm font-medium text-gray-700">Sheet Name</label>
+          <input type="text"
+                 name="connector[config][sheet_name]"
+                 id="connector_config_sheet_name"
+                 value="<%= connector.config['sheet_name'] %>"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="Sheet1" />
+          <p class="mt-1 text-sm text-gray-500">Name or index of the sheet to read (default: first sheet)</p>
+        </div>
+
+        <!-- Has Header Row -->
+        <div class="flex items-start">
+          <div class="flex items-center h-5 mt-8">
+            <input type="checkbox"
+                   name="connector[config][has_header]"
+                   id="connector_config_has_header_excel"
+                   value="true"
+                   <%= 'checked' if connector.config['has_header'] == 'true' || connector.config['has_header'] == true %>
+                   class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer" />
+          </div>
+          <div class="ml-3">
+            <label for="connector_config_has_header_excel" class="text-sm font-medium text-gray-700">Has Header Row</label>
+            <p class="text-sm text-gray-500">First row contains column names</p>
+          </div>
+        </div>
+
+        <!-- Start Row (Optional) -->
+        <div>
+          <label for="connector_config_start_row" class="block text-sm font-medium text-gray-700">Start Row</label>
+          <input type="number"
+                 name="connector[config][start_row]"
+                 id="connector_config_start_row"
+                 value="<%= connector.config['start_row'] || 1 %>"
+                 min="1"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="1" />
+          <p class="mt-1 text-sm text-gray-500">Row number to start reading from (default: 1)</p>
+        </div>
+
+        <!-- End Row (Optional) -->
+        <div>
+          <label for="connector_config_end_row" class="block text-sm font-medium text-gray-700">End Row</label>
+          <input type="number"
+                 name="connector[config][end_row]"
+                 id="connector_config_end_row"
+                 value="<%= connector.config['end_row'] %>"
+                 min="1"
+                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                 placeholder="(Read all rows)" />
+          <p class="mt-1 text-sm text-gray-500">Last row to read (leave blank for all rows)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

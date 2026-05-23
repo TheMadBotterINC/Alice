@@ -1,0 +1,18 @@
+Alice - Reset your password
+=====================================
+
+Hi <%= @user.name %>,
+
+We received a request to reset your password for your Alice account.
+
+Click the link below to set a new password:
+<%= @reset_url %>
+
+This link will expire in 2 hours for security reasons.
+
+Didn't request a password reset?
+If you didn't make this request, you can safely ignore this email. Your password will remain unchanged.
+
+---
+© <%= Time.current.year %> Alice. All rights reserved.
+This is an automated message, please do not reply to this email.

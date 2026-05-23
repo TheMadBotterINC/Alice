@@ -1,0 +1,50 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Production Snowflake
+  connector_type: snowflake
+  config: {"account": "prod_account", "username": "prod_user", "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC\n-----END PRIVATE KEY-----", "database": "prod_db", "warehouse": "prod_wh"}
+  status: 1
+  last_checked_at: 2025-10-08 18:06:46
+
+two:
+  name: Staging Snowflake
+  connector_type: snowflake
+  config: {"account": "staging_account", "username": "staging_user", "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC\n-----END PRIVATE KEY-----", "database": "staging_db", "warehouse": "staging_wh"}
+  status: 0
+  last_checked_at: 2025-10-08 18:06:46
+
+three:
+  name: Test Connector
+  connector_type: snowflake
+  config: {"account": "test_account", "username": "test_user", "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC\n-----END PRIVATE KEY-----", "database": "test_db", "warehouse": "test_wh"}
+  status: 0
+  last_checked_at: 2025-10-08 18:06:46
+
+snowflake_public:
+  name: Snowflake Public Data
+  connector_type: snowflake
+  config: {"account": "test_account", "username": "test_user", "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC\n-----END PRIVATE KEY-----", "warehouse": "test_warehouse", "database": "test_database", "schema": "test_schema"}
+  status: 1
+  last_checked_at: 2025-10-08 18:06:46
+
+duckdb_local:
+  name: DuckDB Local
+  connector_type: duckdb
+  config: {}
+  status: 1
+  last_checked_at: 2025-10-08 18:06:46
+
+powerbi_test:
+  name: Test Power BI
+  connector_type: powerbi
+  config: {"tenant_id": "12345678-1234-1234-1234-123456789012", "client_id": "87654321-4321-4321-4321-210987654321", "client_secret": "test_secret_value"}
+  status: 0
+  last_checked_at: 2025-10-08 18:06:46
+
+looking_glass_test:
+  name: Test Looking Glass
+  connector_type: looking_glass
+  config: {"api_key": "test_api_key", "endpoint": "https://api.lookingglass.example.com"}
+  status: 1
+  last_checked_at: 2025-10-08 18:06:46

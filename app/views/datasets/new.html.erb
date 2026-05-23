@@ -1,0 +1,22 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">New Dataset</h1>
+      <p class="mt-2 text-sm text-gray-600">
+        <% if @table_schema %>
+          Creating dataset from <strong><%= @table_schema[:schema] %>.<%= @table_schema[:table] %></strong>
+        <% else %>
+          Create a new dataset for your data pipelines.
+        <% end %>
+      </p>
+    </div>
+    <% if params[:connector_id] %>
+      <%= link_to browse_tables_connector_path(params[:connector_id]), 
+          class: "text-sm text-gray-600 hover:text-gray-900" do %>
+        ← Back to tables
+      <% end %>
+    <% end %>
+  </div>
+  
+  <%= render "form", dataset: @dataset, table_schema: @table_schema %>
+</div>

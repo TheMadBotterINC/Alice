@@ -1,0 +1,901 @@
+part_number,part_description,category,quantity_on_hand,reorder_point,unit_cost,location_bin,last_ordered_date
+FIL-100,Oil Filter Cartridge,Filters,4,7,50.65,F-13-A,
+PUM-101,Centrifugal Pump 3HP,Pumps,11,17,1145.61,D-19-B,2025-08-04
+PUM-102,Submersible Pump,Pumps,2,9,1166.14,F-02-A,2025-11-03
+THE-103,Programmable Thermostat,Thermostats,1,13,208.16,E-16-D,
+HOS-104,Air Hose 50ft,Hoses,24,16,47.39,F-12-D,2026-01-02
+FIL-105,Oil Filter Cartridge,Filters,28,16,37.84,A-12-D,
+ENC-106,Rotary Encoder,Encoders,26,20,964.25,F-17-C,
+SER-107,Servo Motor 2kW,Servos,8,6,1980.59,A-15-A,
+THE-108,Digital Thermostat,Thermostats,5,13,186.14,E-19-D,2025-12-27
+FAN-109,Exhaust Fan,Fans,21,7,276.46,E-07-A,2025-08-18
+CYL-110,Pneumatic Cylinder,Cylinders,20,12,799.86,C-20-C,2025-08-07
+COM-111,Screw Compressor,Compressors,29,12,2058.15,F-19-B,2025-09-16
+COI-112,Cooling Coil,Coils,10,16,386.3,A-06-B,2025-12-24
+SEA-113,Shaft Seal Kit,Seals,9,14,195.45,B-15-C,2025-08-16
+FAN-114,Centrifugal Fan,Fans,16,16,422.92,F-11-A,2025-10-30
+PUM-115,Submersible Pump,Pumps,15,8,1238.45,C-09-B,2025-12-06
+FIL-116,Oil Filter Cartridge,Filters,13,9,64.97,E-04-B,2025-07-31
+BEA-117,Ball Bearing SKF,Bearings,22,12,84.11,B-10-D,2025-09-19
+FIL-118,Fuel Filter,Filters,24,16,61.8,D-06-C,
+HOS-119,Air Hose 50ft,Hoses,13,6,50.45,B-06-A,2025-11-10
+SER-120,Servo Motor 2kW,Servos,12,6,1261.28,C-17-C,
+SEA-121,O-Ring Set,Seals,19,18,144.05,F-13-D,2025-10-12
+ENC-122,Linear Encoder,Encoders,5,12,1024.07,F-03-C,2025-09-15
+SER-123,Servo Gearbox,Servos,29,9,2226.64,E-14-C,2025-09-02
+MOT-124,AC Motor 5HP,Motors,8,7,582.97,D-02-D,
+VAL-125,Check Valve 2in,Valves,23,11,120.33,C-16-B,2025-11-25
+HOS-126,Chemical Transfer Hose,Hoses,29,11,69.25,D-11-A,
+VAL-127,Check Valve 2in,Valves,22,14,133.98,C-03-B,
+MOT-128,Servo Motor,Motors,11,13,443.61,C-05-B,
+COM-129,Screw Compressor,Compressors,14,19,1810.65,D-12-A,2025-12-26
+BEA-130,Pillow Block Bearing,Bearings,30,12,104.57,A-16-A,2025-12-07
+ENC-131,Rotary Encoder,Encoders,26,8,876.32,E-13-B,2025-09-04
+FAN-132,Exhaust Fan,Fans,17,13,431.28,A-14-C,2025-12-27
+MOT-133,Servo Motor,Motors,3,18,546.5,B-04-C,2025-08-09
+FIL-134,Fuel Filter,Filters,16,18,35.91,E-07-B,
+FAN-135,Centrifugal Fan,Fans,24,20,250.25,C-20-B,2025-08-29
+SER-136,Servo Drive,Servos,15,14,1947.39,E-19-A,2025-11-07
+FAN-137,Axial Fan 24in,Fans,11,14,245.82,E-08-D,2025-07-26
+VAL-138,Pressure Relief Valve,Valves,26,12,109.52,A-11-C,2025-12-27
+FIL-139,Hydraulic Filter 10 Micron,Filters,5,8,35.54,D-07-D,
+FAN-140,Cooling Fan,Fans,6,12,432.69,C-20-A,2025-10-24
+HOS-141,Water Hose,Hoses,24,7,49.91,E-03-D,2025-10-16
+ENC-142,Rotary Encoder,Encoders,2,6,677.55,D-04-B,
+CYL-143,Tie-Rod Cylinder,Cylinders,8,17,804.13,D-07-D,
+BEL-144,Serpentine Belt,Belts,10,12,63.75,E-19-A,2025-08-18
+THE-145,Wireless Thermostat,Thermostats,29,6,151.84,A-16-B,2025-09-19
+BEA-146,Pillow Block Bearing,Bearings,22,15,85.52,E-09-C,
+PUM-147,Submersible Pump,Pumps,29,5,856.57,F-19-A,2025-08-14
+PUM-148,Diaphragm Pump,Pumps,25,10,929.48,B-02-D,
+ENC-149,Rotary Encoder,Encoders,9,8,1049.0,E-07-B,2025-09-12
+VAL-150,Solenoid Valve 24V,Valves,7,9,166.02,E-14-D,2025-07-26
+SER-151,Servo Controller,Servos,4,14,1379.41,B-07-A,2025-07-16
+MOT-152,Servo Motor,Motors,3,16,552.61,B-08-B,2025-11-03
+VAL-153,Solenoid Valve 24V,Valves,8,5,193.59,B-15-A,2025-12-08
+FIL-154,Fuel Filter,Filters,6,17,53.57,F-02-C,2025-12-13
+ENC-155,Linear Encoder,Encoders,21,12,847.96,B-04-C,2025-11-06
+CYL-156,Tie-Rod Cylinder,Cylinders,10,20,663.71,D-07-D,2025-12-11
+PUM-157,Gear Pump,Pumps,29,18,1316.94,C-04-C,
+BEL-158,Flat Belt 6in,Belts,4,20,72.66,F-16-D,
+COI-159,Condenser Coil,Coils,1,17,527.2,D-19-D,2025-08-22
+VAL-160,Pressure Relief Valve,Valves,3,8,136.72,C-03-D,2025-10-07
+SER-161,Servo Motor 2kW,Servos,9,7,1769.95,F-05-B,
+FIL-162,Air Filter Element,Filters,24,15,63.41,D-14-A,2025-10-25
+IMP-163,Pump Impeller 6in,Impellers,12,16,324.33,D-02-A,2025-12-07
+SER-164,Servo Gearbox,Servos,28,12,1418.4,B-06-A,
+ENC-165,Rotary Encoder,Encoders,12,11,1088.85,D-17-D,2025-07-30
+COI-166,Cooling Coil,Coils,15,13,334.06,A-02-A,2025-11-11
+FIL-167,Hydraulic Filter 10 Micron,Filters,18,16,58.87,E-01-A,
+SER-168,Servo Drive,Servos,5,7,1434.15,B-16-B,2025-10-01
+FAN-169,Cooling Fan,Fans,2,10,310.83,B-12-C,
+FIL-170,Fuel Filter,Filters,10,9,60.6,A-03-D,2025-09-12
+IMP-171,Pump Impeller 6in,Impellers,16,13,256.86,A-11-A,
+SEA-172,Face Seal Assembly,Seals,7,11,251.15,F-03-A,
+VAL-173,Pressure Relief Valve,Valves,0,10,148.41,C-19-C,2025-12-23
+BEL-174,Timing Belt,Belts,8,20,75.81,B-17-A,2025-12-29
+VAL-175,Check Valve 2in,Valves,2,6,105.19,C-10-A,
+ENC-176,Absolute Encoder,Encoders,26,15,1019.45,B-19-A,2025-12-01
+HOS-177,Air Hose 50ft,Hoses,5,6,53.11,A-18-C,
+COM-178,Screw Compressor,Compressors,27,9,1949.1,A-03-D,2025-09-20
+BEA-179,Thrust Bearing,Bearings,4,6,105.4,C-18-B,2025-11-10
+MOT-180,Servo Motor,Motors,25,15,617.93,A-06-D,2025-09-26
+SEA-181,Face Seal Assembly,Seals,21,14,243.28,D-06-D,
+CYL-182,Hydraulic Cylinder 4in,Cylinders,18,12,1028.0,E-05-C,2025-12-15
+CYL-183,Pneumatic Cylinder,Cylinders,30,14,740.31,E-17-D,2025-09-24
+HOS-184,Hydraulic Hose 1/2in,Hoses,17,8,72.59,A-12-B,
+ENC-185,Incremental Encoder,Encoders,11,5,957.56,C-04-A,2025-12-16
+VAL-186,Solenoid Valve 24V,Valves,24,8,125.61,F-15-D,2025-10-26
+IMP-187,Open Impeller,Impellers,9,17,355.77,B-17-A,2025-09-26
+SEA-188,Face Seal Assembly,Seals,24,7,257.41,F-19-A,
+PUM-189,Submersible Pump,Pumps,14,19,928.26,B-14-C,
+FAN-190,Centrifugal Fan,Fans,14,14,256.83,D-07-A,2025-07-20
+CYL-191,Pneumatic Cylinder,Cylinders,10,15,777.01,E-18-A,2025-12-26
+PUM-192,Submersible Pump,Pumps,23,7,1172.16,B-16-A,2025-09-01
+ENC-193,Absolute Encoder,Encoders,7,19,1028.12,C-09-B,2025-10-30
+COM-194,Screw Compressor,Compressors,9,20,2369.74,B-11-D,2025-09-11
+IMP-195,Closed Impeller,Impellers,8,18,271.98,B-19-C,2025-11-18
+ENC-196,Linear Encoder,Encoders,27,19,1124.85,A-04-A,2025-11-01
+MOT-197,Servo Motor,Motors,14,18,643.19,E-15-B,2025-08-25
+HOS-198,Chemical Transfer Hose,Hoses,7,7,54.88,D-04-A,2025-10-25
+CYL-199,Tie-Rod Cylinder,Cylinders,7,16,651.18,E-03-D,2025-07-17
+THE-200,Programmable Thermostat,Thermostats,20,7,127.03,B-01-B,
+VAL-201,Ball Valve 1/2in,Valves,24,12,112.0,B-05-C,2026-01-04
+SER-202,Servo Drive,Servos,25,17,1656.72,F-14-D,
+BEL-203,Flat Belt 6in,Belts,13,13,84.82,B-18-B,2025-08-16
+COI-204,Cooling Coil,Coils,8,18,450.88,B-16-D,
+MOT-205,DC Motor 3HP,Motors,10,18,467.25,F-16-C,
+THE-206,Wireless Thermostat,Thermostats,22,14,220.82,A-01-C,2025-10-17
+COM-207,Rotary Compressor,Compressors,28,18,1758.48,E-04-C,2025-08-23
+ENC-208,Rotary Encoder,Encoders,18,9,993.64,B-16-A,2025-12-26
+IMP-209,Semi-Open Impeller,Impellers,29,17,339.8,B-08-A,2025-11-08
+BEL-210,Serpentine Belt,Belts,10,13,77.24,F-18-D,2025-09-28
+COM-211,Screw Compressor,Compressors,19,6,1836.44,E-17-D,2025-08-26
+CYL-212,Pneumatic Cylinder,Cylinders,12,12,1031.59,A-14-B,
+VAL-213,Pressure Relief Valve,Valves,21,8,176.57,C-20-B,
+COI-214,Cooling Coil,Coils,9,9,342.03,C-12-A,2025-10-23
+BEL-215,Timing Belt,Belts,19,18,84.91,C-16-B,2025-09-09
+FAN-216,Centrifugal Fan,Fans,20,8,335.61,F-20-B,2025-08-10
+ENC-217,Linear Encoder,Encoders,18,6,729.54,B-08-C,2025-10-09
+SER-218,Servo Gearbox,Servos,10,12,2181.81,A-15-B,2025-08-13
+HOS-219,Chemical Transfer Hose,Hoses,12,10,72.37,B-18-C,2025-07-16
+BEL-220,Flat Belt 6in,Belts,16,7,74.48,D-14-B,2025-07-25
+ENC-221,Incremental Encoder,Encoders,8,10,1121.14,D-08-C,2025-11-30
+FIL-222,Fuel Filter,Filters,20,12,50.29,E-12-D,2026-01-06
+HOS-223,Hydraulic Hose 1/2in,Hoses,14,13,46.53,C-08-A,2025-12-20
+THE-224,Analog Thermostat,Thermostats,4,9,214.72,A-15-A,2025-11-03
+ENC-225,Rotary Encoder,Encoders,19,9,1140.8,E-13-D,2025-12-16
+VAL-226,Ball Valve 1/2in,Valves,17,15,168.34,B-10-D,
+BEL-227,Serpentine Belt,Belts,6,14,65.76,D-19-B,2025-10-14
+ENC-228,Rotary Encoder,Encoders,20,19,856.32,C-12-C,2025-12-10
+PUM-229,Diaphragm Pump,Pumps,14,6,1293.53,D-18-B,
+SEA-230,Face Seal Assembly,Seals,8,20,196.87,A-20-C,
+HOS-231,Air Hose 50ft,Hoses,8,20,68.5,E-16-D,
+COI-232,Evaporator Coil,Coils,6,7,315.34,E-07-D,2025-08-14
+ENC-233,Rotary Encoder,Encoders,22,20,703.71,C-20-A,2025-11-13
+ENC-234,Absolute Encoder,Encoders,15,12,717.91,F-12-D,2025-08-23
+VAL-235,Pressure Relief Valve,Valves,26,17,192.04,D-19-A,2026-01-06
+PUM-236,Gear Pump,Pumps,16,10,1371.63,F-02-C,
+BEL-237,Timing Belt,Belts,4,19,62.49,D-07-C,2025-12-21
+BEL-238,Flat Belt 6in,Belts,19,17,77.65,A-18-A,2025-09-22
+COI-239,Cooling Coil,Coils,9,10,342.45,F-05-C,2025-09-13
+BEA-240,Thrust Bearing,Bearings,13,16,97.46,B-09-D,2025-12-21
+FIL-241,Air Filter Element,Filters,30,18,61.74,D-03-A,
+SER-242,Servo Drive,Servos,18,16,2007.34,B-20-D,2025-09-05
+COM-243,Rotary Compressor,Compressors,16,12,3128.38,F-11-B,
+HOS-244,Air Hose 50ft,Hoses,30,10,67.48,A-12-B,2025-10-08
+MOT-245,AC Motor 5HP,Motors,26,8,585.02,D-13-B,2025-10-29
+SEA-246,Shaft Seal Kit,Seals,20,8,150.91,F-20-A,2025-07-23
+PUM-247,Diaphragm Pump,Pumps,7,18,1158.38,E-12-A,
+CYL-248,Pneumatic Cylinder,Cylinders,0,15,735.57,D-13-D,2025-08-08
+BEL-249,V-Belt A-Section,Belts,20,16,75.56,D-08-B,2025-12-26
+SEA-250,Shaft Seal Kit,Seals,3,17,224.83,B-03-C,2025-07-28
+IMP-251,Closed Impeller,Impellers,23,5,321.21,F-07-C,
+BEA-252,Thrust Bearing,Bearings,6,9,73.32,C-16-B,
+BEA-253,Pillow Block Bearing,Bearings,14,12,84.1,F-02-B,
+FIL-254,Oil Filter Cartridge,Filters,21,9,54.37,C-13-A,2025-12-03
+CYL-255,Tie-Rod Cylinder,Cylinders,9,14,1015.97,D-16-C,
+IMP-256,Open Impeller,Impellers,3,20,349.09,F-13-D,2025-07-24
+PUM-257,Gear Pump,Pumps,8,12,1309.42,C-01-D,2025-08-25
+BEL-258,Flat Belt 6in,Belts,8,12,94.6,A-17-C,
+COI-259,Condenser Coil,Coils,24,9,531.93,D-12-D,2025-11-29
+BEA-260,Thrust Bearing,Bearings,27,16,108.76,C-15-C,
+CYL-261,Tie-Rod Cylinder,Cylinders,22,14,984.55,A-20-A,2025-11-16
+ENC-262,Absolute Encoder,Encoders,28,16,891.39,A-11-B,2025-09-04
+COM-263,Rotary Compressor,Compressors,21,12,2654.66,E-02-C,2025-11-26
+COM-264,Scroll Compressor,Compressors,1,9,1951.36,F-05-C,2025-11-30
+VAL-265,Solenoid Valve 24V,Valves,5,8,142.05,C-13-D,
+PUM-266,Diaphragm Pump,Pumps,11,9,1499.48,F-11-A,2026-01-01
+IMP-267,Semi-Open Impeller,Impellers,4,7,225.58,D-12-B,
+SEA-268,O-Ring Set,Seals,25,5,195.35,B-15-C,
+COI-269,Condenser Coil,Coils,23,17,396.09,E-06-C,2025-09-07
+VAL-270,Solenoid Valve 24V,Valves,5,6,140.92,B-05-A,2025-08-16
+HOS-271,Air Hose 50ft,Hoses,13,19,45.57,F-03-B,
+THE-272,Wireless Thermostat,Thermostats,17,11,225.36,F-10-D,
+SER-273,Servo Drive,Servos,17,15,1915.84,D-02-D,
+BEA-274,Thrust Bearing,Bearings,11,7,124.34,B-15-A,
+COI-275,Condenser Coil,Coils,22,8,505.67,D-13-D,2025-10-28
+HOS-276,Chemical Transfer Hose,Hoses,7,6,57.61,E-06-B,2025-12-15
+IMP-277,Pump Impeller 6in,Impellers,3,19,354.51,C-01-A,2025-10-06
+COM-278,Scroll Compressor,Compressors,18,13,2430.21,B-16-D,2026-01-09
+FAN-279,Axial Fan 24in,Fans,3,15,443.12,F-11-A,2025-11-13
+IMP-280,Open Impeller,Impellers,3,10,313.07,E-07-B,2025-08-19
+BEA-281,Ball Bearing SKF,Bearings,0,16,78.19,A-06-D,2025-08-26
+HOS-282,Air Hose 50ft,Hoses,12,5,63.86,A-12-C,
+THE-283,Analog Thermostat,Thermostats,12,7,215.44,C-02-A,2025-12-06
+MOT-284,AC Motor 5HP,Motors,23,8,473.86,D-09-C,2025-09-25
+HOS-285,Hydraulic Hose 1/2in,Hoses,8,19,42.17,D-15-A,2025-11-30
+FAN-286,Exhaust Fan,Fans,28,15,323.2,A-12-B,2025-12-06
+SEA-287,O-Ring Set,Seals,7,5,232.68,B-15-A,
+FAN-288,Centrifugal Fan,Fans,14,15,330.51,E-10-C,2025-09-25
+HOS-289,Air Hose 50ft,Hoses,26,10,77.75,F-20-D,2025-07-18
+SER-290,Servo Drive,Servos,24,6,1266.46,D-05-C,2025-08-24
+SER-291,Servo Gearbox,Servos,0,5,1674.09,B-10-B,2025-08-13
+COI-292,Heating Coil,Coils,11,13,493.93,A-19-D,2025-11-19
+FAN-293,Axial Fan 24in,Fans,23,16,361.52,D-19-C,2025-08-13
+PUM-294,Diaphragm Pump,Pumps,12,12,860.4,F-06-A,2025-12-05
+MOT-295,AC Motor 5HP,Motors,9,7,455.87,E-08-D,
+IMP-296,Semi-Open Impeller,Impellers,14,7,284.09,A-18-A,2025-11-13
+ENC-297,Linear Encoder,Encoders,23,20,741.29,E-17-D,2025-10-02
+SEA-298,O-Ring Set,Seals,22,12,169.49,A-16-C,
+COM-299,Scroll Compressor,Compressors,19,6,2117.82,D-17-B,2025-11-08
+COM-300,Rotary Compressor,Compressors,16,18,2925.87,C-17-D,
+ENC-301,Linear Encoder,Encoders,5,11,1001.88,C-05-D,2025-11-24
+BEA-302,Ball Bearing SKF,Bearings,2,11,126.58,A-12-A,2025-12-28
+COI-303,Evaporator Coil,Coils,2,18,510.14,B-04-C,2025-12-08
+CYL-304,Tie-Rod Cylinder,Cylinders,23,14,619.98,A-09-C,
+FAN-305,Exhaust Fan,Fans,20,6,443.2,E-02-B,2025-07-19
+CYL-306,Welded Cylinder,Cylinders,1,14,954.74,C-04-A,
+SEA-307,Shaft Seal Kit,Seals,2,16,150.75,F-18-B,2025-08-12
+VAL-308,Check Valve 2in,Valves,15,10,159.1,F-05-D,2025-08-28
+IMP-309,Open Impeller,Impellers,0,6,293.89,F-11-C,2025-09-22
+COM-310,Screw Compressor,Compressors,13,10,2234.21,E-05-A,2025-11-19
+FAN-311,Exhaust Fan,Fans,24,14,283.75,C-16-B,2025-11-25
+MOT-312,DC Motor 3HP,Motors,23,16,449.06,D-11-C,2025-10-03
+SEA-313,Mechanical Seal - Type A,Seals,24,9,195.3,D-14-D,
+FAN-314,Exhaust Fan,Fans,11,15,326.0,E-13-A,2025-11-16
+IMP-315,Semi-Open Impeller,Impellers,22,18,365.69,C-17-C,
+HOS-316,Water Hose,Hoses,28,16,68.55,F-04-B,
+PUM-317,Diaphragm Pump,Pumps,9,20,1266.39,E-18-A,
+IMP-318,Open Impeller,Impellers,3,17,241.35,E-04-D,2025-10-28
+SER-319,Servo Gearbox,Servos,6,18,1484.84,A-14-D,2025-08-23
+BEL-320,V-Belt A-Section,Belts,0,5,59.85,C-13-A,
+VAL-321,Pressure Relief Valve,Valves,13,11,191.07,F-09-C,2026-01-10
+BEA-322,Pillow Block Bearing,Bearings,0,20,82.23,C-14-B,
+FIL-323,Air Filter Element,Filters,10,17,53.12,C-08-A,2025-10-07
+SEA-324,O-Ring Set,Seals,16,13,250.18,C-19-A,2025-08-07
+SER-325,Servo Motor 2kW,Servos,6,12,1947.59,A-09-A,2025-12-31
+FIL-326,Hydraulic Filter 10 Micron,Filters,9,9,56.59,F-02-C,2025-07-30
+FIL-327,Air Filter Element,Filters,24,15,61.91,E-16-B,2025-12-21
+SEA-328,Shaft Seal Kit,Seals,0,5,241.49,E-02-A,2025-12-29
+CYL-329,Hydraulic Cylinder 4in,Cylinders,13,7,997.69,D-18-A,2025-11-11
+BEL-330,Timing Belt,Belts,9,5,59.89,F-07-D,2025-09-08
+FIL-331,Hydraulic Filter 10 Micron,Filters,23,20,58.33,E-07-B,2025-08-15
+VAL-332,Pressure Relief Valve,Valves,26,11,194.09,E-07-C,2025-08-13
+COI-333,Evaporator Coil,Coils,1,5,522.66,A-13-C,2025-12-18
+COI-334,Heating Coil,Coils,18,14,372.64,A-11-A,2025-10-05
+MOT-335,AC Motor 5HP,Motors,5,12,613.9,A-17-B,
+FAN-336,Exhaust Fan,Fans,26,10,285.47,B-17-D,2025-08-18
+COM-337,Rotary Compressor,Compressors,3,17,2912.84,B-07-B,2025-10-05
+ENC-338,Incremental Encoder,Encoders,1,6,734.6,F-11-D,2025-11-26
+MOT-339,Stepper Motor,Motors,3,13,377.38,F-11-D,2025-10-21
+SER-340,Servo Motor 2kW,Servos,9,16,1427.71,F-08-B,
+IMP-341,Closed Impeller,Impellers,8,10,312.6,F-01-A,
+FAN-342,Cooling Fan,Fans,2,12,451.75,C-01-C,
+ENC-343,Incremental Encoder,Encoders,0,17,920.93,C-06-C,2025-08-31
+COI-344,Condenser Coil,Coils,15,14,554.91,D-13-B,
+SER-345,Servo Drive,Servos,20,10,1492.93,B-16-C,
+BEL-346,Flat Belt 6in,Belts,11,15,54.22,E-18-C,2026-01-02
+COI-347,Condenser Coil,Coils,24,9,337.03,B-07-D,
+BEA-348,Thrust Bearing,Bearings,15,12,111.42,D-07-A,
+BEA-349,Pillow Block Bearing,Bearings,0,15,86.27,A-11-D,
+BEL-350,V-Belt A-Section,Belts,18,6,93.75,A-11-A,2025-09-20
+FAN-351,Axial Fan 24in,Fans,11,9,354.57,D-12-B,2025-12-30
+COM-352,Screw Compressor,Compressors,19,10,2979.88,F-09-A,2025-08-06
+THE-353,Programmable Thermostat,Thermostats,8,19,209.59,E-09-A,
+THE-354,Analog Thermostat,Thermostats,21,11,208.32,F-07-B,2025-09-21
+SER-355,Servo Drive,Servos,4,20,1741.89,F-09-A,
+BEA-356,Thrust Bearing,Bearings,4,19,78.34,E-14-B,
+HOS-357,Air Hose 50ft,Hoses,17,6,72.94,E-09-D,2025-09-12
+MOT-358,DC Motor 3HP,Motors,10,9,374.0,A-03-D,2025-07-24
+ENC-359,Incremental Encoder,Encoders,22,15,1070.11,B-13-B,2025-08-02
+PUM-360,Centrifugal Pump 3HP,Pumps,24,19,1147.42,E-18-C,
+CYL-361,Tie-Rod Cylinder,Cylinders,25,13,898.17,A-16-A,2025-12-31
+BEL-362,Serpentine Belt,Belts,24,13,91.1,F-02-A,
+CYL-363,Tie-Rod Cylinder,Cylinders,7,5,616.35,A-15-C,
+IMP-364,Open Impeller,Impellers,20,11,288.27,F-12-A,2025-10-10
+BEA-365,Thrust Bearing,Bearings,0,13,113.73,F-01-C,2025-09-13
+BEL-366,V-Belt A-Section,Belts,21,16,95.45,E-19-C,2026-01-01
+FAN-367,Centrifugal Fan,Fans,23,6,289.66,F-14-D,2025-07-15
+ENC-368,Incremental Encoder,Encoders,4,16,848.26,C-11-D,2025-10-02
+VAL-369,Check Valve 2in,Valves,23,16,136.46,C-11-C,2025-11-26
+FIL-370,Oil Filter Cartridge,Filters,25,20,53.37,A-19-C,2025-12-28
+MOT-371,Servo Motor,Motors,11,8,598.14,E-12-C,
+ENC-372,Linear Encoder,Encoders,26,8,911.81,F-13-B,
+BEL-373,Timing Belt,Belts,3,14,65.08,A-17-C,2025-10-09
+CYL-374,Welded Cylinder,Cylinders,0,7,948.81,A-13-A,2025-11-27
+FAN-375,Axial Fan 24in,Fans,26,16,261.66,A-09-A,2025-12-08
+VAL-376,Solenoid Valve 24V,Valves,12,13,184.06,A-02-B,2025-08-19
+COI-377,Heating Coil,Coils,6,17,578.92,E-04-C,2025-07-27
+IMP-378,Semi-Open Impeller,Impellers,21,18,244.33,D-08-C,2025-09-05
+BEL-379,V-Belt A-Section,Belts,0,20,78.84,E-10-D,2025-08-18
+HOS-380,Water Hose,Hoses,29,18,61.69,A-14-D,2025-12-13
+FIL-381,Air Filter Element,Filters,4,20,41.06,D-11-B,2025-08-31
+CYL-382,Tie-Rod Cylinder,Cylinders,30,12,748.6,C-11-B,2025-09-01
+THE-383,Digital Thermostat,Thermostats,25,19,130.52,A-11-A,2025-12-26
+SER-384,Servo Drive,Servos,16,15,1941.73,A-13-B,2025-09-06
+COM-385,Reciprocating Compressor,Compressors,10,5,2870.14,D-01-B,2025-09-07
+BEA-386,Pillow Block Bearing,Bearings,23,11,110.01,B-12-C,
+BEA-387,Pillow Block Bearing,Bearings,3,8,104.72,E-13-C,
+VAL-388,Pressure Relief Valve,Valves,29,17,135.93,D-06-D,2025-08-25
+BEA-389,Roller Bearing 6205,Bearings,10,9,76.98,D-12-A,
+SER-390,Servo Gearbox,Servos,23,13,1614.1,E-01-A,
+BEA-391,Thrust Bearing,Bearings,21,14,90.36,B-19-C,2025-08-14
+SEA-392,O-Ring Set,Seals,15,9,232.11,E-09-B,
+BEA-393,Ball Bearing SKF,Bearings,26,13,86.47,D-17-B,2025-11-21
+SER-394,Servo Controller,Servos,15,20,1922.44,A-20-C,
+COM-395,Reciprocating Compressor,Compressors,4,18,3004.38,E-20-C,
+FIL-396,Fuel Filter,Filters,2,16,62.13,F-02-C,
+MOT-397,AC Motor 5HP,Motors,4,10,555.95,C-20-B,2025-09-24
+SER-398,Servo Motor 2kW,Servos,22,20,2149.09,C-07-B,2025-11-16
+COI-399,Condenser Coil,Coils,20,6,472.1,F-06-B,2025-12-20
+SER-400,Servo Motor 2kW,Servos,26,11,1260.38,B-20-C,2025-07-14
+THE-401,Analog Thermostat,Thermostats,19,7,175.89,C-01-B,
+FIL-402,Hydraulic Filter 10 Micron,Filters,28,6,37.89,F-20-D,
+MOT-403,Stepper Motor,Motors,6,16,599.62,B-09-C,2025-11-28
+IMP-404,Open Impeller,Impellers,5,13,257.06,B-14-C,2025-09-27
+BEL-405,Serpentine Belt,Belts,11,15,59.12,A-07-B,2025-08-12
+BEL-406,Timing Belt,Belts,20,13,69.33,B-12-D,2025-12-10
+IMP-407,Open Impeller,Impellers,8,18,253.14,B-13-A,2025-08-01
+HOS-408,Hydraulic Hose 1/2in,Hoses,23,11,67.37,E-08-B,
+COI-409,Evaporator Coil,Coils,13,8,435.8,A-16-C,2025-12-18
+BEL-410,Timing Belt,Belts,3,17,91.24,C-15-A,2025-09-11
+HOS-411,Water Hose,Hoses,18,10,57.69,E-04-C,2025-10-05
+BEL-412,Flat Belt 6in,Belts,9,7,53.1,D-05-A,
+BEL-413,Serpentine Belt,Belts,25,17,72.93,F-06-B,2025-07-18
+VAL-414,Ball Valve 1/2in,Valves,23,15,146.07,D-18-A,2025-09-18
+BEL-415,Flat Belt 6in,Belts,25,15,65.7,D-06-A,2025-07-23
+PUM-416,Diaphragm Pump,Pumps,16,11,1548.21,D-05-D,
+FAN-417,Axial Fan 24in,Fans,26,8,350.95,F-11-B,
+THE-418,Programmable Thermostat,Thermostats,10,15,132.24,D-17-A,2025-09-08
+FAN-419,Axial Fan 24in,Fans,15,18,272.36,D-04-C,
+MOT-420,Stepper Motor,Motors,2,19,517.2,D-11-A,
+MOT-421,DC Motor 3HP,Motors,9,20,486.77,D-04-C,
+COI-422,Evaporator Coil,Coils,23,13,537.1,E-10-B,
+IMP-423,Closed Impeller,Impellers,28,19,345.87,D-06-B,2025-11-26
+MOT-424,Stepper Motor,Motors,29,14,479.24,D-18-A,2025-11-27
+THE-425,Analog Thermostat,Thermostats,4,6,129.06,A-01-D,2025-12-07
+SER-426,Servo Gearbox,Servos,16,12,1299.03,C-03-C,2025-11-04
+BEL-427,V-Belt A-Section,Belts,14,18,61.78,D-02-B,2025-09-13
+SEA-428,Face Seal Assembly,Seals,4,19,149.39,D-01-D,
+HOS-429,Hydraulic Hose 1/2in,Hoses,17,9,65.2,D-16-C,2025-11-07
+CYL-430,Pneumatic Cylinder,Cylinders,12,16,1006.55,F-15-C,2026-01-03
+SEA-431,Mechanical Seal - Type A,Seals,6,20,154.62,F-19-B,
+THE-432,Digital Thermostat,Thermostats,25,8,197.28,D-17-C,
+COM-433,Rotary Compressor,Compressors,2,18,2308.22,F-16-C,2025-08-05
+CYL-434,Welded Cylinder,Cylinders,3,19,902.82,D-17-A,2025-12-09
+HOS-435,Air Hose 50ft,Hoses,16,8,62.38,A-08-D,
+SEA-436,O-Ring Set,Seals,26,20,162.94,C-02-D,
+VAL-437,Solenoid Valve 24V,Valves,19,20,136.24,C-02-C,2025-07-14
+CYL-438,Welded Cylinder,Cylinders,16,20,769.43,B-12-B,
+COI-439,Condenser Coil,Coils,21,20,381.24,C-10-B,2025-12-27
+CYL-440,Welded Cylinder,Cylinders,23,9,865.96,E-16-D,
+FIL-441,Air Filter Element,Filters,8,16,46.92,B-19-D,
+BEL-442,Flat Belt 6in,Belts,20,11,69.5,E-03-A,2025-10-11
+ENC-443,Absolute Encoder,Encoders,30,5,738.57,A-08-D,2025-12-12
+BEL-444,Timing Belt,Belts,0,14,55.08,E-20-C,2025-10-02
+FAN-445,Centrifugal Fan,Fans,18,17,421.42,D-02-C,2025-09-23
+SEA-446,Shaft Seal Kit,Seals,3,5,165.97,C-17-A,
+BEL-447,Serpentine Belt,Belts,21,19,73.41,A-17-A,2025-12-20
+FIL-448,Air Filter Element,Filters,7,17,45.07,D-14-B,2025-09-04
+THE-449,Programmable Thermostat,Thermostats,12,16,207.78,F-10-C,2025-12-24
+SER-450,Servo Drive,Servos,4,11,1641.87,F-02-B,
+SEA-451,Mechanical Seal - Type A,Seals,28,16,157.44,D-12-A,2025-09-21
+THE-452,Analog Thermostat,Thermostats,8,10,185.19,E-15-B,2026-01-03
+SER-453,Servo Motor 2kW,Servos,5,11,1280.72,F-20-C,
+COI-454,Heating Coil,Coils,9,7,546.57,E-19-B,2025-08-24
+CYL-455,Welded Cylinder,Cylinders,11,17,895.24,E-09-D,
+FAN-456,Axial Fan 24in,Fans,22,20,295.15,C-11-D,2025-08-13
+COM-457,Reciprocating Compressor,Compressors,22,7,2074.82,F-16-B,2025-12-06
+HOS-458,Water Hose,Hoses,23,19,56.78,C-06-D,
+FIL-459,Fuel Filter,Filters,8,8,39.66,D-07-A,2025-12-12
+IMP-460,Closed Impeller,Impellers,7,6,376.64,A-16-C,
+SER-461,Servo Gearbox,Servos,13,7,2030.35,E-05-B,2025-09-26
+THE-462,Wireless Thermostat,Thermostats,3,6,230.06,E-15-B,2025-08-18
+FIL-463,Air Filter Element,Filters,6,6,55.9,C-19-A,2025-09-20
+MOT-464,AC Motor 5HP,Motors,19,16,408.01,D-14-A,2025-11-14
+BEA-465,Ball Bearing SKF,Bearings,23,10,122.21,A-05-D,2025-09-13
+MOT-466,DC Motor 3HP,Motors,10,15,628.22,C-19-C,
+COM-467,Scroll Compressor,Compressors,29,5,2345.57,F-06-A,
+ENC-468,Absolute Encoder,Encoders,0,17,720.18,D-19-C,2025-10-04
+COI-469,Evaporator Coil,Coils,16,19,459.29,E-12-C,2025-09-05
+IMP-470,Semi-Open Impeller,Impellers,30,20,272.45,F-15-A,2025-10-01
+FAN-471,Cooling Fan,Fans,18,19,450.01,B-10-A,
+IMP-472,Pump Impeller 6in,Impellers,20,19,253.04,E-13-B,2026-01-07
+BEL-473,Serpentine Belt,Belts,14,12,92.45,A-14-B,2025-11-18
+BEA-474,Thrust Bearing,Bearings,15,19,103.46,B-08-D,2025-09-17
+MOT-475,Servo Motor,Motors,13,10,529.32,D-17-A,2025-09-21
+FAN-476,Centrifugal Fan,Fans,3,20,408.91,A-02-D,2025-12-05
+SER-477,Servo Motor 2kW,Servos,7,12,1287.57,F-16-C,2025-07-24
+HOS-478,Air Hose 50ft,Hoses,9,18,59.17,B-16-B,2025-08-23
+VAL-479,Solenoid Valve 24V,Valves,13,20,107.44,E-04-A,2025-08-08
+SER-480,Servo Controller,Servos,2,6,2002.13,A-04-C,
+IMP-481,Pump Impeller 6in,Impellers,22,12,266.35,F-03-D,2025-08-02
+HOS-482,Hydraulic Hose 1/2in,Hoses,3,6,73.33,F-01-B,2025-12-11
+ENC-483,Absolute Encoder,Encoders,4,18,1109.9,D-04-D,2025-12-17
+BEA-484,Pillow Block Bearing,Bearings,23,15,86.59,B-05-D,2025-11-05
+SEA-485,Face Seal Assembly,Seals,26,6,241.09,E-18-B,2026-01-10
+BEL-486,Flat Belt 6in,Belts,22,9,91.89,C-15-B,2025-07-27
+BEA-487,Ball Bearing SKF,Bearings,12,9,96.61,B-16-D,2025-12-27
+BEA-488,Ball Bearing SKF,Bearings,17,12,77.2,A-06-C,
+ENC-489,Incremental Encoder,Encoders,29,10,928.19,D-07-C,
+PUM-490,Diaphragm Pump,Pumps,18,9,1016.04,F-02-D,2025-12-26
+HOS-491,Air Hose 50ft,Hoses,26,8,64.9,D-08-C,
+SEA-492,Shaft Seal Kit,Seals,26,7,164.45,D-10-C,2025-08-10
+IMP-493,Semi-Open Impeller,Impellers,6,7,256.24,B-16-A,
+ENC-494,Absolute Encoder,Encoders,0,10,785.2,D-09-C,2025-09-16
+FIL-495,Hydraulic Filter 10 Micron,Filters,7,17,47.38,B-14-B,2025-09-03
+BEA-496,Thrust Bearing,Bearings,23,11,105.92,B-18-C,
+COM-497,Reciprocating Compressor,Compressors,24,20,2293.98,F-02-A,
+BEA-498,Roller Bearing 6205,Bearings,7,8,70.42,F-11-B,2025-12-26
+SER-499,Servo Drive,Servos,11,19,1429.04,F-06-C,
+CYL-500,Pneumatic Cylinder,Cylinders,27,10,961.04,F-09-D,
+MOT-501,Stepper Motor,Motors,17,13,557.34,E-09-C,2025-07-21
+CYL-502,Pneumatic Cylinder,Cylinders,6,13,976.8,E-10-D,2025-11-20
+THE-503,Analog Thermostat,Thermostats,7,17,176.3,C-09-B,2025-10-27
+MOT-504,Stepper Motor,Motors,30,19,536.55,F-20-C,2025-08-08
+PUM-505,Diaphragm Pump,Pumps,6,12,947.15,E-17-D,
+CYL-506,Tie-Rod Cylinder,Cylinders,20,15,980.7,D-04-B,2025-07-21
+FAN-507,Exhaust Fan,Fans,24,20,294.21,C-13-D,2025-10-11
+CYL-508,Pneumatic Cylinder,Cylinders,2,11,1006.83,F-01-C,2025-10-13
+COI-509,Evaporator Coil,Coils,24,7,365.78,A-14-C,2025-11-18
+FAN-510,Exhaust Fan,Fans,28,6,405.9,C-14-A,2025-12-02
+FIL-511,Hydraulic Filter 10 Micron,Filters,3,13,45.62,B-06-A,2025-12-21
+COM-512,Scroll Compressor,Compressors,1,13,2376.23,B-20-B,2025-10-19
+CYL-513,Hydraulic Cylinder 4in,Cylinders,27,20,809.29,A-04-A,2025-09-25
+HOS-514,Water Hose,Hoses,0,20,75.76,C-09-A,2026-01-05
+HOS-515,Chemical Transfer Hose,Hoses,16,19,42.53,F-02-A,2025-12-14
+THE-516,Wireless Thermostat,Thermostats,10,12,208.5,A-02-D,2025-12-11
+ENC-517,Incremental Encoder,Encoders,21,9,693.51,D-10-A,2025-07-14
+HOS-518,Water Hose,Hoses,8,15,45.4,F-19-A,
+THE-519,Analog Thermostat,Thermostats,4,9,166.87,E-08-B,2025-10-18
+PUM-520,Diaphragm Pump,Pumps,8,18,988.39,B-09-A,2025-07-14
+CYL-521,Welded Cylinder,Cylinders,28,20,574.38,F-20-B,
+MOT-522,DC Motor 3HP,Motors,28,7,647.6,C-06-D,
+BEL-523,V-Belt A-Section,Belts,15,17,64.44,E-02-C,
+COI-524,Condenser Coil,Coils,5,16,475.66,F-12-A,2026-01-08
+PUM-525,Submersible Pump,Pumps,24,20,978.81,D-14-B,2025-07-28
+FAN-526,Centrifugal Fan,Fans,2,14,330.3,C-16-A,2025-08-01
+COI-527,Evaporator Coil,Coils,5,17,430.06,E-09-C,2025-10-24
+HOS-528,Chemical Transfer Hose,Hoses,6,6,47.84,C-13-A,2025-09-04
+FAN-529,Exhaust Fan,Fans,17,15,308.15,B-07-D,
+THE-530,Digital Thermostat,Thermostats,10,6,197.54,E-06-D,
+MOT-531,AC Motor 5HP,Motors,13,6,406.6,A-14-B,
+FIL-532,Air Filter Element,Filters,12,13,58.76,B-11-A,2025-07-17
+IMP-533,Closed Impeller,Impellers,5,9,311.4,C-16-A,
+SER-534,Servo Controller,Servos,19,20,1725.34,A-14-B,2025-07-30
+COM-535,Rotary Compressor,Compressors,6,5,2782.54,F-15-A,2025-09-21
+SER-536,Servo Gearbox,Servos,11,20,1716.54,F-01-C,2025-08-12
+BEA-537,Ball Bearing SKF,Bearings,29,9,119.43,A-02-D,2026-01-05
+COI-538,Heating Coil,Coils,27,20,444.8,A-18-D,2025-11-03
+ENC-539,Rotary Encoder,Encoders,20,17,1012.76,A-04-C,
+COM-540,Rotary Compressor,Compressors,18,19,3166.38,F-08-B,
+THE-541,Analog Thermostat,Thermostats,19,20,161.73,F-20-D,2025-10-29
+BEA-542,Pillow Block Bearing,Bearings,1,17,109.04,F-13-B,2025-08-03
+SER-543,Servo Drive,Servos,2,5,1514.9,A-14-A,2025-12-30
+IMP-544,Pump Impeller 6in,Impellers,16,14,294.26,B-15-A,2025-12-14
+SER-545,Servo Drive,Servos,30,19,1555.12,D-07-D,
+VAL-546,Check Valve 2in,Valves,15,19,131.26,D-10-B,2025-11-11
+BEA-547,Thrust Bearing,Bearings,2,20,82.69,C-03-D,
+COM-548,Scroll Compressor,Compressors,27,13,2956.49,A-09-B,2025-11-15
+CYL-549,Tie-Rod Cylinder,Cylinders,14,5,692.88,E-14-A,2025-10-03
+BEL-550,Timing Belt,Belts,15,19,88.21,F-15-C,2025-09-24
+THE-551,Analog Thermostat,Thermostats,0,5,228.92,E-02-C,
+FIL-552,Air Filter Element,Filters,17,6,48.58,D-12-B,2025-09-03
+BEA-553,Pillow Block Bearing,Bearings,25,10,112.33,B-10-C,2025-09-29
+SER-554,Servo Motor 2kW,Servos,23,17,1401.36,C-04-A,
+SER-555,Servo Drive,Servos,18,13,1755.13,C-07-B,2025-10-18
+COM-556,Reciprocating Compressor,Compressors,17,12,2667.05,D-15-D,2025-09-18
+PUM-557,Submersible Pump,Pumps,16,6,1351.3,F-17-A,2025-12-28
+CYL-558,Pneumatic Cylinder,Cylinders,5,12,846.44,B-17-D,2025-09-08
+CYL-559,Tie-Rod Cylinder,Cylinders,10,9,796.72,A-19-B,
+FIL-560,Hydraulic Filter 10 Micron,Filters,0,20,43.95,C-10-C,
+VAL-561,Solenoid Valve 24V,Valves,0,15,154.44,F-17-C,2025-07-19
+THE-562,Wireless Thermostat,Thermostats,5,17,155.23,E-06-B,2025-10-17
+SEA-563,Mechanical Seal - Type A,Seals,14,9,193.02,B-20-D,2025-08-06
+PUM-564,Centrifugal Pump 3HP,Pumps,30,14,886.95,C-19-C,2025-10-11
+IMP-565,Open Impeller,Impellers,0,13,337.35,E-01-D,2025-09-04
+FAN-566,Axial Fan 24in,Fans,18,9,313.97,C-11-A,2025-12-03
+VAL-567,Pressure Relief Valve,Valves,8,16,180.37,D-05-C,2025-11-12
+FAN-568,Exhaust Fan,Fans,26,15,415.46,E-05-D,2025-11-07
+BEL-569,Flat Belt 6in,Belts,15,10,87.8,D-07-A,2026-01-05
+CYL-570,Tie-Rod Cylinder,Cylinders,24,9,583.51,C-12-A,2025-10-01
+THE-571,Wireless Thermostat,Thermostats,28,5,198.88,C-04-C,
+BEL-572,V-Belt A-Section,Belts,4,8,67.77,F-07-B,2025-08-03
+FAN-573,Axial Fan 24in,Fans,6,11,287.49,C-07-B,
+COM-574,Scroll Compressor,Compressors,27,8,2505.43,A-08-A,2025-11-22
+IMP-575,Open Impeller,Impellers,9,17,336.7,C-05-C,
+FIL-576,Oil Filter Cartridge,Filters,25,11,40.11,A-16-A,2025-09-23
+COM-577,Reciprocating Compressor,Compressors,16,15,2767.87,A-03-C,2025-08-05
+FIL-578,Oil Filter Cartridge,Filters,24,9,59.59,B-16-B,2025-12-17
+IMP-579,Closed Impeller,Impellers,7,20,349.87,B-11-C,2025-08-08
+CYL-580,Welded Cylinder,Cylinders,8,9,584.26,C-08-B,
+VAL-581,Solenoid Valve 24V,Valves,12,14,147.36,E-06-D,2025-09-09
+SEA-582,O-Ring Set,Seals,11,18,186.66,E-11-D,
+IMP-583,Closed Impeller,Impellers,24,19,290.63,C-11-C,
+BEL-584,V-Belt A-Section,Belts,30,14,94.74,A-01-A,2025-10-04
+ENC-585,Incremental Encoder,Encoders,7,17,1127.05,A-14-C,2025-09-13
+PUM-586,Submersible Pump,Pumps,21,10,887.12,F-14-D,2025-10-17
+PUM-587,Centrifugal Pump 3HP,Pumps,3,16,1377.8,B-09-C,
+ENC-588,Incremental Encoder,Encoders,7,20,1003.62,A-08-C,2025-11-10
+PUM-589,Centrifugal Pump 3HP,Pumps,9,18,1258.68,D-18-A,2025-11-19
+BEL-590,Timing Belt,Belts,12,9,67.39,C-15-D,2025-11-02
+VAL-591,Pressure Relief Valve,Valves,16,6,173.78,A-19-A,
+BEL-592,Flat Belt 6in,Belts,9,20,96.65,E-04-D,
+BEA-593,Thrust Bearing,Bearings,20,15,71.23,E-14-A,2025-08-13
+COI-594,Evaporator Coil,Coils,17,9,511.82,D-16-A,2025-11-02
+THE-595,Digital Thermostat,Thermostats,5,11,188.21,F-12-B,2025-12-02
+COI-596,Condenser Coil,Coils,22,10,558.86,A-03-D,2025-09-19
+HOS-597,Air Hose 50ft,Hoses,27,19,54.87,A-12-C,2025-08-19
+BEL-598,V-Belt A-Section,Belts,14,16,89.65,B-08-B,2025-12-30
+THE-599,Digital Thermostat,Thermostats,3,9,211.99,F-02-A,2025-09-15
+BEA-600,Roller Bearing 6205,Bearings,28,16,105.86,E-08-D,
+SEA-601,O-Ring Set,Seals,29,8,240.13,F-17-A,2025-09-13
+FIL-602,Oil Filter Cartridge,Filters,30,11,37.16,C-08-C,2025-07-16
+PUM-603,Diaphragm Pump,Pumps,25,6,1080.91,F-19-A,2025-11-19
+IMP-604,Open Impeller,Impellers,14,12,289.26,E-01-A,2025-11-15
+HOS-605,Hydraulic Hose 1/2in,Hoses,18,8,50.78,F-13-D,2025-08-01
+BEL-606,Flat Belt 6in,Belts,25,7,83.54,A-07-D,2025-09-03
+CYL-607,Tie-Rod Cylinder,Cylinders,22,6,774.78,C-19-D,2025-08-23
+CYL-608,Pneumatic Cylinder,Cylinders,22,19,608.99,A-08-D,2025-10-31
+SEA-609,Mechanical Seal - Type A,Seals,28,14,217.23,E-08-B,
+BEA-610,Ball Bearing SKF,Bearings,0,14,125.2,B-16-D,2025-07-28
+VAL-611,Check Valve 2in,Valves,1,19,132.54,B-04-D,
+PUM-612,Gear Pump,Pumps,30,14,884.21,E-12-B,
+CYL-613,Welded Cylinder,Cylinders,17,10,783.89,E-14-C,2025-09-01
+FAN-614,Axial Fan 24in,Fans,25,9,264.4,D-11-A,2025-07-17
+VAL-615,Pressure Relief Valve,Valves,20,5,191.47,E-11-C,2025-08-17
+BEA-616,Ball Bearing SKF,Bearings,2,5,74.6,A-20-B,
+SER-617,Servo Controller,Servos,15,6,1623.31,D-18-B,
+SER-618,Servo Controller,Servos,6,18,2167.35,F-07-A,
+CYL-619,Tie-Rod Cylinder,Cylinders,5,14,837.92,E-14-C,2025-08-05
+PUM-620,Centrifugal Pump 3HP,Pumps,7,17,1559.82,D-18-B,2025-12-30
+ENC-621,Absolute Encoder,Encoders,1,9,978.3,F-12-A,
+BEA-622,Roller Bearing 6205,Bearings,16,10,75.53,F-15-D,
+BEL-623,Flat Belt 6in,Belts,3,5,65.69,D-10-D,2025-11-06
+PUM-624,Centrifugal Pump 3HP,Pumps,16,10,1275.5,F-20-C,
+SER-625,Servo Drive,Servos,30,18,1281.27,E-02-C,
+VAL-626,Pressure Relief Valve,Valves,23,10,193.38,F-11-D,2025-09-30
+BEA-627,Thrust Bearing,Bearings,20,15,128.34,A-11-C,
+COI-628,Evaporator Coil,Coils,30,14,578.73,B-04-D,2026-01-02
+HOS-629,Air Hose 50ft,Hoses,16,8,44.3,A-03-D,
+IMP-630,Pump Impeller 6in,Impellers,28,10,346.2,D-16-B,2025-11-22
+FAN-631,Exhaust Fan,Fans,26,19,432.95,A-16-B,2025-11-19
+FIL-632,Air Filter Element,Filters,3,18,52.02,F-02-B,2025-10-15
+PUM-633,Submersible Pump,Pumps,1,6,927.97,D-15-B,2025-12-13
+FAN-634,Cooling Fan,Fans,15,10,413.67,A-19-A,2025-11-12
+BEL-635,Flat Belt 6in,Belts,1,16,78.13,A-17-C,
+BEA-636,Thrust Bearing,Bearings,15,12,126.59,A-20-C,2026-01-02
+BEA-637,Thrust Bearing,Bearings,13,19,120.72,D-05-B,2025-12-28
+FIL-638,Oil Filter Cartridge,Filters,17,7,52.66,D-13-B,2025-09-07
+BEA-639,Roller Bearing 6205,Bearings,11,14,105.47,A-10-B,2025-12-08
+MOT-640,DC Motor 3HP,Motors,21,13,593.96,D-10-C,2025-11-17
+COM-641,Screw Compressor,Compressors,25,13,2762.73,B-09-B,2025-10-20
+BEA-642,Roller Bearing 6205,Bearings,4,18,105.19,B-01-C,
+COM-643,Screw Compressor,Compressors,21,7,1817.08,A-05-B,2025-08-08
+COI-644,Condenser Coil,Coils,17,14,376.07,F-08-D,2025-11-19
+VAL-645,Solenoid Valve 24V,Valves,0,13,114.47,B-07-C,2025-11-06
+BEA-646,Ball Bearing SKF,Bearings,1,20,97.01,E-05-B,2025-10-11
+THE-647,Analog Thermostat,Thermostats,9,13,210.93,B-10-C,2025-09-01
+SEA-648,Face Seal Assembly,Seals,26,12,166.72,A-10-C,2025-11-01
+CYL-649,Welded Cylinder,Cylinders,24,11,605.03,E-01-D,2025-11-08
+FIL-650,Air Filter Element,Filters,11,8,50.92,D-07-B,2025-10-02
+FAN-651,Axial Fan 24in,Fans,18,12,268.17,B-09-A,2025-10-10
+HOS-652,Hydraulic Hose 1/2in,Hoses,1,8,58.02,B-04-B,2025-07-14
+COM-653,Rotary Compressor,Compressors,8,13,2745.45,E-07-C,
+FIL-654,Hydraulic Filter 10 Micron,Filters,24,15,60.17,E-04-D,
+CYL-655,Tie-Rod Cylinder,Cylinders,5,7,797.75,E-02-D,2025-10-04
+PUM-656,Diaphragm Pump,Pumps,6,15,1248.66,A-05-B,2026-01-06
+BEL-657,Timing Belt,Belts,1,5,87.26,A-07-D,2025-09-22
+FAN-658,Exhaust Fan,Fans,9,13,373.15,E-12-D,
+THE-659,Wireless Thermostat,Thermostats,3,6,200.64,E-02-D,2025-10-21
+CYL-660,Hydraulic Cylinder 4in,Cylinders,7,17,799.3,B-10-D,2025-09-04
+BEA-661,Ball Bearing SKF,Bearings,10,12,76.79,F-18-B,2025-12-08
+VAL-662,Check Valve 2in,Valves,15,16,139.06,D-03-B,2025-11-01
+HOS-663,Hydraulic Hose 1/2in,Hoses,16,16,69.87,A-11-B,2025-08-07
+MOT-664,Servo Motor,Motors,25,10,437.86,F-13-C,2025-08-02
+THE-665,Analog Thermostat,Thermostats,27,14,209.95,D-18-B,2025-08-25
+VAL-666,Ball Valve 1/2in,Valves,23,20,184.51,E-13-C,2025-10-09
+PUM-667,Gear Pump,Pumps,24,12,1540.07,D-12-C,2025-12-17
+IMP-668,Pump Impeller 6in,Impellers,12,12,328.16,B-17-A,
+VAL-669,Pressure Relief Valve,Valves,14,9,170.54,C-03-B,
+THE-670,Analog Thermostat,Thermostats,26,5,228.83,D-08-C,2025-09-02
+FAN-671,Centrifugal Fan,Fans,12,14,254.96,B-06-C,
+HOS-672,Water Hose,Hoses,12,5,61.3,B-08-C,
+COM-673,Reciprocating Compressor,Compressors,21,7,3108.75,D-07-A,
+MOT-674,Stepper Motor,Motors,28,19,360.61,B-19-B,2025-10-03
+PUM-675,Diaphragm Pump,Pumps,15,8,1267.34,A-14-B,2025-10-13
+THE-676,Wireless Thermostat,Thermostats,2,14,181.21,B-19-B,
+MOT-677,DC Motor 3HP,Motors,30,19,368.61,C-11-A,2025-07-24
+PUM-678,Centrifugal Pump 3HP,Pumps,7,11,1033.47,B-16-D,
+THE-679,Digital Thermostat,Thermostats,14,10,126.67,F-12-C,
+FIL-680,Hydraulic Filter 10 Micron,Filters,11,14,41.58,D-05-A,2025-10-26
+BEL-681,V-Belt A-Section,Belts,9,14,71.66,D-10-C,
+IMP-682,Closed Impeller,Impellers,8,10,372.54,A-01-D,
+FIL-683,Fuel Filter,Filters,20,19,44.07,C-03-C,2025-11-18
+COM-684,Screw Compressor,Compressors,20,20,2948.61,A-13-A,2026-01-03
+SER-685,Servo Controller,Servos,28,18,1558.07,C-02-C,2025-09-20
+COM-686,Reciprocating Compressor,Compressors,5,17,2210.3,B-09-C,2025-09-06
+CYL-687,Hydraulic Cylinder 4in,Cylinders,0,15,925.81,C-14-C,2025-09-20
+FIL-688,Hydraulic Filter 10 Micron,Filters,10,19,49.23,E-20-C,
+CYL-689,Welded Cylinder,Cylinders,17,16,852.39,B-01-A,2025-12-04
+BEL-690,Flat Belt 6in,Belts,13,18,54.98,B-14-D,2025-11-14
+SER-691,Servo Motor 2kW,Servos,11,7,1877.24,D-07-C,2025-12-24
+PUM-692,Submersible Pump,Pumps,10,7,1402.4,E-04-B,2025-09-23
+PUM-693,Gear Pump,Pumps,30,6,846.15,D-04-B,2025-09-22
+THE-694,Analog Thermostat,Thermostats,29,15,195.76,F-11-A,2025-12-25
+ENC-695,Rotary Encoder,Encoders,23,17,912.27,F-14-A,2025-10-11
+THE-696,Digital Thermostat,Thermostats,1,12,126.18,B-07-C,2025-11-20
+COM-697,Reciprocating Compressor,Compressors,26,19,1887.11,E-15-C,2025-09-08
+THE-698,Digital Thermostat,Thermostats,1,5,175.22,B-01-D,2026-01-04
+MOT-699,Stepper Motor,Motors,23,15,644.04,E-16-B,
+FIL-700,Fuel Filter,Filters,6,11,62.64,E-18-B,
+FAN-701,Exhaust Fan,Fans,15,10,453.57,D-11-C,
+FAN-702,Axial Fan 24in,Fans,2,14,381.17,A-01-C,2025-10-08
+ENC-703,Incremental Encoder,Encoders,13,12,961.11,D-04-A,2025-09-05
+BEL-704,V-Belt A-Section,Belts,5,11,63.45,A-03-C,
+BEA-705,Thrust Bearing,Bearings,0,16,107.07,F-02-B,2025-12-26
+COM-706,Screw Compressor,Compressors,21,9,2678.72,C-12-D,
+HOS-707,Water Hose,Hoses,21,9,62.93,C-04-A,2025-09-01
+BEA-708,Roller Bearing 6205,Bearings,8,14,98.86,E-12-B,
+FAN-709,Cooling Fan,Fans,7,15,342.51,A-15-D,2025-07-21
+BEA-710,Pillow Block Bearing,Bearings,24,9,71.02,F-03-C,2026-01-01
+MOT-711,Servo Motor,Motors,13,8,643.05,A-01-C,2025-11-28
+VAL-712,Solenoid Valve 24V,Valves,0,17,141.96,E-02-D,
+FAN-713,Exhaust Fan,Fans,22,11,265.46,A-12-C,2025-10-20
+BEA-714,Thrust Bearing,Bearings,22,7,83.09,B-03-A,
+COM-715,Screw Compressor,Compressors,8,11,2969.23,B-01-C,2025-10-29
+MOT-716,DC Motor 3HP,Motors,20,11,488.23,D-13-B,
+THE-717,Analog Thermostat,Thermostats,4,20,233.45,C-11-B,2025-07-14
+FIL-718,Oil Filter Cartridge,Filters,29,16,37.76,E-04-C,2025-10-07
+BEL-719,V-Belt A-Section,Belts,16,19,63.64,B-08-B,2025-10-10
+COM-720,Scroll Compressor,Compressors,4,10,2026.25,C-08-D,
+PUM-721,Centrifugal Pump 3HP,Pumps,23,13,1302.54,E-14-C,
+IMP-722,Open Impeller,Impellers,8,20,259.51,A-06-D,
+COM-723,Screw Compressor,Compressors,15,19,2716.19,C-05-B,2025-12-20
+BEL-724,V-Belt A-Section,Belts,25,10,75.95,D-02-C,
+PUM-725,Submersible Pump,Pumps,17,17,964.27,E-06-D,2025-12-09
+ENC-726,Absolute Encoder,Encoders,14,13,668.27,F-10-C,2025-09-19
+SER-727,Servo Gearbox,Servos,17,14,1386.87,C-17-A,2025-09-14
+SER-728,Servo Gearbox,Servos,30,20,2303.85,A-20-C,
+THE-729,Digital Thermostat,Thermostats,20,9,181.44,D-03-B,2025-12-24
+MOT-730,Servo Motor,Motors,22,16,378.89,D-16-D,2025-08-06
+THE-731,Digital Thermostat,Thermostats,3,11,192.16,C-12-A,
+THE-732,Wireless Thermostat,Thermostats,22,13,227.08,F-13-B,
+VAL-733,Pressure Relief Valve,Valves,22,12,111.92,B-11-C,2025-10-03
+CYL-734,Hydraulic Cylinder 4in,Cylinders,9,8,904.98,F-20-A,2025-09-22
+BEA-735,Thrust Bearing,Bearings,29,20,91.73,A-20-B,2025-12-16
+BEL-736,Serpentine Belt,Belts,16,6,87.92,B-03-D,2025-08-17
+BEA-737,Ball Bearing SKF,Bearings,19,14,80.3,A-07-A,2025-08-12
+IMP-738,Pump Impeller 6in,Impellers,27,5,282.18,F-13-B,
+ENC-739,Absolute Encoder,Encoders,30,10,932.47,C-07-D,2025-08-20
+HOS-740,Air Hose 50ft,Hoses,21,18,52.12,D-06-C,2026-01-05
+ENC-741,Linear Encoder,Encoders,11,9,978.31,D-02-D,
+BEA-742,Pillow Block Bearing,Bearings,0,19,85.31,B-11-D,2025-11-30
+SER-743,Servo Motor 2kW,Servos,8,5,2184.22,F-04-C,
+PUM-744,Centrifugal Pump 3HP,Pumps,20,13,1290.75,C-02-D,2025-08-02
+SER-745,Servo Controller,Servos,8,10,1524.29,C-09-D,
+PUM-746,Gear Pump,Pumps,2,17,1029.02,B-16-A,
+PUM-747,Gear Pump,Pumps,10,13,920.34,E-16-C,2025-11-21
+COI-748,Condenser Coil,Coils,17,11,388.9,D-18-A,2025-09-28
+SEA-749,Face Seal Assembly,Seals,6,11,178.74,D-20-B,2025-10-12
+FAN-750,Axial Fan 24in,Fans,22,5,363.74,C-12-A,2025-09-19
+COM-751,Rotary Compressor,Compressors,5,8,1852.77,A-01-C,2025-12-18
+COM-752,Reciprocating Compressor,Compressors,7,5,3068.09,B-08-C,2025-12-22
+THE-753,Digital Thermostat,Thermostats,3,8,129.36,D-20-A,2025-12-19
+BEL-754,V-Belt A-Section,Belts,6,6,87.29,D-13-B,
+SEA-755,O-Ring Set,Seals,29,18,149.76,E-15-A,
+MOT-756,DC Motor 3HP,Motors,16,8,357.47,F-17-C,
+COI-757,Cooling Coil,Coils,26,15,356.68,D-17-C,2025-12-24
+MOT-758,Stepper Motor,Motors,14,20,498.77,B-16-A,2025-10-08
+ENC-759,Linear Encoder,Encoders,17,11,841.95,B-14-D,
+ENC-760,Linear Encoder,Encoders,18,19,1165.23,A-18-B,
+HOS-761,Water Hose,Hoses,21,15,44.47,F-06-A,
+HOS-762,Chemical Transfer Hose,Hoses,18,7,58.23,E-18-B,2025-07-17
+IMP-763,Pump Impeller 6in,Impellers,20,6,338.22,D-12-C,
+IMP-764,Open Impeller,Impellers,28,8,240.58,C-14-B,2025-12-13
+FIL-765,Fuel Filter,Filters,15,18,58.34,F-15-A,2025-11-07
+MOT-766,Stepper Motor,Motors,2,14,594.24,C-14-C,
+MOT-767,Stepper Motor,Motors,11,18,588.41,B-20-C,2025-08-01
+VAL-768,Check Valve 2in,Valves,19,16,175.8,F-07-C,2025-07-15
+MOT-769,DC Motor 3HP,Motors,30,7,431.32,C-08-D,2025-08-13
+BEL-770,V-Belt A-Section,Belts,4,17,63.29,F-05-D,2025-11-18
+IMP-771,Closed Impeller,Impellers,24,19,287.08,B-09-D,2026-01-03
+BEA-772,Ball Bearing SKF,Bearings,13,8,76.11,E-08-B,2025-07-15
+ENC-773,Linear Encoder,Encoders,2,11,643.47,E-09-D,
+VAL-774,Solenoid Valve 24V,Valves,2,5,155.04,D-01-C,2025-10-23
+HOS-775,Hydraulic Hose 1/2in,Hoses,10,5,46.62,D-14-A,2025-09-10
+PUM-776,Diaphragm Pump,Pumps,27,5,1367.45,C-16-B,2025-09-18
+BEL-777,V-Belt A-Section,Belts,26,5,64.89,E-14-B,2025-10-04
+THE-778,Programmable Thermostat,Thermostats,27,17,155.75,B-19-B,2025-09-07
+BEA-779,Ball Bearing SKF,Bearings,4,6,122.55,D-10-B,2025-09-02
+PUM-780,Submersible Pump,Pumps,20,14,1165.67,E-20-C,2025-10-28
+COM-781,Screw Compressor,Compressors,6,9,3173.62,C-16-C,2025-11-03
+COM-782,Scroll Compressor,Compressors,26,11,2711.34,A-07-B,
+COM-783,Reciprocating Compressor,Compressors,28,14,2159.45,B-13-D,2025-12-08
+BEA-784,Thrust Bearing,Bearings,26,11,80.29,A-17-C,2025-09-16
+BEL-785,V-Belt A-Section,Belts,22,6,72.83,C-05-D,2025-12-31
+MOT-786,DC Motor 3HP,Motors,2,18,540.53,E-16-C,
+BEA-787,Pillow Block Bearing,Bearings,25,8,128.91,F-17-C,2025-10-01
+IMP-788,Pump Impeller 6in,Impellers,28,14,380.97,E-13-B,
+SEA-789,Face Seal Assembly,Seals,24,12,161.27,F-11-C,
+THE-790,Programmable Thermostat,Thermostats,5,8,159.97,A-02-B,2025-10-02
+BEA-791,Roller Bearing 6205,Bearings,19,18,111.99,D-01-C,
+COM-792,Screw Compressor,Compressors,8,18,3127.24,B-13-B,2025-12-11
+PUM-793,Submersible Pump,Pumps,28,20,1478.19,D-05-A,2025-11-18
+BEA-794,Ball Bearing SKF,Bearings,12,11,113.11,C-02-D,2025-09-11
+CYL-795,Tie-Rod Cylinder,Cylinders,8,11,1034.65,D-02-D,2025-12-17
+CYL-796,Tie-Rod Cylinder,Cylinders,11,7,954.55,B-15-B,2025-12-14
+VAL-797,Pressure Relief Valve,Valves,10,11,157.87,F-05-D,2025-08-17
+PUM-798,Gear Pump,Pumps,21,12,1332.16,B-15-B,2025-08-30
+THE-799,Digital Thermostat,Thermostats,3,7,142.49,C-02-B,2025-12-23
+CYL-800,Hydraulic Cylinder 4in,Cylinders,17,15,795.99,B-17-C,
+ENC-801,Rotary Encoder,Encoders,20,13,1164.66,F-19-B,
+SER-802,Servo Controller,Servos,2,16,2045.0,B-19-C,2025-12-08
+BEL-803,Serpentine Belt,Belts,2,6,91.3,A-07-D,
+ENC-804,Incremental Encoder,Encoders,26,7,1040.03,B-02-C,
+BEL-805,Flat Belt 6in,Belts,2,6,81.7,F-07-A,2025-07-23
+FIL-806,Air Filter Element,Filters,23,13,43.54,F-04-D,2025-11-24
+COI-807,Evaporator Coil,Coils,24,10,455.12,E-10-B,2025-08-03
+FAN-808,Axial Fan 24in,Fans,22,20,316.56,B-09-B,2025-09-01
+SER-809,Servo Drive,Servos,22,13,1332.88,D-10-C,2025-09-29
+IMP-810,Semi-Open Impeller,Impellers,8,18,345.32,E-11-A,2025-08-16
+VAL-811,Pressure Relief Valve,Valves,23,11,127.63,D-04-C,
+HOS-812,Chemical Transfer Hose,Hoses,4,14,70.12,C-17-B,2025-07-30
+IMP-813,Semi-Open Impeller,Impellers,11,6,316.14,E-07-B,2025-10-08
+THE-814,Wireless Thermostat,Thermostats,12,8,140.6,B-07-D,2025-08-28
+BEA-815,Thrust Bearing,Bearings,26,10,113.98,F-07-D,
+HOS-816,Air Hose 50ft,Hoses,13,15,61.51,F-10-B,
+FIL-817,Hydraulic Filter 10 Micron,Filters,27,14,48.51,F-08-C,2025-10-24
+MOT-818,Stepper Motor,Motors,14,19,641.08,B-13-D,
+IMP-819,Pump Impeller 6in,Impellers,20,8,333.78,B-10-D,2025-10-03
+SER-820,Servo Drive,Servos,22,14,2156.66,E-07-A,2025-12-04
+COM-821,Screw Compressor,Compressors,6,20,2113.84,C-07-A,2025-07-30
+THE-822,Wireless Thermostat,Thermostats,30,12,137.07,F-03-A,2025-12-21
+VAL-823,Ball Valve 1/2in,Valves,13,12,123.96,D-15-B,2025-11-27
+FIL-824,Oil Filter Cartridge,Filters,11,7,56.47,F-10-B,
+BEA-825,Roller Bearing 6205,Bearings,24,6,77.51,B-15-D,
+HOS-826,Water Hose,Hoses,30,6,63.98,F-12-A,
+FIL-827,Hydraulic Filter 10 Micron,Filters,11,14,39.6,B-02-C,2025-09-28
+SEA-828,O-Ring Set,Seals,14,8,163.98,E-17-B,2025-10-02
+COM-829,Scroll Compressor,Compressors,21,14,1829.58,E-14-D,2025-09-21
+BEL-830,Flat Belt 6in,Belts,14,13,66.73,B-05-A,2025-08-14
+PUM-831,Centrifugal Pump 3HP,Pumps,14,19,1161.4,C-03-B,
+CYL-832,Tie-Rod Cylinder,Cylinders,17,20,950.6,D-15-A,2025-12-01
+ENC-833,Rotary Encoder,Encoders,19,15,701.62,B-16-B,
+FIL-834,Oil Filter Cartridge,Filters,18,20,44.12,F-13-A,2025-09-01
+COI-835,Condenser Coil,Coils,13,9,333.55,D-05-A,
+MOT-836,DC Motor 3HP,Motors,2,15,482.41,C-06-D,2025-11-11
+HOS-837,Air Hose 50ft,Hoses,2,7,67.11,B-07-C,2025-09-27
+HOS-838,Chemical Transfer Hose,Hoses,30,18,57.44,B-07-C,
+BEL-839,Flat Belt 6in,Belts,6,19,53.22,B-08-B,
+VAL-840,Check Valve 2in,Valves,13,7,160.86,B-15-A,
+PUM-841,Gear Pump,Pumps,13,17,1218.43,D-12-A,2025-07-20
+MOT-842,AC Motor 5HP,Motors,24,13,507.04,F-01-A,
+COM-843,Screw Compressor,Compressors,0,12,2835.0,C-02-A,
+MOT-844,DC Motor 3HP,Motors,1,6,615.29,B-07-C,2025-08-06
+CYL-845,Pneumatic Cylinder,Cylinders,30,12,954.52,E-20-D,2025-11-02
+SER-846,Servo Controller,Servos,2,17,1770.9,C-10-B,
+BEA-847,Thrust Bearing,Bearings,2,13,118.39,E-08-B,2025-07-27
+SEA-848,Mechanical Seal - Type A,Seals,3,8,180.25,B-10-D,
+FIL-849,Air Filter Element,Filters,6,6,57.87,D-08-D,2025-10-06
+CYL-850,Tie-Rod Cylinder,Cylinders,18,5,648.42,A-12-D,2025-10-05
+MOT-851,Servo Motor,Motors,3,8,589.08,A-09-C,
+MOT-852,AC Motor 5HP,Motors,6,5,496.79,E-06-B,
+BEA-853,Roller Bearing 6205,Bearings,30,8,94.81,C-11-D,2025-07-27
+BEL-854,Flat Belt 6in,Belts,17,12,78.9,B-14-B,2025-10-10
+BEA-855,Ball Bearing SKF,Bearings,15,8,127.36,B-18-A,2025-10-17
+FIL-856,Air Filter Element,Filters,11,6,44.61,F-14-A,2025-07-29
+ENC-857,Incremental Encoder,Encoders,1,20,634.71,A-13-D,2025-11-09
+ENC-858,Rotary Encoder,Encoders,27,6,874.2,F-13-A,2025-11-08
+VAL-859,Solenoid Valve 24V,Valves,6,16,189.22,B-10-C,
+SEA-860,Face Seal Assembly,Seals,26,17,168.9,E-17-D,2025-09-28
+FIL-861,Oil Filter Cartridge,Filters,4,8,35.51,A-10-B,
+BEL-862,Serpentine Belt,Belts,5,15,84.82,F-18-D,
+VAL-863,Solenoid Valve 24V,Valves,3,17,144.87,E-08-B,
+BEA-864,Pillow Block Bearing,Bearings,23,7,107.04,F-07-D,2025-09-12
+IMP-865,Pump Impeller 6in,Impellers,2,6,265.2,E-14-C,
+MOT-866,Servo Motor,Motors,21,16,611.91,A-01-C,2025-12-02
+BEA-867,Thrust Bearing,Bearings,12,11,103.43,C-01-C,2025-11-01
+MOT-868,AC Motor 5HP,Motors,16,6,527.67,C-14-B,2025-11-02
+HOS-869,Water Hose,Hoses,3,8,42.79,A-11-C,2025-07-25
+THE-870,Wireless Thermostat,Thermostats,29,6,224.53,F-11-C,
+PUM-871,Centrifugal Pump 3HP,Pumps,25,12,1319.54,B-10-D,
+HOS-872,Air Hose 50ft,Hoses,20,12,75.51,C-07-D,
+CYL-873,Welded Cylinder,Cylinders,20,13,934.58,F-16-A,
+SER-874,Servo Motor 2kW,Servos,1,9,1667.98,A-07-A,2025-12-16
+ENC-875,Incremental Encoder,Encoders,24,5,848.03,D-04-B,2025-10-07
+FIL-876,Hydraulic Filter 10 Micron,Filters,15,15,49.23,E-01-A,2025-09-07
+SEA-877,O-Ring Set,Seals,11,13,203.51,E-18-B,2025-12-01
+COI-878,Cooling Coil,Coils,29,17,447.48,B-17-A,2025-09-06
+FIL-879,Oil Filter Cartridge,Filters,5,9,41.25,D-01-C,2025-10-03
+HOS-880,Air Hose 50ft,Hoses,1,14,64.83,E-08-C,2025-08-27
+HOS-881,Air Hose 50ft,Hoses,17,5,73.62,A-08-D,2025-08-25
+PUM-882,Submersible Pump,Pumps,28,19,1354.17,D-11-C,2025-07-14
+SER-883,Servo Motor 2kW,Servos,9,7,1696.41,E-19-A,2025-08-02
+BEL-884,V-Belt A-Section,Belts,12,6,84.56,B-10-A,
+CYL-885,Pneumatic Cylinder,Cylinders,18,20,714.71,D-20-C,2025-12-12
+IMP-886,Open Impeller,Impellers,25,7,275.47,C-03-D,
+CYL-887,Welded Cylinder,Cylinders,0,5,580.93,E-01-C,2025-12-04
+SER-888,Servo Gearbox,Servos,8,20,1272.03,E-18-A,
+HOS-889,Water Hose,Hoses,30,13,61.61,C-03-A,2025-11-23
+COM-890,Scroll Compressor,Compressors,28,7,2080.35,B-02-A,2025-09-04
+SEA-891,Face Seal Assembly,Seals,27,14,145.61,A-15-D,
+FAN-892,Axial Fan 24in,Fans,28,18,347.97,F-06-A,2025-11-05
+BEL-893,Serpentine Belt,Belts,6,14,95.62,C-18-C,2025-08-15
+COM-894,Reciprocating Compressor,Compressors,29,18,2822.87,E-06-D,2025-12-03
+IMP-895,Open Impeller,Impellers,2,13,386.45,E-12-B,2025-08-11
+BEL-896,Flat Belt 6in,Belts,17,15,80.99,A-06-C,2025-07-26
+BEA-897,Thrust Bearing,Bearings,6,11,89.64,F-12-D,2025-12-18
+COM-898,Scroll Compressor,Compressors,21,16,2789.46,F-15-D,2025-08-22
+MOT-899,AC Motor 5HP,Motors,25,18,383.42,C-03-C,2025-07-15
+HOS-900,Air Hose 50ft,Hoses,25,18,58.2,F-14-A,2025-10-12
+SER-901,Servo Controller,Servos,8,7,2193.02,B-12-A,2025-08-17
+MOT-902,DC Motor 3HP,Motors,11,15,617.41,E-18-A,
+VAL-903,Solenoid Valve 24V,Valves,5,11,108.13,A-10-A,2025-08-26
+FAN-904,Centrifugal Fan,Fans,17,19,350.14,D-12-C,
+HOS-905,Water Hose,Hoses,0,18,58.69,B-11-C,
+COI-906,Cooling Coil,Coils,22,11,343.81,C-01-A,2025-08-22
+VAL-907,Solenoid Valve 24V,Valves,15,8,164.52,A-04-A,
+COM-908,Scroll Compressor,Compressors,24,16,3049.86,D-17-D,2025-11-07
+SER-909,Servo Drive,Servos,10,8,1265.84,D-12-A,2025-08-03
+VAL-910,Pressure Relief Valve,Valves,21,14,159.01,A-02-C,2025-10-06
+HOS-911,Chemical Transfer Hose,Hoses,20,20,67.59,D-05-A,2025-08-24
+COI-912,Heating Coil,Coils,2,7,454.89,B-17-D,
+VAL-913,Solenoid Valve 24V,Valves,17,19,180.15,E-01-B,
+THE-914,Digital Thermostat,Thermostats,17,8,132.44,C-02-C,2025-09-28
+SEA-915,Shaft Seal Kit,Seals,22,5,166.12,E-05-A,2025-08-21
+SEA-916,Mechanical Seal - Type A,Seals,27,6,190.84,D-12-D,2025-12-21
+BEA-917,Ball Bearing SKF,Bearings,8,18,93.63,C-12-B,
+VAL-918,Check Valve 2in,Valves,5,10,163.54,E-10-D,2025-11-25
+FIL-919,Air Filter Element,Filters,25,17,54.2,B-19-D,2025-08-26
+FIL-920,Hydraulic Filter 10 Micron,Filters,14,20,59.56,C-02-D,2025-10-29
+BEA-921,Ball Bearing SKF,Bearings,6,14,109.9,C-15-D,
+ENC-922,Rotary Encoder,Encoders,13,12,650.87,E-11-C,
+BEA-923,Thrust Bearing,Bearings,29,13,122.69,D-04-A,2025-10-18
+MOT-924,Stepper Motor,Motors,12,12,560.44,D-14-C,2025-12-06
+MOT-925,Stepper Motor,Motors,8,11,449.41,C-14-D,2026-01-10
+VAL-926,Solenoid Valve 24V,Valves,25,11,140.41,F-13-B,2025-08-12
+HOS-927,Hydraulic Hose 1/2in,Hoses,30,10,75.19,F-04-A,2025-10-30
+THE-928,Programmable Thermostat,Thermostats,19,8,212.41,A-14-A,
+MOT-929,Servo Motor,Motors,30,13,356.97,D-08-B,2025-12-30
+ENC-930,Absolute Encoder,Encoders,25,9,832.34,D-10-B,2025-08-26
+COM-931,Screw Compressor,Compressors,8,14,1863.98,B-15-D,2026-01-06
+CYL-932,Pneumatic Cylinder,Cylinders,24,11,569.07,E-18-B,
+BEL-933,V-Belt A-Section,Belts,2,8,54.18,C-02-D,
+CYL-934,Tie-Rod Cylinder,Cylinders,5,6,887.54,A-01-A,
+BEL-935,Serpentine Belt,Belts,4,12,68.74,E-14-D,
+FAN-936,Cooling Fan,Fans,25,7,299.4,A-14-C,2025-12-22
+VAL-937,Pressure Relief Valve,Valves,0,13,114.39,D-17-D,
+VAL-938,Check Valve 2in,Valves,26,18,119.05,C-03-B,2025-07-30
+BEL-939,Timing Belt,Belts,17,5,66.24,E-15-C,2025-07-18
+MOT-940,DC Motor 3HP,Motors,24,13,625.25,D-20-B,
+THE-941,Analog Thermostat,Thermostats,18,19,184.18,E-03-D,2025-08-28
+SEA-942,Shaft Seal Kit,Seals,13,12,258.7,C-20-A,2025-09-05
+FAN-943,Axial Fan 24in,Fans,7,5,291.51,E-09-D,2025-08-08
+BEA-944,Roller Bearing 6205,Bearings,14,9,115.39,B-14-A,2025-08-18
+FIL-945,Fuel Filter,Filters,23,14,39.51,E-01-D,2025-08-15
+CYL-946,Welded Cylinder,Cylinders,7,20,922.81,A-12-A,2025-12-19
+CYL-947,Welded Cylinder,Cylinders,19,17,954.16,F-20-B,2025-08-03
+ENC-948,Absolute Encoder,Encoders,30,16,1054.99,F-08-D,2025-10-24
+COI-949,Condenser Coil,Coils,19,19,432.95,F-14-D,2025-11-07
+CYL-950,Pneumatic Cylinder,Cylinders,3,7,956.66,E-06-A,2025-10-19
+VAL-951,Pressure Relief Valve,Valves,26,8,146.24,E-12-C,
+FAN-952,Exhaust Fan,Fans,16,12,402.66,C-13-C,2025-12-19
+VAL-953,Pressure Relief Valve,Valves,20,12,105.0,B-15-B,2025-08-31
+SER-954,Servo Gearbox,Servos,16,18,1501.2,A-05-B,
+VAL-955,Check Valve 2in,Valves,8,16,174.92,E-17-A,
+BEA-956,Ball Bearing SKF,Bearings,15,6,90.06,E-08-A,2025-10-19
+MOT-957,Servo Motor,Motors,2,13,631.17,D-10-A,2025-12-10
+COI-958,Heating Coil,Coils,10,20,413.4,D-09-A,
+SER-959,Servo Gearbox,Servos,17,11,1822.64,F-12-B,2025-08-31
+ENC-960,Absolute Encoder,Encoders,2,18,1042.24,C-05-D,2025-11-15
+FAN-961,Exhaust Fan,Fans,22,16,380.37,D-06-D,2025-09-18
+HOS-962,Air Hose 50ft,Hoses,17,14,53.1,D-05-A,2025-08-30
+CYL-963,Hydraulic Cylinder 4in,Cylinders,11,10,700.62,B-17-C,2025-09-07
+COI-964,Evaporator Coil,Coils,11,13,416.49,C-07-A,2026-01-09
+THE-965,Programmable Thermostat,Thermostats,25,8,129.46,A-07-A,2025-08-25
+HOS-966,Water Hose,Hoses,20,12,63.42,B-13-D,2025-10-31
+COI-967,Evaporator Coil,Coils,10,18,486.05,B-10-B,2025-07-23
+PUM-968,Centrifugal Pump 3HP,Pumps,15,15,1086.09,E-05-D,
+VAL-969,Ball Valve 1/2in,Valves,18,18,193.88,F-09-D,2025-08-30
+COM-970,Scroll Compressor,Compressors,4,16,2897.77,E-11-C,
+COM-971,Reciprocating Compressor,Compressors,8,18,2102.53,C-20-B,2025-11-29
+FAN-972,Centrifugal Fan,Fans,22,15,393.87,C-08-B,2025-10-04
+VAL-973,Check Valve 2in,Valves,17,7,123.47,E-08-B,
+THE-974,Digital Thermostat,Thermostats,13,18,213.24,D-08-C,
+THE-975,Analog Thermostat,Thermostats,10,15,229.14,B-15-B,2025-08-01
+MOT-976,Servo Motor,Motors,28,16,606.14,E-03-D,
+SER-977,Servo Motor 2kW,Servos,3,9,1698.76,D-04-A,2025-07-19
+PUM-978,Diaphragm Pump,Pumps,29,7,1545.25,B-14-D,
+PUM-979,Submersible Pump,Pumps,29,9,1166.27,C-16-A,2025-09-23
+THE-980,Analog Thermostat,Thermostats,11,7,229.06,F-06-B,2025-11-10
+BEA-981,Ball Bearing SKF,Bearings,9,16,112.32,F-18-B,
+BEA-982,Roller Bearing 6205,Bearings,7,5,122.79,F-18-D,2025-10-19
+SEA-983,Face Seal Assembly,Seals,11,14,162.61,F-14-B,2025-08-06
+ENC-984,Rotary Encoder,Encoders,15,18,1121.66,D-09-D,
+MOT-985,Stepper Motor,Motors,13,15,577.14,E-05-A,2025-09-24
+BEA-986,Thrust Bearing,Bearings,17,17,104.74,B-04-B,
+FAN-987,Axial Fan 24in,Fans,25,12,282.04,A-08-A,2025-08-24
+HOS-988,Air Hose 50ft,Hoses,29,13,77.41,D-04-D,
+HOS-989,Air Hose 50ft,Hoses,9,16,43.45,A-14-B,2025-11-16
+CYL-990,Hydraulic Cylinder 4in,Cylinders,4,9,911.17,F-12-B,
+ENC-991,Rotary Encoder,Encoders,27,10,1026.77,A-03-D,
+COM-992,Reciprocating Compressor,Compressors,26,11,3227.01,D-11-A,2025-11-06
+VAL-993,Check Valve 2in,Valves,13,5,120.94,F-16-C,2025-09-20
+MOT-994,Stepper Motor,Motors,11,11,371.77,F-09-A,2025-11-26
+HOS-995,Water Hose,Hoses,26,11,77.38,B-03-A,2025-10-29
+MOT-996,DC Motor 3HP,Motors,11,9,627.3,D-15-A,2025-10-22
+THE-997,Programmable Thermostat,Thermostats,20,17,143.63,A-07-A,2025-10-21
+COI-998,Condenser Coil,Coils,8,14,351.86,A-15-D,2025-12-02
+VAL-999,Solenoid Valve 24V,Valves,14,5,150.56,D-19-A,2025-12-22

@@ -1,0 +1,203 @@
+<%= form_with(model: dataset, class: "space-y-6") do |form| %>
+  <% if dataset.errors.any? %>
+    <div class="rounded-md bg-red-50 p-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            <%= pluralize(dataset.errors.count, "error") %> prohibited this dataset from being saved:
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="list-disc pl-5 space-y-1">
+              <% dataset.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Column Selection Section (when coming from browse tables) -->
+  <% if defined?(table_schema) && table_schema && table_schema[:columns].present? %>
+    <div class="bg-white shadow-sm rounded-lg p-6" data-controller="column-selection">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-lg font-medium text-gray-900">Select Columns</h3>
+          <p class="text-sm text-gray-600 mt-1">
+            Choose which columns to include from <%= table_schema[:database] %>.<%= table_schema[:schema] %>.<%= table_schema[:table] %>
+          </p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button type="button" 
+                  data-action="click->column-selection#selectAll"
+                  class="text-sm text-[#007cff] hover:text-[#00d2ff] font-medium transition-colors">
+            Select All
+          </button>
+          <span class="text-gray-400">|</span>
+          <button type="button" 
+                  data-action="click->column-selection#clearAll"
+                  class="text-sm text-[#007cff] hover:text-[#00d2ff] font-medium transition-colors">
+            Clear All
+          </button>
+        </div>
+      </div>
+      
+      <div class="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
+        <p class="text-sm text-blue-800">
+          <span class="font-semibold"><span data-column-selection-target="count"><%= table_schema[:columns].length %></span> of <%= table_schema[:columns].length %></span> columns selected
+        </p>
+      </div>
+      
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
+                <input type="checkbox" 
+                       checked
+                       data-column-selection-target="headerCheckbox"
+                       data-action="change->column-selection#toggleAll"
+                       class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer" />
+              </th>
+              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Column Name</th>
+              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Type</th>
+              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nullable</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% table_schema[:columns].each_with_index do |column, index| %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 whitespace-nowrap">
+                  <input type="checkbox" 
+                         name="column_selection[]" 
+                         value="<%= index %>" 
+                         checked
+                         data-column-selection-target="checkbox"
+                         data-action="change->column-selection#updateCount"
+                         class="w-5 h-5 rounded-md border-2 border-gray-300 text-[#007cff] focus:ring-2 focus:ring-[#007cff] focus:ring-offset-2 hover:border-[#007cff] transition-all cursor-pointer" />
+                </td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <%= column[:name] %>
+                </td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 font-mono">
+                  <%= column[:type] %>
+                  <% if column[:max_length] %>
+                    (<%= column[:max_length] %>)
+                  <% elsif column[:precision] && column[:scale] %>
+                    (<%= column[:precision] %>, <%= column[:scale] %>)
+                  <% end %>
+                </td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
+                  <% if column[:nullable] %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                      NULL
+                    </span>
+                  <% else %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                      NOT NULL
+                    </span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="bg-white shadow-sm rounded-lg p-6 space-y-6">
+    <!-- Name Field -->
+    <div>
+      <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :name, 
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+          placeholder: "e.g., Sales Summary Table" %>
+    </div>
+
+    <!-- Description Field -->
+    <div>
+      <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_area :description, 
+          rows: 2,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+          placeholder: "Brief description of this dataset" %>
+      <p class="mt-1 text-sm text-gray-500">Optional description to help others understand this dataset's purpose.</p>
+    </div>
+
+    <!-- Connector Field -->
+    <div>
+      <%= form.label :connector_id, "Connector", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.collection_select :connector_id, 
+          @connectors, 
+          :id, 
+          :name,
+          { prompt: "Select a connector..." },
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
+      <p class="mt-1 text-sm text-gray-500">The data warehouse where this table will be stored.</p>
+    </div>
+
+    <!-- Schema Name Field -->
+    <div>
+      <%= form.label :schema_name, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :schema_name, 
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono",
+          placeholder: "e.g., PUBLIC",
+          readonly: dataset.schema_name.present? %>
+      <p class="mt-1 text-sm text-gray-500">
+        The database schema containing this table.
+      </p>
+    </div>
+    
+    <!-- Table Name Field -->
+    <div>
+      <%= form.label :table_name, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :table_name, 
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-mono",
+          placeholder: "e.g., sales_summary",
+          readonly: dataset.table_name.present? && params[:connector_id].present? %>
+      <p class="mt-1 text-sm text-gray-500">
+        Must be a valid SQL table name (letters, numbers, underscores only).
+      </p>
+    </div>
+    
+    <!-- Hidden fields for column selection schema -->
+    <% if defined?(table_schema) && table_schema && table_schema[:columns].present? %>
+      <% table_schema[:columns].each_with_index do |column, index| %>
+        <%= hidden_field_tag "full_schema[#{index}]", column.to_json %>
+      <% end %>
+    <% end %>
+    
+    <!-- For edit form, preserve existing schema -->
+    <% if dataset.persisted? && dataset.schema.present? %>
+      <%= hidden_field_tag "dataset[schema]", dataset.schema.to_json %>
+    <% end %>
+
+    <!-- Status Field -->
+    <div>
+      <%= form.label :status, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.select :status, 
+          Dataset.statuses.keys.map { |s| [s.titleize, s] },
+          {},
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
+      <div class="mt-2 text-xs text-gray-500 space-y-1">
+        <p><strong>Draft:</strong> Work in progress, not yet ready for use</p>
+        <p><strong>Active:</strong> Ready for pipeline outputs</p>
+        <p><strong>Archived:</strong> No longer in use</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex items-center justify-end space-x-3">
+    <%= link_to "Cancel", dataset.persisted? ? dataset_path(dataset) : datasets_path, 
+        class: "px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#007cff] transition-colors" %>
+    <%= form.submit class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#007cff] hover:bg-[#00d2ff] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#007cff] transition-colors" %>
+  </div>
+<% end %>

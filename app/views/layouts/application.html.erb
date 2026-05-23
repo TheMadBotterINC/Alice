@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Alice" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <%= favicon_link_tag "favicon.svg", type: "image/svg+xml" %>
+    <%= favicon_link_tag "favicon-32x32.png", type: "image/png", sizes: "32x32" %>
+    <%= favicon_link_tag "apple-touch-icon.png", rel: "apple-touch-icon", sizes: "180x180" %>
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    
+    <%# Load Chart.js globally before importmap to ensure it's available %>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="flex flex-col min-h-screen bg-gray-50">
+    <!-- Global Alert Modal -->
+    <%= render "shared/alert_modal" %>
+    
+    <% if authenticated? %>
+      <!-- Header -->
+      <%= render "shared/header" %>
+
+      <!-- Flash Messages -->
+      <% if flash.any? %>
+        <div class="fixed top-20 right-4 z-50 space-y-2">
+          <% flash.each do |type, message| %>
+            <% alert_class = case type.to_sym
+              when :notice then "bg-success text-white"
+              when :alert then "bg-danger text-white"
+              when :warning then "bg-warning text-gray-900"
+              else "bg-info text-white"
+              end %>
+            <div class="<%= alert_class %> px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3 min-w-[300px]">
+              <span class="flex-1"><%= message %></span>
+              <button type="button" class="text-white hover:text-gray-200" onclick="this.parentElement.remove()">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Main Layout with Sidebar -->
+      <div class="flex flex-1 pt-16">
+        <!-- Sidebar -->
+        <%= render "shared/sidebar" %>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-auto" role="main">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <%= yield %>
+          </div>
+        </main>
+      </div>
+
+      <!-- Footer -->
+      <%= render "shared/footer" %>
+    <% else %>
+      <!-- Unauthenticated Layout (Sign In Page) -->
+      <%= yield %>
+    <% end %>
+  </body>
+</html>

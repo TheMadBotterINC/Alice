@@ -1,0 +1,257 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900"><%= @dataset.name %> - Data</h1>
+      <p class="mt-2 text-sm text-gray-600">
+        <%= link_to "← Back to Dataset", @dataset, class: "text-blue-600 hover:text-blue-800" %>
+      </p>
+    </div>
+    <div>
+      <%= link_to data_dataset_path(@dataset, refresh: true, page: params[:page]), 
+                  class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary",
+                  data: { turbo_method: :get } do %>
+        <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        Refresh
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Schema Preview Card -->
+  <% if @dataset.schema.present? && @dataset.schema['columns'].present? %>
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Schema</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Column Name</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Type</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @dataset.schema['columns'].each do |column| %>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= column['name'] %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= column['type'] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Data Stats -->
+  <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm text-gray-700">
+          Showing <%= @pagy.count > 0 ? @pagy.from : 0 %>-<%= @pagy.to %> of <%= number_with_delimiter(@pagy.count) %> rows
+          <% if @dataset.connector.connector_type == 'snowflake' && @pagy.count > 1_000_000 %>
+            <span class="text-xs text-gray-500">(approximate)</span>
+          <% end %>
+        </p>
+        <% if @cache_timestamp %>
+          <p class="mt-1 text-xs text-gray-600">
+            <svg class="inline h-3 w-3 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Cached <%= time_ago_in_words(@cache_timestamp) %> ago • Refreshes hourly or on demand
+          </p>
+        <% end %>
+      </div>
+      <% if @dataset.schema.present? && @dataset.schema['columns'].present? %>
+        <div>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+            <%= @dataset.schema['columns'].size %> columns
+          </span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  <% 
+    # Get column names from schema or from first row of data
+    column_names = @dataset.column_names
+    if column_names.empty? && @rows.present? && @rows.first.is_a?(Hash)
+      column_names = @rows.first.keys
+    end
+    
+    # Analyze data structure
+    data_type = analyze_dataset_structure(@dataset, @rows)
+    primary_cols = primary_columns(@dataset, @rows)
+    secondary_cols = secondary_columns(@dataset, @rows)
+  %>
+  
+  <% if column_names.any? && @rows.any? %>
+    <!-- Data Type Indicator -->
+    <div class="mb-4">
+      <% case data_type
+         when :metadata %>
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+          📋 Metadata/Catalog Table
+        </span>
+      <% when :timeseries %>
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+          📈 Time Series Data
+        </span>
+      <% else %>
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+          📊 Tabular Data
+        </span>
+      <% end %>
+    </div>
+    
+    <% if data_type == :metadata %>
+      <!-- List View for Metadata (Snowflake-inspired) -->
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="divide-y divide-gray-200">
+          <% @rows.each do |row| %>
+            <div class="py-8 px-6 hover:bg-gray-50 transition-colors">
+              <!-- Main variable name/title -->
+              <h3 class="text-base font-semibold text-gray-900 mb-3 leading-snug" style="word-break: break-word; overflow-wrap: break-word;">
+                <%= row[primary_cols.first] if primary_cols.any? %>
+              </h3>
+              
+              <!-- Variable description (if available) -->
+              <% if primary_cols.size > 1 %>
+                <p class="text-sm text-gray-600 mb-4 leading-relaxed" style="word-break: break-word; overflow-wrap: break-word;">
+                  <%= row[primary_cols[1]] %>
+                </p>
+              <% end %>
+              
+              <!-- Metadata badges/tags -->
+              <div class="flex flex-wrap gap-2 mb-4">
+                <% primary_cols[2..-1]&.each do |col| %>
+                  <% value = row[col] %>
+                  <% next if value.blank? || value.to_s.strip.empty? %>
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-[#007cff] border border-blue-100">
+                    <span class="font-semibold mr-1"><%= col.gsub('_', ' ').titleize %>:</span>
+                    <%= value %>
+                  </span>
+                <% end %>
+              </div>
+              
+              <!-- Expandable details -->
+              <% if secondary_cols.any? %>
+                <details class="mt-3">
+                  <summary class="cursor-pointer text-xs text-[#007cff] hover:text-[#00d2ff] font-medium select-none inline-flex items-center">
+                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                    View all details
+                  </summary>
+                  <div class="mt-3 pl-4 border-l-2 border-gray-200">
+                    <dl class="space-y-2">
+                      <% secondary_cols.each do |col| %>
+                        <% value = row[col] %>
+                        <% next if value.blank? || value.to_s.strip.empty? %>
+                        <div class="text-xs">
+                          <dt class="font-medium text-gray-600 mb-0.5"><%= col.gsub('_', ' ').titleize %></dt>
+                          <dd class="text-gray-900" style="word-break: break-word; overflow-wrap: break-word;"><%= value %></dd>
+                        </div>
+                      <% end %>
+                    </dl>
+                  </div>
+                </details>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <!-- Table View for Regular Data -->
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <% column_names.each do |column_name| %>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                    <%= column_name %>
+                  </th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <% @rows.each do |row| %>
+                <tr class="hover:bg-gray-50">
+                  <% column_names.each do |column_name| %>
+                    <td class="px-6 py-4 text-sm text-gray-900" style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                      <%= row[column_name].to_s %>
+                    </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Pagination (for both views) -->
+    <% if @pagy.pages > 1 %>
+    <div class="mt-6 bg-white shadow rounded-lg px-4 py-3">
+      <div class="flex items-center justify-between">
+        <div class="flex-1 flex justify-between sm:hidden">
+          <% if @pagy.prev %>
+            <%= link_to "Previous", data_dataset_path(@dataset, page: @pagy.prev), class: "relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
+          <% end %>
+          <% if @pagy.next %>
+            <%= link_to "Next", data_dataset_path(@dataset, page: @pagy.next), class: "ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
+          <% end %>
+        </div>
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+          <div>
+            <p class="text-sm text-gray-700">
+              Showing page <span class="font-medium"><%= @pagy.page %></span> of <span class="font-medium"><%= @pagy.pages %></span>
+            </p>
+          </div>
+          <div>
+            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+              <% if @pagy.prev %>
+                <%= link_to data_dataset_path(@dataset, page: @pagy.prev), class: "relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" do %>
+                  <span class="sr-only">Previous</span>
+                  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                <% end %>
+              <% end %>
+              
+              <% (1..@pagy.pages).each do |page_num| %>
+                <% if page_num == @pagy.page %>
+                  <span class="z-10 bg-blue-50 border-blue-500 text-blue-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                    <%= page_num %>
+                  </span>
+                <% else %>
+                  <%= link_to page_num, data_dataset_path(@dataset, page: page_num), class: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium" %>
+                <% end %>
+              <% end %>
+              
+              <% if @pagy.next %>
+                <%= link_to data_dataset_path(@dataset, page: @pagy.next), class: "relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" do %>
+                  <span class="sr-only">Next</span>
+                  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                  </svg>
+                <% end %>
+              <% end %>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  <% else %>
+    <div class="bg-white shadow rounded-lg p-8 text-center">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      <p class="mt-2 text-sm text-gray-500">No data available</p>
+    </div>
+  <% end %>
+</div>

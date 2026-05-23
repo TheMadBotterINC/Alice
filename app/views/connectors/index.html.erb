@@ -1,0 +1,124 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Connectors</h1>
+      <p class="mt-2 text-sm text-gray-600">Manage your data source connections</p>
+    </div>
+    
+    <% if policy(Connector).create? %>
+      <%= link_to new_connector_path, 
+          class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors" do %>
+        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        New Connector
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Connectors List -->
+  <% if @connectors.any? %>
+    <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Name
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Type
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Status
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Last Checked
+            </th>
+            <th scope="col" class="relative px-6 py-3">
+              <span class="sr-only">Actions</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @connectors.each do |connector| %>
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-lg bg-primary-light">
+                    <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                  <div class="ml-4">
+                    <%= link_to connector.name, connector_path(connector), class: "text-sm font-medium text-gray-900 hover:text-primary" %>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                  <%= connector.connector_type.titleize %>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% 
+                  status_classes = case connector.status.to_sym
+                  when :connected
+                    "bg-green-100 text-green-800"
+                  when :error
+                    "bg-red-100 text-red-800"
+                  when :disconnected
+                    "bg-gray-100 text-gray-800"
+                  else
+                    "bg-yellow-100 text-yellow-800"
+                  end
+                %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= status_classes %>">
+                  <svg class="-ml-0.5 mr-1.5 h-2 w-2" fill="currentColor" viewBox="0 0 8 8">
+                    <circle cx="4" cy="4" r="3" />
+                  </svg>
+                  <%= connector.status.titleize %>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= connector.last_checked_at ? time_ago_in_words(connector.last_checked_at) + " ago" : "Never" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <div class="flex items-center justify-end space-x-2">
+                  <%= link_to connector_path(connector), class: "text-primary hover:text-primary-dark" do %>
+                    View
+                  <% end %>
+                  <% if policy(Connector).create? %>
+                    <%= link_to edit_connector_path(connector), class: "text-gray-600 hover:text-gray-900" do %>
+                      Edit
+                    <% end %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <!-- Empty State -->
+    <div class="text-center py-12 bg-white rounded-lg shadow-sm">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No connectors</h3>
+      <p class="mt-1 text-sm text-gray-500">Get started by creating a new connector.</p>
+      <% if policy(Connector).create? %>
+        <div class="mt-6">
+          <%= link_to new_connector_path, 
+              class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
+            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            New Connector
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

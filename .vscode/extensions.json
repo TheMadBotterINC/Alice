@@ -1,0 +1,26 @@
+{
+  "recommendations": [
+    // Ruby Development
+    "shopify.ruby-lsp",
+    "aliariff.vscode-erb-beautify",
+    "bung87.rails",
+    
+    // Database
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg",
+    
+    // CSS & Styling
+    "bradlc.vscode-tailwindcss",
+    
+    // Testing
+    "connorshea.vscode-test-explorer-status-bar",
+    
+    // Git
+    "eamodio.gitlens",
+    
+    // General Utilities
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
+    "wayou.vscode-todo-highlight"
+  ]
+}

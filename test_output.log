@@ -1,0 +1,240 @@
+≈ tailwindcss v4.1.13
+
+Done in 73ms
+Running 30 tests in a single process (parallelization threshold is 50)
+Run options: --seed 59155
+
+# Running:
+
+Capybara starting Puma...
+* Version 7.0.4, codename: Romantic Warrior
+* Min threads: 0, max threads: 4
+* Listening on http://127.0.0.1:56847
+.[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_data_volume_trend_chart_renders.png
+E
+
+Error:
+DashboardChartsTest#test_data_volume_trend_chart_renders:
+Capybara::ElementNotFound: Unable to find css ".bg-white.rounded-lg.shadow"
+    test/system/dashboard_charts_test.rb:78:in 'block in <class:DashboardChartsTest>'
+
+bin/rails test test/system/dashboard_charts_test.rb:75
+
+..[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_multiple_charts_render_simultaneously.png
+F
+
+Failure:
+DashboardChartsTest#test_multiple_charts_render_simultaneously [test/system/dashboard_charts_test.rb:91]:
+Expected at least one chart to render.
+Expected 0 to be >= 1.
+
+bin/rails test test/system/dashboard_charts_test.rb:84
+
+.[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_charts_update_when_navigating_away_and_back.png
+F
+
+Failure:
+DashboardChartsTest#test_charts_update_when_navigating_away_and_back [test/system/dashboard_charts_test.rb:123]:
+expected to find css "canvas[data-controller='chart']" but there were no matches
+
+bin/rails test test/system/dashboard_charts_test.rb:119
+
+.[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_success_rate_doughnut_chart_renders_when_data_exists.png
+F
+
+Failure:
+DashboardChartsTest#test_success_rate_doughnut_chart_renders_when_data_exists [test/system/dashboard_charts_test.rb:42]:
+expected to find css "canvas[data-chart-type-value='doughnut']" but there were no matches
+
+bin/rails test test/system/dashboard_charts_test.rb:30
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_charts_responsive_to_window_resize.png
+E
+
+Error:
+DashboardChartsTest#test_charts_responsive_to_window_resize:
+Capybara::ElementNotFound: Unable to find css "canvas[data-chart-type-value='bar']"
+    test/system/dashboard_charts_test.rb:98:in 'block in <class:DashboardChartsTest>'
+
+bin/rails test test/system/dashboard_charts_test.rb:94
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_execution_timeline_chart_renders.png
+E
+
+Error:
+DashboardChartsTest#test_execution_timeline_chart_renders:
+Capybara::ElementNotFound: Unable to find css "canvas[data-chart-type-value='bar']"
+    test/system/dashboard_charts_test.rb:23:in 'block in <class:DashboardChartsTest>'
+
+bin/rails test test/system/dashboard_charts_test.rb:19
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_shows_correct_fields_for_DuckDB_connector.png
+E
+
+Error:
+ConnectorWizardTest#test_shows_correct_fields_for_DuckDB_connector:
+Capybara::ElementNotFound: Unable to find css "[data-connector-type='duckdb']"
+    test/system/connector_wizard_test.rb:99:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:96
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_switching_connector_types_updates_required_fields.png
+E
+
+Error:
+ConnectorWizardTest#test_switching_connector_types_updates_required_fields:
+Capybara::ElementNotFound: Unable to find css "[data-connector-type='postgresql']"
+    test/system/connector_wizard_test.rb:174:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:170
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_hidden_connector_fields_do_not_have_required_attribute.png
+E
+
+Error:
+ConnectorWizardTest#test_hidden_connector_fields_do_not_have_required_attribute:
+Capybara::ElementNotFound: Unable to find css "[data-connector-type='snowflake']"
+    test/system/connector_wizard_test.rb:155:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:152
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_selecting_connector_type_enables_next_button.png
+E
+
+Error:
+ConnectorWizardTest#test_selecting_connector_type_enables_next_button:
+Capybara::ElementNotFound: Unable to find css "[data-connector-type='snowflake']"
+    test/system/connector_wizard_test.rb:32:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:28
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_shows_correct_fields_for_Snowflake_connector.png
+E
+
+Error:
+ConnectorWizardTest#test_shows_correct_fields_for_Snowflake_connector:
+Capybara::ElementNotFound: Unable to find css "[data-connector-type='snowflake']"
+    test/system/connector_wizard_test.rb:63:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:60
+
+.[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_shows_correct_fields_for_CSV_connector.png
+E
+
+Error:
+ConnectorWizardTest#test_shows_correct_fields_for_CSV_connector:
+NoMethodError: undefined method 'click' for nil
+    test/system/connector_wizard_test.rb:111:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:107
+
+.[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_shows_correct_fields_for_Excel_connector.png
+E
+
+Error:
+ConnectorWizardTest#test_shows_correct_fields_for_Excel_connector:
+NoMethodError: undefined method 'click' for nil
+    test/system/connector_wizard_test.rb:122:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:118
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_wizard_shows_all_connector_type_options.png
+F
+
+Failure:
+ConnectorWizardTest#test_wizard_shows_all_connector_type_options [test/system/connector_wizard_test.rb:12]:
+expected to find visible css "h1" with text "Create New Connector" but there were no matches. Also found "Alice", "", which matched the selector but not all filters. 
+
+bin/rails test test/system/connector_wizard_test.rb:9
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_progress_indicators_update_correctly.png
+E
+
+Error:
+ConnectorWizardTest#test_progress_indicators_update_correctly:
+Capybara::ElementNotFound: Unable to find css "[data-step-number='1'] .step-circle"
+    test/system/connector_wizard_test.rb:220:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:216
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_CSV_file_mode_selection_works.png
+E
+
+Error:
+ConnectorWizardTest#test_CSV_file_mode_selection_works:
+NoMethodError: undefined method 'click' for nil
+    test/system/connector_wizard_test.rb:268:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:265
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_submit_button_hidden_until_last_step.png
+F
+
+Failure:
+ConnectorWizardTest#test_submit_button_hidden_until_last_step [test/system/connector_wizard_test.rb:291]:
+expected to find css "input[value='Create Connector']" but there were no matches
+
+bin/rails test test/system/connector_wizard_test.rb:288
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_back_button_hidden_on_first_step.png
+F
+
+Failure:
+ConnectorWizardTest#test_back_button_hidden_on_first_step [test/system/connector_wizard_test.rb:285]:
+expected to find css "[data-connector-wizard-target='backButton']" but there were no matches
+
+bin/rails test test/system/connector_wizard_test.rb:282
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_next_button_is_disabled_until_connector_type_is_selected.png
+E
+
+Error:
+ConnectorWizardTest#test_next_button_is_disabled_until_connector_type_is_selected:
+Capybara::ElementNotFound: Unable to find css "[data-connector-wizard-target='nextButton']"
+    test/system/connector_wizard_test.rb:23:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:20
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_wizard_navigates_through_steps_correctly.png
+F
+
+Failure:
+ConnectorWizardTest#test_wizard_navigates_through_steps_correctly [test/system/connector_wizard_test.rb:43]:
+expected to find css "[data-step-number='1'] .step-circle.bg-primary" but there were no matches
+
+bin/rails test test/system/connector_wizard_test.rb:39
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_shows_correct_fields_for_file_upload_connector.png
+E
+
+Error:
+ConnectorWizardTest#test_shows_correct_fields_for_file_upload_connector:
+Capybara::ElementNotFound: Unable to find css "[data-connector-type='file_upload']"
+    test/system/connector_wizard_test.rb:132:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:129
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_form_submission_includes_correct_connector_type.png
+E
+
+Error:
+ConnectorWizardTest#test_form_submission_includes_correct_connector_type:
+Capybara::ElementNotFound: Unable to find css "[data-connector-type='postgresql']"
+    test/system/connector_wizard_test.rb:258:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:255
+
+[Screenshot Image]: /Users/mike/work/internal/Alice_26/Alice_26/tmp/screenshots/failures_test_review_step_shows_configuration_summary.png
+E
+
+Error:
+ConnectorWizardTest#test_review_step_shows_configuration_summary:
+Capybara::ElementNotFound: Unable to find css "[data-connector-type='duckdb']"
+    test/system/connector_wizard_test.rb:197:in 'block in <class:ConnectorWizardTest>'
+
+bin/rails test test/system/connector_wizard_test.rb:193
+
+
+
+Finished in 67.851176s, 0.4421 runs/s, 0.3242 assertions/s.
+30 runs, 22 assertions, 7 failures, 16 errors, 0 skips

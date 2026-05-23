@@ -1,0 +1,183 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div>
+    <h1 class="text-3xl font-bold text-gray-900">Account Settings</h1>
+    <p class="mt-2 text-sm text-gray-600">Manage your profile and account preferences</p>
+  </div>
+
+  <!-- Profile Section -->
+  <div class="bg-white shadow-sm rounded-lg">
+    <div class="px-6 py-5 border-b border-gray-200">
+      <h2 class="text-lg font-medium text-gray-900">Profile Information</h2>
+      <p class="mt-1 text-sm text-gray-500">Update your account's profile information and email address.</p>
+    </div>
+
+    <%= form_with(model: @user, url: settings_path, method: :patch, class: "px-6 py-5 space-y-6") do |form| %>
+      <% if @user.errors.any? && !@user.errors.include?(:current_password) && !@user.errors.include?(:password) %>
+        <div class="rounded-md bg-red-50 p-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-red-800">
+                <%= pluralize(@user.errors.count, "error") %> prohibited your profile from being saved:
+              </h3>
+              <div class="mt-2 text-sm text-red-700">
+                <ul class="list-disc pl-5 space-y-1">
+                  <% @user.errors.full_messages.each do |message| %>
+                    <% next if message.include?("Current password") || message.include?("Password") %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <!-- Name Field -->
+        <div>
+          <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :name, 
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+              required: true %>
+        </div>
+
+        <!-- Email Field -->
+        <div>
+          <%= form.label :email, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.email_field :email, 
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+              required: true %>
+        </div>
+
+        <!-- Role Display (Read-only) -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Role</label>
+          <div class="mt-1">
+            <% 
+              role_classes = case @user.role.to_sym
+              when :owner_admin
+                "bg-purple-100 text-purple-800"
+              when :data_engineer
+                "bg-blue-100 text-blue-800"
+              when :analyst
+                "bg-green-100 text-green-800"
+              when :viewer
+                "bg-gray-100 text-gray-800"
+              when :support
+                "bg-yellow-100 text-yellow-800"
+              else
+                "bg-gray-100 text-gray-800"
+              end
+            %>
+            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium <%= role_classes %>">
+              <%= @user.role.humanize %>
+            </span>
+            <p class="mt-1 text-xs text-gray-500">Contact an administrator to change your role</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end">
+        <%= form.submit "Update Profile",
+            class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Password Section -->
+  <div class="bg-white shadow-sm rounded-lg">
+    <div class="px-6 py-5 border-b border-gray-200">
+      <h2 class="text-lg font-medium text-gray-900">Change Password</h2>
+      <p class="mt-1 text-sm text-gray-500">Ensure your account is using a long, random password to stay secure.</p>
+    </div>
+
+    <%= form_with(model: @user, url: settings_path, method: :patch, class: "px-6 py-5 space-y-6") do |form| %>
+      <% if @user.errors.any? && (@user.errors.include?(:current_password) || @user.errors.include?(:password) || @user.errors.include?(:password_confirmation)) %>
+        <div class="rounded-md bg-red-50 p-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-red-800">
+                There was a problem updating your password:
+              </h3>
+              <div class="mt-2 text-sm text-red-700">
+                <ul class="list-disc pl-5 space-y-1">
+                  <% @user.errors.full_messages.each do |message| %>
+                    <% if message.include?("Current password") || message.include?("Password") %>
+                      <li><%= message %></li>
+                    <% end %>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="space-y-6">
+        <!-- Current Password Field -->
+        <div>
+          <%= form.label :current_password, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.password_field :current_password, 
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+              placeholder: "Enter your current password",
+              autocomplete: "current-password" %>
+          <p class="mt-1 text-sm text-gray-500">For security, please confirm your current password</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <!-- New Password Field -->
+          <div>
+            <%= form.label :password, "New Password", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.password_field :password, 
+                class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+                placeholder: "Enter new password",
+                autocomplete: "new-password" %>
+            <p class="mt-1 text-sm text-gray-500">Minimum 8 characters</p>
+          </div>
+
+          <!-- Confirm Password Field -->
+          <div>
+            <%= form.label :password_confirmation, "Confirm New Password", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.password_field :password_confirmation, 
+                class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+                placeholder: "Confirm new password",
+                autocomplete: "new-password" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end">
+        <%= form.submit "Change Password",
+            class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Account Information -->
+  <div class="bg-white shadow-sm rounded-lg">
+    <div class="px-6 py-5">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Account Information</h2>
+      <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Member Since</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @user.created_at.strftime("%B %d, %Y") %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Last Updated</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= time_ago_in_words(@user.updated_at) %> ago</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>

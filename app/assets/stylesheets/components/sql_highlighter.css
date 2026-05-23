@@ -1,0 +1,99 @@
+/* SQL Syntax Highlighter - Using Alice Brand Colors */
+
+.sql-editor-wrapper {
+  position: relative;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.sql-highlighted {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75rem; /* Match textarea padding */
+  margin: 0;
+  border: 1px solid transparent;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto;
+  pointer-events: none;
+  color: #374151; /* Default text color (gray-700) */
+  background: transparent;
+  z-index: 1;
+  border-radius: 0.375rem; /* Match textarea border-radius */
+}
+
+.sql-editor-wrapper textarea {
+  position: relative;
+  z-index: 2;
+  background: white;
+  color: rgba(0, 0, 0, 0); /* Transparent text to show highlighting */
+  caret-color: #1a134a; /* Alice primary dark blue */
+}
+
+/* SQL Syntax Colors - Alice Brand Palette */
+
+/* Keywords: Alice Primary Blue #27a2d6 */
+.sql-keyword {
+  color: #27a2d6;
+  font-weight: 600;
+}
+
+/* Functions: Alice Secondary Blue #0085bf */
+.sql-function {
+  color: #0085bf;
+  font-weight: 500;
+}
+
+/* Strings: Alice Red #f04d3f */
+.sql-string {
+  color: #f04d3f;
+}
+
+/* Numbers: Alice Green #26a74a */
+.sql-number {
+  color: #26a74a;
+  font-weight: 500;
+}
+
+/* Operators: Alice Dark Blue #1a134a */
+.sql-operator {
+  color: #1a134a;
+  font-weight: 500;
+}
+
+/* Comments: Gray */
+.sql-comment {
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Make textarea text transparent to show highlighting underneath */
+.sql-editor-wrapper textarea {
+  -webkit-text-fill-color: transparent;
+  color: rgba(0, 0, 0, 0);
+}
+
+.sql-editor-wrapper textarea::selection {
+  background: rgba(39, 162, 214, 0.3); /* Alice blue with transparency */
+  -webkit-text-fill-color: #1f2937;
+}
+
+.sql-editor-wrapper textarea::-moz-selection {
+  background: rgba(39, 162, 214, 0.3);
+  -webkit-text-fill-color: #1f2937;
+}
+
+/* Ensure proper scrolling sync */
+.sql-highlighted {
+  overflow: hidden; /* Hide scrollbars on highlighted layer */
+}
+
+/* Focus state */
+.sql-editor-wrapper textarea:focus {
+  outline: 2px solid #27a2d6;
+  outline-offset: 2px;
+}

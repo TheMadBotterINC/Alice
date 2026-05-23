@@ -1,0 +1,39 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+sales_summary:
+  name: Sales Summary
+  description: Daily aggregated sales data
+  table_name: sales_summary
+  schema_name: PUBLIC
+  schema:
+    columns:
+      - name: sale_date
+        type: DATE
+      - name: product_category
+        type: VARCHAR
+      - name: total_orders
+        type: INTEGER
+      - name: total_revenue
+        type: DECIMAL
+  connector: one
+  row_count: 365
+  last_updated_at: <%= 1.day.ago %>
+  status: 1
+
+user_analytics:
+  name: User Analytics
+  description: User behavior analytics
+  table_name: user_analytics
+  schema_name: PUBLIC
+  schema:
+    columns:
+      - name: user_id
+        type: INTEGER
+      - name: event_date
+        type: DATE
+      - name: event_count
+        type: INTEGER
+  connector: two
+  row_count: 5000
+  last_updated_at: <%= 2.hours.ago %>
+  status: 1

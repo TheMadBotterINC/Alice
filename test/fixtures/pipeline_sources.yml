@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pipeline: one
+  connector: one
+  table_alias: MyString
+
+two:
+  pipeline: two
+  connector: two
+  table_alias: MyString

@@ -1,0 +1,252 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center">
+      <%= link_to connectors_path, class: "text-gray-400 hover:text-gray-600" do %>
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      <% end %>
+      <div class="ml-2">
+        <h1 class="text-3xl font-bold text-gray-900"><%= @connector.name %></h1>
+        <p class="mt-1 text-sm text-gray-600">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+            <%= @connector.connector_type.titleize %>
+          </span>
+        </p>
+      </div>
+    </div>
+    
+    <div class="flex items-center space-x-3">
+      <% unless @connector.file_connector? %>
+        <form action="<%= test_connection_connector_path(@connector) %>" 
+              method="post"
+              data-controller="test-connection"
+              data-action="submit->test-connection#submit">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <button type="submit"
+                  data-test-connection-target="button"
+                  class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+            <!-- Lightning Icon -->
+            <svg data-test-connection-target="icon" class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <!-- Blue Microsoft-style Spinner (hidden by default) -->
+            <svg data-test-connection-target="spinner" class="hidden -ml-1 mr-2 h-5 w-5 animate-spin text-[#0078d4]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span data-test-connection-target="text">Test Connection</span>
+          </button>
+        </form>
+        
+        <% if @connector.connected? && !@connector.destination_only? %>
+          <%= link_to browse_tables_connector_path(@connector),
+              class: "btn-alice-primary inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2" do %>
+            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+            </svg>
+            Browse Tables
+          <% end %>
+        <% end %>
+      <% end %>
+      
+      <% if policy(@connector).update? %>
+        <%= link_to edit_connector_path(@connector), 
+            class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+          </svg>
+          Edit
+        <% end %>
+        
+        <%= button_to connector_path(@connector), 
+            method: :delete,
+            data: { turbo_confirm: "Are you sure you want to delete '#{@connector.name}'?\n\nThis will permanently delete:\n• The connector and all its configuration\n• All datasets referencing this connector\n• All pipelines using this connector as source or destination\n• All pipeline run history\n\nThis action cannot be undone." },
+            class: "inline-flex items-center px-4 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+          Delete
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <!-- Status Card -->
+    <div class="bg-white shadow-sm rounded-lg p-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Status</h3>
+      <dl class="space-y-4">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Connection Status</dt>
+          <dd class="mt-1">
+            <% 
+              status_classes = case @connector.status.to_sym
+              when :connected
+                "bg-green-100 text-green-800"
+              when :error
+                "bg-red-100 text-red-800"
+              when :disconnected
+                "bg-gray-100 text-gray-800"
+              else
+                "bg-yellow-100 text-yellow-800"
+              end
+            %>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <%= status_classes %>">
+              <svg class="-ml-0.5 mr-1.5 h-2 w-2" fill="currentColor" viewBox="0 0 8 8">
+                <circle cx="4" cy="4" r="3" />
+              </svg>
+              <%= @connector.status.titleize %>
+            </span>
+          </dd>
+        </div>
+        
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Last Checked</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= @connector.last_checked_at ? time_ago_in_words(@connector.last_checked_at) + " ago" : "Never" %>
+          </dd>
+        </div>
+        
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Created</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= @connector.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </dd>
+        </div>
+        
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Last Updated</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= @connector.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- Configuration Card -->
+    <div class="bg-white shadow-sm rounded-lg p-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Configuration</h3>
+      <dl class="space-y-4">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Connector Type</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @connector.connector_type.titleize %></dd>
+        </div>
+        
+        <% if @connector.file_connector? %>
+          <!-- File Connector Configuration (Source Only) -->
+          <% if @connector.upload_mode? %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Mode</dt>
+              <dd class="mt-1">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium bg-blue-100 text-blue-800">
+                  📤 Upload File Mode
+                </span>
+                <p class="mt-2 text-sm text-gray-600">
+                  Users will upload files when running pipelines that use this connector.
+                </p>
+              </dd>
+            </div>
+          <% else %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Mode</dt>
+              <dd class="mt-1">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
+                  📁 Read from Server Path
+                </span>
+              </dd>
+            </div>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">File Path</dt>
+              <dd class="mt-1 text-sm text-gray-900 font-mono bg-gray-50 px-2 py-1 rounded break-all">
+                <%= @connector.config["file_path"] || "Not configured" %>
+              </dd>
+            </div>
+          <% end %>
+          
+          <% if @connector.connector_type == "file_csv" %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Delimiter</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <% 
+                  delimiter = @connector.config["delimiter"] || ","
+                  delimiter_display = case delimiter
+                  when "," then "Comma (,)"
+                  when "\t" then "Tab (TSV)"
+                  when ";" then "Semicolon (;)"
+                  when "|" then "Pipe (|)"
+                  else delimiter
+                  end
+                %>
+                <%= delimiter_display %>
+              </dd>
+            </div>
+          <% end %>
+          
+          <% if @connector.connector_type == "file_excel" && @connector.config["sheet_name"].present? %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Sheet Name</dt>
+              <dd class="mt-1 text-sm text-gray-900 font-mono bg-gray-50 px-2 py-1 rounded">
+                <%= @connector.config["sheet_name"] %>
+              </dd>
+            </div>
+          <% end %>
+          
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Has Header Row</dt>
+            <dd class="mt-1 text-sm text-gray-900">
+              <%= @connector.config["has_header"] == "true" || @connector.config["has_header"] == true ? "Yes" : "No" %>
+            </dd>
+          </div>
+          
+        <% elsif @connector.connector_type == "snowflake" %>
+          <!-- Snowflake Configuration -->
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Account</dt>
+            <dd class="mt-1 text-sm text-gray-900 font-mono bg-gray-50 px-2 py-1 rounded">
+              <%= @connector.config["account"] || "Not configured" %>
+            </dd>
+          </div>
+          
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Username</dt>
+            <dd class="mt-1 text-sm text-gray-900 font-mono bg-gray-50 px-2 py-1 rounded">
+              <%= @connector.config["username"] || "Not configured" %>
+            </dd>
+          </div>
+          
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Database</dt>
+            <dd class="mt-1 text-sm text-gray-900 font-mono bg-gray-50 px-2 py-1 rounded">
+              <%= @connector.config["database"] || "Not configured" %>
+            </dd>
+          </div>
+          
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Warehouse</dt>
+            <dd class="mt-1 text-sm text-gray-900 font-mono bg-gray-50 px-2 py-1 rounded">
+              <%= @connector.config["warehouse"] || "Not configured" %>
+            </dd>
+          </div>
+          
+        <% elsif @connector.connector_type == "duckdb" %>
+          <!-- DuckDB Configuration -->
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Database Path</dt>
+            <dd class="mt-1 text-sm text-gray-900 font-mono bg-gray-50 px-2 py-1 rounded break-all">
+              <%= @connector.config["database_path"] || "Not configured" %>
+            </dd>
+          </div>
+          
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Read-Only Mode</dt>
+            <dd class="mt-1 text-sm text-gray-900">
+              <%= @connector.config["read_only"] ? "Enabled" : "Disabled" %>
+            </dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,410 @@
+<div class="min-h-screen" style="background: linear-gradient(to bottom, #ffffff, #e0f2f7);">
+  <!-- Header -->
+  <div class="bg-white/90 backdrop-blur-sm shadow-lg border-b-4 border-gradient-to-r from-blue-500 to-purple-500 sticky top-0 z-50">
+    <div class="max-w-full px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <% if @pipeline.persisted? %>
+            <%= link_to pipeline_path(@pipeline), class: "text-gray-600 hover:text-gray-900 transition-colors" do %>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+              </svg>
+            <% end %>
+          <% else %>
+            <%= link_to new_pipeline_path, class: "text-gray-600 hover:text-gray-900 transition-colors" do %>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+              </svg>
+            <% end %>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-alice-dark">
+              🎨 Visual Query Builder
+            </h1>
+            <p class="text-sm text-gray-600">
+              <% if @pipeline.persisted? %>
+                <%= @pipeline.name %>
+              <% else %>
+                <span class="text-yellow-600 font-medium">New Pipeline</span>
+              <% end %>
+            </p>
+          </div>
+        </div>
+        
+        <div class="flex items-center space-x-3">
+          <% if @pipeline.persisted? %>
+            <button type="button"
+                    class="px-4 py-2 bg-alice-primary hover:bg-alice-primary-dark text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+                    onclick="document.getElementById('visual-builder-form').requestSubmit()">
+              💾 Save Query
+            </button>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-full px-6 py-6" 
+       data-controller="visual-query-builder"
+       data-visual-query-builder-pipeline-id-value="<%= @pipeline.persisted? ? @pipeline.id : '' %>"
+       data-visual-query-builder-mode-value="visual"
+       data-action="column-selector:columnSelected->visual-query-builder#addColumn">
+    
+    <% 
+      form_url = @pipeline.persisted? ? update_from_visual_builder_pipeline_path(@pipeline) : create_from_visual_builder_pipelines_path
+      form_method = @pipeline.persisted? ? :patch : :post
+    %>
+    
+    <%= form_with(model: @pipeline, url: form_url, method: form_method, id: "visual-builder-form", class: "space-y-6") do |form| %>
+      <%= form.hidden_field :transformation_mode, value: 'visual', data: { 'visual-query-builder-target': 'modeInput' } %>
+      <%= form.hidden_field :transformation_config, value: (@pipeline.transformation_config.present? ? @pipeline.transformation_config.to_json : ''), data: { 'visual-query-builder-target': 'configInput' } %>
+      
+      <% unless @pipeline.persisted? %>
+        <!-- Name and Description for New Pipelines -->
+        <div class="bg-white rounded-2xl shadow-2xl border-2 border-purple-300 p-6">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">⚙️ Pipeline Details</h3>
+          <div class="space-y-4">
+            <div>
+              <%= form.label :name, "Pipeline Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= form.text_field :name, class: "w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:ring-4 focus:ring-purple-200", placeholder: "e.g., Daily Sales Analysis", required: true %>
+            </div>
+            <div>
+              <%= form.label :description, "Description (Optional)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= form.text_area :description, rows: 2, class: "w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:ring-4 focus:ring-purple-200", placeholder: "What does this pipeline do?" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+      <!-- Quick Start Templates -->
+      <div class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-2xl shadow-2xl border-2 border-purple-300 p-8 mb-6"
+           data-visual-query-builder-target="quickStartPanel"
+           style="display: none;">
+        <div class="flex items-start justify-between mb-6">
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 flex items-center">
+              <svg class="w-8 h-8 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              Quick Start Templates
+            </h3>
+            <p class="text-gray-600">Get started quickly with these common query patterns</p>
+          </div>
+          <button type="button" 
+                  class="text-gray-400 hover:text-gray-600 transition-colors"
+                  data-action="click->visual-query-builder#dismissQuickStart"
+                  title="Dismiss">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <!-- Template 1: Simple Select -->
+          <button type="button"
+                  class="bg-white rounded-xl p-6 border-2 border-blue-200 hover:border-blue-400 hover:shadow-lg transition-all text-left group"
+                  data-action="click->visual-query-builder#applyTemplate"
+                  data-template="simple-select">
+            <div class="flex items-center mb-3">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4 group-hover:bg-blue-200 transition-colors">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                </svg>
+              </div>
+              <h4 class="text-lg font-bold text-gray-900">Simple Select</h4>
+            </div>
+            <p class="text-sm text-gray-600">View all columns from a single table</p>
+          </button>
+          
+          <!-- Template 2: Join Two Tables -->
+          <button type="button"
+                  class="bg-white rounded-xl p-6 border-2 border-purple-200 hover:border-purple-400 hover:shadow-lg transition-all text-left group"
+                  data-action="click->visual-query-builder#applyTemplate"
+                  data-template="join-two-tables">
+            <div class="flex items-center mb-3">
+              <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4 group-hover:bg-purple-200 transition-colors">
+                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                </svg>
+              </div>
+              <h4 class="text-lg font-bold text-gray-900">Join Two Tables</h4>
+            </div>
+            <p class="text-sm text-gray-600">Combine data from two related tables</p>
+          </button>
+          
+          <!-- Template 3: Aggregation -->
+          <button type="button"
+                  class="bg-white rounded-xl p-6 border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all text-left group"
+                  data-action="click->visual-query-builder#applyTemplate"
+                  data-template="aggregation">
+            <div class="flex items-center mb-3">
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4 group-hover:bg-green-200 transition-colors">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
+                </svg>
+              </div>
+              <h4 class="text-lg font-bold text-gray-900">Aggregation</h4>
+            </div>
+            <p class="text-sm text-gray-600">Count and group records by category</p>
+          </button>
+          
+          <!-- Template 4: Time Series -->
+          <button type="button"
+                  class="bg-white rounded-xl p-6 border-2 border-orange-200 hover:border-orange-400 hover:shadow-lg transition-all text-left group"
+                  data-action="click->visual-query-builder#applyTemplate"
+                  data-template="time-series">
+            <div class="flex items-center mb-3">
+              <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4 group-hover:bg-orange-200 transition-colors">
+                <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <h4 class="text-lg font-bold text-gray-900">Time Series</h4>
+            </div>
+            <p class="text-sm text-gray-600">Analyze trends over time with dates</p>
+          </button>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-12 gap-6">
+        <!-- Left Sidebar: Data Sources -->
+        <div class="col-span-3">
+          <div class="sticky top-24">
+            <div class="bg-white rounded-2xl shadow-2xl border-2 border-alice-primary overflow-hidden">
+              <div class="bg-alice-secondary px-6 py-4">
+                <h2 class="text-lg font-bold text-white flex items-center drop-shadow-sm">
+                  🗂️ Data Sources
+                </h2>
+              </div>
+              
+              <div class="p-4" data-controller="column-selector">
+                <div class="mb-4">
+                  <div class="relative" style="padding-top: 7px; padding-bottom: 7px;">
+                    <input type="text" 
+                           placeholder="🔍 Search columns..." 
+                           class="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded-xl text-base text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all" 
+                           data-column-selector-target="search" 
+                           data-action="input->column-selector#search">
+                  </div>
+                </div>
+                
+                <div class="max-h-[calc(100vh-350px)] overflow-y-auto custom-scrollbar pr-2" data-column-selector-target="sourcesList">
+                  <!-- Sources will be rendered here by JS -->
+                </div>
+              </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="mt-6 bg-white rounded-2xl shadow-xl border-2 border-alice-primary p-4">
+              <h3 class="text-base font-bold text-gray-900 mb-3">📊 Query Stats</h3>
+              <div class="space-y-2 text-base">
+                <div class="flex justify-between">
+                  <span class="text-gray-700 font-medium">Columns:</span>
+                  <span class="font-bold text-blue-700" id="stats-columns">0</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-700 font-medium">Filters:</span>
+                  <span class="font-bold text-yellow-700" id="stats-filters">0</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-700 font-medium">Joins:</span>
+                  <span class="font-bold text-purple-700" id="stats-joins">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="col-span-9 space-y-6">
+          
+          <!-- Joins Section -->
+          <div class="bg-white rounded-2xl shadow-2xl border-2 border-alice-primary overflow-hidden transform hover:shadow-3xl transition-shadow" 
+               data-controller="join-builder collapsible-section" 
+               data-collapsible-section-storage-key-value="vqb-joins-expanded"
+               data-collapsible-section-default-expanded-value="false"
+               data-action="join-builder:joinsChanged->visual-query-builder#updateJoins join-builder:joinsChanged->visual-query-builder#updateSqlPreview join-builder:joinAdded->collapsible-section#expand"
+               aria-expanded="false">
+            <div class="bg-alice-primary px-6 py-4 flex items-center justify-between cursor-pointer"
+                 data-action="click->collapsible-section#toggle">
+              <h3 class="text-lg font-bold text-white flex items-center">
+                <svg class="w-5 h-5 mr-2 transition-transform duration-300" 
+                     data-collapsible-section-target="toggleIcon"
+                     fill="currentColor" 
+                     viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+                🔗 Table Joins
+                <span class="ml-3 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm" id="join-count">0</span>
+              </h3>
+              <button type="button" 
+                      class="px-4 py-2 bg-white text-alice-primary hover:bg-alice-pale rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all" 
+                      data-action="click->join-builder#addJoin:stop click->collapsible-section#expand:stop">
+                ➥ Add Join
+              </button>
+            </div>
+            <div class="p-6 space-y-4" data-join-builder-target="container" data-collapsible-section-target="content">
+              <!-- Joins will be rendered here -->
+            </div>
+          </div>
+
+          <!-- Selected Columns Section -->
+          <div class="bg-white rounded-2xl shadow-2xl border-2 border-alice-primary overflow-hidden transform hover:shadow-3xl transition-shadow">
+            <div class="bg-alice-secondary px-6 py-4">
+              <h3 class="text-lg font-bold text-white flex items-center">
+                📊 Selected Columns
+                <span class="ml-3 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm" id="column-count">0</span>
+              </h3>
+            </div>
+            <div class="p-6">
+              <div class="space-y-3" data-visual-query-builder-target="columnsContainer">
+                <!-- Columns will be rendered here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters Section -->
+          <div class="bg-white rounded-2xl shadow-2xl border-2 border-alice-primary overflow-hidden transform hover:shadow-3xl transition-shadow">
+            <div class="bg-alice-secondary px-6 py-4 flex items-center justify-between">
+              <h3 class="text-lg font-bold text-white flex items-center">
+                🔍 Filters (WHERE Conditions)
+                <span class="ml-3 bg-white/30 backdrop-blur-sm px-3 py-1 rounded-full text-sm" id="filter-count">0</span>
+              </h3>
+              <button type="button" 
+                      class="px-4 py-2 bg-white text-gray-900 hover:bg-alice-pale rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all" 
+                      data-action="click->visual-query-builder#addFilter">
+                ➥ Add Filter
+              </button>
+            </div>
+            <div class="p-6 space-y-4" data-visual-query-builder-target="filtersContainer">
+              <!-- Filters will be rendered here -->
+            </div>
+          </div>
+
+          <!-- Advanced Options Banner -->
+          <div class="bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-300 rounded-xl p-4 mb-6" 
+               data-visual-query-builder-target="advancedBanner"
+               style="display: none;">
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <div>
+                <h4 class="text-sm font-bold text-purple-900">Advanced Options Now Available!</h4>
+                <p class="text-xs text-purple-700">You can now use Group By and Sort to organize your results.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Group By & Order By Row -->
+          <div class="grid grid-cols-2 gap-6" 
+               data-visual-query-builder-target="advancedSections"
+               style="display: none;">
+            <!-- Group By -->
+            <div class="bg-white rounded-2xl shadow-2xl border-2 border-alice-primary overflow-hidden transform hover:shadow-3xl transition-shadow">
+              <div class="bg-alice-secondary px-6 py-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold text-white flex items-center">
+                  📊 Group By
+                </h3>
+                <button type="button" 
+                        class="px-4 py-2 bg-white text-alice-green hover:bg-alice-pale rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all text-sm" 
+                        data-action="click->visual-query-builder#addGroupBy">
+                  ➥ Add
+                </button>
+              </div>
+              <div class="p-6 space-y-2 min-h-[120px]" data-visual-query-builder-target="groupByContainer">
+                <!-- Group by will be rendered here -->
+              </div>
+            </div>
+
+            <!-- Order By -->
+            <div class="bg-white rounded-2xl shadow-2xl border-2 border-alice-secondary overflow-hidden transform hover:shadow-3xl transition-shadow">
+              <div class="bg-alice-secondary px-6 py-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold text-white flex items-center">
+                  🔽 Sort (Order By)
+                </h3>
+                <button type="button" 
+                        class="px-4 py-2 bg-white text-alice-secondary hover:bg-alice-pale rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all text-sm" 
+                        data-action="click->visual-query-builder#addOrderBy">
+                  ➥ Add
+                </button>
+              </div>
+              <div class="p-6 space-y-2 min-h-[120px]" data-visual-query-builder-target="orderByContainer">
+                <!-- Order by will be rendered here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- SQL Preview Section -->
+          <div class="bg-white rounded-2xl shadow-2xl border-2 border-alice-primary-dark overflow-hidden transform hover:shadow-3xl transition-shadow">
+            <div class="bg-alice-secondary px-6 py-4">
+              <h3 class="text-lg font-bold text-white flex items-center">
+                ⚡ Generated SQL
+              </h3>
+            </div>
+            <div class="p-6 bg-gray-50">
+              <pre class="text-base font-mono text-alice-primary-dark bg-white p-6 rounded-xl overflow-x-auto min-h-[200px] border-2 border-gray-200 leading-relaxed shadow-inner" 
+                   data-visual-query-builder-target="sqlPreview">-- Click on columns from the left panel to start building your query
+-- Use the controls above to add joins, filters, grouping, and sorting</pre>
+            </div>
+          </div>
+
+          <!-- Save Button -->
+          <% if @pipeline.persisted? %>
+            <div class="sticky bottom-6 bg-white rounded-2xl shadow-2xl border-4 border-alice-primary p-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-lg font-bold text-gray-900 mb-1">💾 Save Changes</h3>
+                  <p class="text-sm text-gray-600">Your query has been updated. Click save to persist your changes.</p>
+                </div>
+                <button type="button"
+                        class="px-16 py-6 bg-alice-primary hover:bg-alice-primary-dark text-white rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all"
+                        onclick="document.getElementById('visual-builder-form').requestSubmit()">
+                  💾 Save Pipeline
+                </button>
+              </div>
+            </div>
+          <% else %>
+            <!-- Save Pipeline Button for New Pipelines -->
+            <div class="sticky bottom-6 bg-white rounded-2xl shadow-2xl border-4 border-green-400 p-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-lg font-bold text-gray-900 mb-1">💾 Ready to Save?</h3>
+                  <p class="text-sm text-gray-600">Save your pipeline to continue configuring sources and destinations.</p>
+                </div>
+                <%= form.submit "Create Pipeline", class: "px-8 py-4 bg-alice-green hover:bg-alice-primary-dark text-white rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all" %>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+    border-radius: 10px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #2563eb, #7c3aed);
+  }
+  
+  .shadow-3xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+</style>

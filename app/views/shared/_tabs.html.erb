@@ -1,0 +1,60 @@
+<%# 
+  Tabs Component
+  
+  Usage:
+    <%= render "shared/tabs", default_tab: "details" do |tabs| %>
+      <%= tabs.tab "details", "Details" %>
+      <%= tabs.tab "runs", "Run History" %>
+      <%= tabs.tab "settings", "Settings" %>
+    <% end %>
+    
+    <%= render "shared/tabs_panel", tab: "details" do %>
+      <p>Details content here</p>
+    <% end %>
+    
+    <%= render "shared/tabs_panel", tab: "runs" do %>
+      <p>Run history content here</p>
+    <% end %>
+-%>
+
+<% 
+  default_tab = local_assigns[:default_tab]
+  tabs_id = "tabs-#{SecureRandom.hex(4)}"
+%>
+
+<div data-controller="tabs" data-tabs-default-tab-value="<%= default_tab %>" class="<%= local_assigns[:class] %>">
+  <div class="border-b border-gray-200">
+    <nav class="-mb-px flex space-x-8" aria-label="Tabs" role="tablist">
+      <% 
+        tab_builder = Struct.new(:context) do
+          def tab(name, label, icon: nil)
+            context.content_tag(:button, 
+              type: "button",
+              data: { 
+                tabs_target: "tab", 
+                tab: name,
+                action: "click->tabs#switch"
+              },
+              class: "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors focus:outline-none",
+              role: "tab",
+              aria_selected: "false"
+            ) do
+              if icon
+                context.concat context.content_tag(:span, icon.html_safe, class: "mr-2")
+              end
+              context.concat label
+            end
+          end
+        end
+        
+        yield tab_builder.new(self)
+      %>
+    </nav>
+  </div>
+  
+  <div class="mt-6">
+    <%= content_for :tabs_panels %>
+  </div>
+</div>
+
+<%# Note: Use this with render "shared/tabs_panel" for each panel %>

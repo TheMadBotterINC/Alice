@@ -1,0 +1,63 @@
+#!/usr/bin/env sh
+
+# Demo Mode: Reset demo data and start the app
+# Usage: bin/demo
+
+set -e
+
+echo "🎬 Starting Demo Mode..."
+echo "=" * 60
+
+# Kill any existing Rails server process
+if [ -f tmp/pids/server.pid ]; then
+  OLD_PID=$(cat tmp/pids/server.pid)
+  if kill -0 $OLD_PID 2>/dev/null; then
+    echo "\n🛑 Stopping existing server (PID: $OLD_PID)..."
+    kill -9 $OLD_PID 2>/dev/null || true
+  fi
+  rm -f tmp/pids/server.pid
+fi
+
+# Ensure demo data exists (first-time setup)
+echo "\n💾 Checking demo data..."
+if ! ruby -r "./config/environment" -e "exit(Connector.exists?(name: 'MRO Demo Database'))"; then
+  echo "Demo data not found. Setting up demo datasets..."
+  ruby script/seed_demo_data.rb
+fi
+
+# Reset demo environment (clears old pipelines)
+echo "\n🧹 Resetting demo environment..."
+ruby script/reset_demo.rb
+
+# Create demo pipelines
+echo "\n📋 Creating demo pipelines..."
+ruby script/seed_demo_pipelines.rb
+
+echo "\n🚀 Starting Alice demo server..."
+echo "   Demo datasets available:"
+echo "   - Demo Work Orders (1,800 records)"
+echo "   - Demo Parts Inventory (900 records)"
+echo "   - Demo Equipment Master (100 records)"
+echo ""
+echo "   Ready for Visual Query Builder demos!"
+echo "   Open: http://localhost:3000/pipelines/new_visual_builder"
+echo ""
+echo "=" * 60
+echo ""
+
+# Check if foreman is installed
+if ! gem list foreman -i --silent; then
+  echo "Installing foreman..."
+  gem install foreman
+fi
+
+# Default to port 3000 if not specified
+export PORT="${PORT:-3000}"
+
+# Let the debug gem allow remote connections,
+# but avoid loading until `debugger` is called
+export RUBY_DEBUG_OPEN="true"
+export RUBY_DEBUG_LAZY="true"
+
+# Start the app
+exec foreman start -f Procfile.dev "$@"

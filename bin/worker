@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+# SolidQueue worker management script
+
+RAILS_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+PID_FILE="$RAILS_ROOT/tmp/pids/solid_queue.pid"
+LOG_FILE="$RAILS_ROOT/log/solid_queue.log"
+
+cd "$RAILS_ROOT"
+
+case "${1:-}" in
+  start)
+    if [ -f "$PID_FILE" ] && kill -0 $(cat "$PID_FILE") 2>/dev/null; then
+      echo "Worker is already running (PID: $(cat "$PID_FILE"))"
+      exit 1
+    fi
+    echo "Starting SolidQueue worker..."
+    nohup bundle exec rails solid_queue:start > "$LOG_FILE" 2>&1 &
+    echo $! > "$PID_FILE"
+    sleep 1
+    if kill -0 $(cat "$PID_FILE") 2>/dev/null; then
+      echo "✓ Worker started (PID: $(cat "$PID_FILE"))"
+      echo "  Logs: $LOG_FILE"
+    else
+      echo "✗ Failed to start worker"
+      rm -f "$PID_FILE"
+      exit 1
+    fi
+    ;;
+    
+  stop)
+    if [ ! -f "$PID_FILE" ]; then
+      echo "Worker is not running"
+      exit 1
+    fi
+    PID=$(cat "$PID_FILE")
+    echo "Stopping worker (PID: $PID)..."
+    kill $PID 2>/dev/null
+    sleep 2
+    if kill -0 $PID 2>/dev/null; then
+      echo "Force killing..."
+      kill -9 $PID 2>/dev/null
+    fi
+    rm -f "$PID_FILE"
+    echo "✓ Worker stopped"
+    ;;
+    
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+    
+  status)
+    if [ -f "$PID_FILE" ] && kill -0 $(cat "$PID_FILE") 2>/dev/null; then
+      echo "✓ Worker is running (PID: $(cat "$PID_FILE"))"
+      echo ""
+      bundle exec rails runner "
+        puts 'Queue Status:'
+        pending = SolidQueue::Job.where(finished_at: nil).count
+        finished = SolidQueue::Job.where.not(finished_at: nil).where('finished_at > ?', 1.hour.ago).count
+        puts \"  Pending jobs: #{pending}\"
+        puts \"  Completed (last hour): #{finished}\"
+      "
+    else
+      echo "✗ Worker is not running"
+      [ -f "$PID_FILE" ] && rm -f "$PID_FILE"
+      exit 1
+    fi
+    ;;
+    
+  logs)
+    tail -f "$LOG_FILE"
+    ;;
+    
+  *)
+    echo "Usage: $0 {start|stop|restart|status|logs}"
+    echo ""
+    echo "Commands:"
+    echo "  start    Start the worker"
+    echo "  stop     Stop the worker"
+    echo "  restart  Restart the worker"
+    echo "  status   Show worker and queue status"
+    echo "  logs     Follow worker logs"
+    exit 1
+    ;;
+esac

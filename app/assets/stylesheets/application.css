@@ -1,0 +1,243 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+/* Alice Brand Colors - Official Palette */
+:root {
+  /* Official Alice Brand Colors (from README.md Design System) */
+  --alice-primary: #27a2d6;      /* Primary Blue - Buttons, links, SQL keywords */
+  --alice-primary-dark: #1a134a; /* Primary Dark - Headers, emphasis */
+  --alice-secondary: #0085bf;     /* Secondary Blue - SQL functions */
+  --alice-light: #44c8f5;         /* Light Blue - Hover states */
+  --alice-pale: #ecebd8;          /* Pale - Backgrounds */
+  --alice-green: #26a74a;         /* Success states, SQL numbers */
+  --alice-red: #f04d3f;           /* Errors, SQL strings */
+  --alice-cyan: #17a2b9;          /* Info messages */
+  --alice-warning: #ffc107;       /* Warning states */
+}
+
+/* Alice Primary Button */
+.btn-alice-primary {
+  background-color: #27a2d6;
+  color: white;
+}
+
+.btn-alice-primary:hover {
+  background-color: #1a134a;
+}
+
+.btn-alice-primary:focus {
+  --tw-ring-color: #27a2d6;
+}
+
+/* SQL Syntax Highlighter - Using Alice Brand Colors */
+
+.sql-editor-wrapper {
+  position: relative;
+  display: block;
+}
+
+.sql-highlighted {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 8px 12px; /* Match Tailwind default textarea padding exactly */
+  margin: 0;
+  border: 1px solid transparent;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
+  pointer-events: none;
+  color: #374151; /* Default text color (gray-700) */
+  background: transparent;
+  z-index: 1;
+  border-radius: 0.375rem;
+  box-sizing: border-box;
+  /* Match textarea font settings exactly */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem; /* sm:text-sm */
+  line-height: 1.25rem; /* Tailwind default for text-sm */
+}
+
+.sql-editor-wrapper textarea {
+  position: relative;
+  z-index: 2;
+  background: transparent !important;
+  color: transparent !important;
+  caret-color: #1a134a !important; /* Alice primary dark blue */
+  resize: vertical;
+  box-sizing: border-box;
+  padding: 8px 12px !important; /* Ensure exact padding match */
+  /* Ensure font settings match */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+
+/* SQL Syntax Colors - Alice Brand Palette */
+
+/* Keywords: Alice Primary Blue #27a2d6 */
+.sql-keyword {
+  color: #27a2d6;
+  font-weight: 600;
+}
+
+/* Functions: Alice Secondary Blue #0085bf */
+.sql-function {
+  color: #0085bf;
+  font-weight: 500;
+}
+
+/* Strings: Alice Red #f04d3f */
+.sql-string {
+  color: #f04d3f;
+}
+
+/* Numbers: Alice Green #26a74a */
+.sql-number {
+  color: #26a74a;
+  font-weight: 500;
+}
+
+/* Operators: Alice Dark Blue #1a134a */
+.sql-operator {
+  color: #1a134a;
+  font-weight: 500;
+}
+
+/* Comments: Gray */
+.sql-comment {
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Make textarea text transparent to show highlighting underneath */
+.sql-editor-wrapper textarea {
+  -webkit-text-fill-color: transparent !important;
+}
+
+.sql-editor-wrapper textarea::selection {
+  background: rgba(39, 162, 214, 0.3); /* Alice blue with transparency */
+  -webkit-text-fill-color: #1f2937;
+}
+
+.sql-editor-wrapper textarea::-moz-selection {
+  background: rgba(39, 162, 214, 0.3);
+  -webkit-text-fill-color: #1f2937;
+}
+
+/* Ensure proper scrolling sync */
+.sql-highlighted {
+  overflow: hidden; /* Hide scrollbars on highlighted layer */
+}
+
+/* Focus state */
+.sql-editor-wrapper textarea:focus {
+  outline: 2px solid #27a2d6;
+  outline-offset: 2px;
+}
+
+/* Animated Progress Bar for Pending/Running Pipeline Runs */
+@keyframes progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(500%);
+  }
+}
+
+.animate-progress {
+  animation: progress 1.5s ease-in-out infinite;
+  width: 25%;
+}
+
+/* Alice Color Utilities for Visual Query Builder */
+.bg-alice-primary {
+  background-color: var(--alice-primary);
+}
+
+.bg-alice-primary-dark {
+  background-color: var(--alice-primary-dark);
+}
+
+.bg-alice-light {
+  background-color: var(--alice-light);
+}
+
+.bg-alice-pale {
+  background-color: var(--alice-pale);
+}
+
+.text-alice-primary {
+  color: var(--alice-primary);
+}
+
+.text-alice-dark {
+  color: var(--alice-primary-dark);
+}
+
+.text-alice-light {
+  color: var(--alice-light);
+}
+
+.border-alice-primary {
+  border-color: var(--alice-primary);
+}
+
+.hover\:border-alice-primary:hover {
+  border-color: var(--alice-primary);
+}
+
+.hover\:text-alice-primary:hover {
+  color: var(--alice-primary);
+}
+
+.hover\:text-alice-dark:hover {
+  color: var(--alice-primary-dark);
+}
+
+/* Additional Alice color utilities */
+.bg-alice-green {
+  background-color: var(--alice-green);
+}
+
+.bg-alice-secondary {
+  background-color: var(--alice-secondary);
+}
+
+.bg-alice-warning {
+  background-color: var(--alice-warning);
+}
+
+.text-alice-green {
+  color: var(--alice-green);
+}
+
+.text-alice-secondary {
+  color: var(--alice-secondary);
+}
+
+.border-alice-green {
+  border-color: var(--alice-green);
+}
+
+.border-alice-secondary {
+  border-color: var(--alice-secondary);
+}
+
+.border-alice-warning {
+  border-color: var(--alice-warning);
+}

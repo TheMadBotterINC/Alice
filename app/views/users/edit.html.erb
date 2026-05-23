@@ -1,0 +1,14 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div>
+    <div class="flex items-center space-x-2 text-sm text-gray-500 mb-4">
+      <%= link_to "User Management", users_path, class: "hover:text-primary" %>
+      <span>/</span>
+      <span class="text-gray-900">Edit User</span>
+    </div>
+    <h1 class="text-3xl font-bold text-gray-900">Edit User</h1>
+    <p class="mt-2 text-sm text-gray-600">Update <%= @user.name %>'s account information</p>
+  </div>
+
+  <%= render "form", user: @user %>
+</div>

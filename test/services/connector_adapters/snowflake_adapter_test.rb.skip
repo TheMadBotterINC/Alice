@@ -1,0 +1,280 @@
+require "test_helper"
+
+class ConnectorAdapters::SnowflakeAdapterTest < ActiveSupport::TestCase
+  setup do
+    @connector = connectors(:snowflake_public)
+    @adapter = ConnectorAdapters::SnowflakeAdapter.new(@connector)
+    
+    # Mock the Snowflake client
+    @mock_client = Minitest::Mock.new
+    @adapter.instance_variable_set(:@client, @mock_client)
+  end
+
+  teardown do
+    # Skip teardown - close is explicitly tested where needed
+  end
+
+  # Initialization tests
+  test "initializes with valid connector" do
+    adapter = ConnectorAdapters::SnowflakeAdapter.new(@connector)
+    assert_not_nil adapter
+    adapter.close
+  end
+
+  test "raises error with invalid connector type" do
+    invalid_connector = connectors(:duckdb_local)
+    
+    assert_raises(ArgumentError) do
+      ConnectorAdapters::SnowflakeAdapter.new(invalid_connector)
+    end
+  end
+
+  test "raises error with missing config" do
+    connector = @connector.dup
+    connector.config = {}
+    
+    assert_raises(ConnectorAdapters::BaseAdapter::ConfigurationError) do
+      ConnectorAdapters::SnowflakeAdapter.new(connector)
+    end
+  end
+
+  # test_connection tests
+  test "test_connection returns true on success" do
+    @mock_client.expect(:test_connection, true)
+    @mock_client.expect(:close, nil)
+    
+    assert @adapter.test_connection
+    @mock_client.verify
+  end
+
+  test "test_connection returns false on failure" do
+    @mock_client.expect(:test_connection, false)
+    @mock_client.expect(:close, nil)
+    
+    refute @adapter.test_connection
+    @mock_client.verify
+  end
+
+  test "test_connection handles exceptions gracefully" do
+    @mock_client.expect(:test_connection, proc { raise StandardError.new("Connection failed") })
+    @mock_client.expect(:close, nil)
+    
+    refute @adapter.test_connection
+    @mock_client.verify
+  end
+
+  # read_data tests
+  test "read_data executes query and returns results" do
+    expected_result = [
+      { "id" => 1, "name" => "Alice" },
+      { "id" => 2, "name" => "Bob" }
+    ]
+    
+    @mock_client.expect(:execute_query, expected_result, [String])
+    @mock_client.expect(:close, nil)
+    
+    result = @adapter.read_data(query: "SELECT * FROM users")
+    
+    assert_equal 2, result.size
+    @mock_client.verify
+  end
+
+  test "read_data handles empty result set" do
+    expected_result = []
+    
+    @mock_client.expect(:execute_query, expected_result, [String])
+    @mock_client.expect(:close, nil)
+    
+    result = @adapter.read_data(query: "SELECT * FROM users WHERE 1=0")
+    
+    assert_equal 0, result.size
+    assert_equal [], result
+    @mock_client.verify
+  end
+
+  test "read_data raises error on query failure" do
+    @mock_client.expect(:execute_query, proc { raise SnowflakeClient::QueryError.new("Table not found") }, [String])
+    @mock_client.expect(:close, nil)
+    
+    assert_raises(ConnectorAdapters::BaseAdapter::QueryError) do
+      @adapter.read_data(query: "SELECT * FROM nonexistent")
+    end
+    @mock_client.verify
+  end
+
+  test "read_data handles connection errors" do
+    @mock_client.expect(:execute_query, proc { raise SnowflakeClient::ConnectionError.new("Network error") }, [String])
+    @mock_client.expect(:close, nil)
+    
+    assert_raises(ConnectorAdapters::BaseAdapter::QueryError) do
+      @adapter.read_data(query: "SELECT 1")
+    end
+    @mock_client.verify
+  end
+
+  # get_schema tests
+  test "get_schema returns column information" do
+    expected_result = [
+      { name: "ID", type: "NUMBER", nullable: false },
+      { name: "NAME", type: "VARCHAR", nullable: true },
+      { name: "CREATED_AT", type: "TIMESTAMP_NTZ", nullable: true }
+    ]
+    
+    @mock_client.expect(:describe_table, expected_result, [String])
+    @mock_client.expect(:close, nil)
+    
+    schema = @adapter.get_schema(table_name: "USERS")
+    
+    assert_equal 3, schema.size
+    assert_equal "ID", schema[0][:name]
+    assert_equal "NUMBER", schema[0][:type]
+    @mock_client.verify
+  end
+
+  test "get_schema raises error for nil table" do
+    @mock_client.expect(:close, nil)
+    
+    assert_raises(ArgumentError) do
+      @adapter.get_schema(table_name: nil)
+    end
+  end
+
+  test "get_schema handles nonexistent table" do
+    @mock_client.expect(:describe_table, proc { raise SnowflakeClient::QueryError.new("Table not found") }, [String])
+    @mock_client.expect(:close, nil)
+    
+    assert_raises(ConnectorAdapters::BaseAdapter::QueryError) do
+      @adapter.get_schema(table_name: "NONEXISTENT")
+    end
+    @mock_client.verify
+  end
+
+  # close tests
+  test "close calls client close" do
+    @mock_client.expect(:close, nil)
+    
+    @adapter.close
+    
+    @mock_client.verify
+  end
+
+  test "close can be called multiple times" do
+    @mock_client.expect(:close, nil)
+    
+    assert_nothing_raised do
+      @adapter.close
+      @adapter.close # Second call should be safe (client is nil)
+    end
+    
+    @mock_client.verify
+  end
+
+  # Query tests with various SQL patterns
+  test "read_data with ORDER BY and LIMIT" do
+    sql = "SELECT * FROM users ORDER BY created_at DESC LIMIT 10"
+    expected_result = Array.new(10) { |i| { "id" => i + 1 } }
+    
+    @mock_client.expect(:execute_query, expected_result, [sql])
+    @mock_client.expect(:close, nil)
+    
+    result = @adapter.read_data(query: sql)
+    
+    assert_equal 10, result.size
+    @mock_client.verify
+  end
+
+  test "read_data with JOIN query" do
+    sql = "SELECT u.name, COUNT(o.id) as order_count FROM users u LEFT JOIN orders o ON u.id = o.user_id GROUP BY u.name"
+    expected_result = [
+      { "name" => "Alice", "order_count" => 5 },
+      { "name" => "Bob", "order_count" => 3 }
+    ]
+    
+    @mock_client.expect(:execute_query, expected_result, [sql])
+    @mock_client.expect(:close, nil)
+    
+    result = @adapter.read_data(query: sql)
+    
+    assert_equal 2, result.size
+    @mock_client.verify
+  end
+
+  test "read_data with WHERE clause and filtering" do
+    sql = "SELECT * FROM users WHERE active = true AND age >= 18"
+    expected_result = [{ "id" => 1, "name" => "Alice", "age" => 25, "active" => true }]
+    
+    @mock_client.expect(:execute_query, expected_result, [sql])
+    @mock_client.expect(:close, nil)
+    
+    result = @adapter.read_data(query: sql)
+    
+    assert_equal 1, result.size
+    assert_equal true, result.first["active"]
+    @mock_client.verify
+  end
+
+  # Write data tests
+  test "write_data inserts data successfully" do
+    data = [
+      { "id" => 1, "name" => "Alice" },
+      { "id" => 2, "name" => "Bob" }
+    ]
+    
+    # Mock truncate (empty result) and insert queries
+    @mock_client.expect(:execute_query, [], [String]) # INSERT statement
+    @mock_client.expect(:close, nil)
+    
+    result = @adapter.write_data(
+      table_name: "users",
+      data: data,
+      write_disposition: :append
+    )
+    
+    assert_equal 2, result[:rows_affected]
+    assert_equal "users", result[:table_name]
+    @mock_client.verify
+  end
+
+  test "write_data with truncate_and_load disposition" do
+    data = [{ "id" => 1, "name" => "Alice" }]
+    
+    # Mock TRUNCATE and INSERT
+    @mock_client.expect(:execute_query, [], [/TRUNCATE/]) # TRUNCATE
+    @mock_client.expect(:execute_query, [], [String]) # INSERT
+    @mock_client.expect(:close, nil)
+    
+    result = @adapter.write_data(
+      table_name: "users",
+      data: data,
+      write_disposition: :truncate_and_load
+    )
+    
+    assert_equal 1, result[:rows_affected]
+    @mock_client.verify
+  end
+
+  test "write_data with empty data returns zero rows" do
+    @mock_client.expect(:close, nil)
+    
+    result = @adapter.write_data(
+      table_name: "users",
+      data: [],
+      write_disposition: :append
+    )
+    
+    assert_equal 0, result[:rows_affected]
+    @mock_client.verify
+  end
+
+  test "write_data raises error on merge disposition" do
+    @mock_client.expect(:close, nil)
+    
+    assert_raises(NotImplementedError) do
+      @adapter.write_data(
+        table_name: "users",
+        data: [{ "id" => 1 }],
+        write_disposition: :merge
+      )
+    end
+  end
+end

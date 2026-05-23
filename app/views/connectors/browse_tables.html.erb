@@ -1,0 +1,215 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center">
+      <%= link_to connector_path(@connector), class: "text-gray-400 hover:text-gray-600" do %>
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      <% end %>
+      <div class="ml-2">
+        <h1 class="text-3xl font-bold text-gray-900">Browse Tables</h1>
+        <p class="mt-1 text-sm text-gray-600">
+          <%= @connector.name %> • <%= @database_preview[:database] %>
+        </p>
+      </div>
+    </div>
+    
+    <div>
+      <%= link_to browse_tables_connector_path(@connector, refresh: true),
+          class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
+        <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        Refresh
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Database Summary -->
+  <div class="bg-white shadow-sm rounded-lg p-6">
+    <div class="flex items-center justify-between">
+      <div class="flex-1">
+        <h3 class="text-lg font-medium text-gray-900">Database Summary</h3>
+        <p class="mt-1 text-sm text-gray-600">
+          <% 
+            total = @database_preview[:total_schemas]
+            shown = @database_preview[:schemas_preview].size
+          %>
+          <% if total == 1 %>
+            Found 1 schema with <%= pluralize(@database_preview[:schemas_preview].first[:table_count], 'table') %>.
+          <% elsif total <= 10 %>
+            Found <%= pluralize(total, 'schema') %>.
+          <% else %>
+            Found <%= total %> schemas. Showing first <%= shown %>.
+          <% end %>
+        </p>
+        <% if @connector.connector_type == 'snowflake' %>
+          <p class="mt-1 text-xs text-gray-500">
+            Note: Row counts (—) are shown when available from Snowflake metadata.
+          </p>
+        <% end %>
+      </div>
+      <div class="text-right">
+        <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+          <svg class="h-3 w-3 mr-1.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <% if @cache_timestamp %>
+            Cached <%= time_ago_in_words(@cache_timestamp) %> ago
+          <% else %>
+            Just fetched
+          <% end %>
+        </div>
+        <p class="mt-1 text-xs text-gray-500">
+          Data refreshes hourly or on demand
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Schemas and Tables -->
+  <div class="space-y-4">
+    <% @database_preview[:schemas_preview].each_with_index do |schema_data, schema_index| %>
+      <div class="bg-white shadow-sm rounded-lg overflow-hidden" 
+           data-controller="disclosure"
+           data-disclosure-open-value="<%= schema_index == 0 %>">
+        <!-- Schema Header -->
+        <button type="button"
+                data-action="click->disclosure#toggle"
+                class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+            </svg>
+            <div class="text-left">
+              <h3 class="text-lg font-semibold text-gray-900"><%= schema_data[:schema] %></h3>
+              <p class="text-sm text-gray-600">
+                <%= pluralize(schema_data[:table_count], 'table') %>
+              </p>
+            </div>
+          </div>
+          <svg data-disclosure-target="icon"
+               class="h-5 w-5 text-gray-400 transform transition-transform <%= 'rotate-180' if schema_index == 0 %>"
+               fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <!-- Tables List -->
+        <div data-disclosure-target="content"
+             class="<%= 'hidden' unless schema_index == 0 %>">
+          <% if schema_data[:error] %>
+            <div class="px-6 py-4 bg-red-50 border-t border-red-100">
+              <p class="text-sm text-red-800">
+                <svg class="inline h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                </svg>
+                Error: <%= schema_data[:error] %>
+              </p>
+            </div>
+          <% elsif schema_data[:tables].empty? %>
+            <div class="px-6 py-8 text-center border-t">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+              </svg>
+              <p class="mt-2 text-sm text-gray-600">No tables found in this schema</p>
+            </div>
+          <% else %>
+            <div class="border-t">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Table Name
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Type
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Rows
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <% schema_data[:tables].each do |table| %>
+                    <% # Wrapper for each table row with accordion %>
+                    <%= content_tag :tr, 
+                        class: "hover:bg-gray-50 cursor-pointer transition-colors",
+                        data: {
+                          controller: "table-preview",
+                          table_preview_connector_id_value: @connector.id,
+                          table_preview_schema_name_value: schema_data[:schema],
+                          table_preview_table_name_value: table[:name],
+                          action: "click->table-preview#toggle"
+                        } do %>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <svg data-table-preview-target="icon" class="h-5 w-5 text-gray-400 mr-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                          </svg>
+                          <span class="text-sm font-medium text-gray-900"><%= table[:name] %></span>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                          <%= table[:type] == 'VIEW' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' %>">
+                          <%= table[:type] %>
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <%= table[:rows] ? number_with_delimiter(table[:rows]) : '—' %>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <%= link_to new_dataset_path(
+                              connector_id: @connector.id, 
+                              schema_name: schema_data[:schema], 
+                              table_name: table[:name]),
+                            class: "btn-alice-primary inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2" do %>
+                          <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                          </svg>
+                          Create Dataset
+                        <% end %>
+                      </td>
+                    <% end %>
+                    <%# Accordion content row for schema preview %>
+                    <tr class="hidden">
+                      <td colspan="4" class="p-0">
+                        <div data-loading class="hidden px-6 py-4 bg-gray-50 border-t">
+                          <div class="flex items-center justify-center">
+                            <svg class="animate-spin h-5 w-5 text-blue-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span class="text-sm text-gray-600">Loading schema...</span>
+                          </div>
+                        </div>
+                        <div data-schema-content></div>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @database_preview[:total_schemas] > 10 %>
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <p class="text-sm text-blue-800">
+        <svg class="inline h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+        </svg>
+        Showing first 10 schemas out of <%= @database_preview[:total_schemas] %> total. 
+        You can create datasets from tables in these schemas, then use them in pipelines.
+      </p>
+    </div>
+  <% end %>
+</div>

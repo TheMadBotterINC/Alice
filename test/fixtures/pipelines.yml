@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Daily Sales Pipeline
+  description: Aggregate daily sales data
+  transformation_sql: SELECT * FROM sales WHERE date = CURRENT_DATE
+  status: 0
+  schedule: "0 2 * * *"
+  last_run_at: 2025-10-08 18:28:44
+  destination_connector:
+  write_disposition: 0
+
+two:
+  name: Weekly Analytics Pipeline
+  description: Weekly metrics rollup
+  transformation_sql: SELECT * FROM analytics WHERE week = CURRENT_WEEK
+  status: 2
+  schedule: "0 3 * * 0"
+  last_run_at: 2025-10-08 18:28:44
+  destination_connector:
+  write_disposition: 0
+
+visual_mode:
+  name: Visual Query Pipeline
+  description: Test pipeline for visual query builder
+  transformation_sql: '-- Generated from visual builder'
+  transformation_mode: visual
+  transformation_config: '{"version":"1.0","sources":[],"columns":[],"filters":[],"groupBy":[],"orderBy":[],"limit":null}'
+  status: 0
+  schedule:
+  last_run_at:
+  destination_connector:
+  write_disposition: 0

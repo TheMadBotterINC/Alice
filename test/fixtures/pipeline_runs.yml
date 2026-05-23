@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pipeline: one
+  status: 2
+  started_at: 2025-10-08 18:28:55
+  completed_at: 2025-10-08 18:30:55
+  duration: 120
+  row_count: 1500
+  error_message: 
+  logs: Successfully processed 1500 rows
+
+two:
+  pipeline: two
+  status: 3
+  started_at: 2025-10-08 18:28:55
+  completed_at: 2025-10-08 18:29:00
+  duration: 5
+  row_count: 0
+  error_message: Connection timeout
+  logs: Failed to connect to source

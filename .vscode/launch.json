@@ -1,0 +1,68 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "ruby_lsp",
+      "request": "launch",
+      "name": "Debug Rails Server",
+      "program": "${workspaceFolder}/bin/rails server"
+    },
+    {
+      "type": "ruby_lsp", 
+      "request": "launch",
+      "name": "Debug Current Test File",
+      "program": "${workspaceFolder}/bin/rails test ${relativeFile}"
+    },
+    {
+      "type": "ruby_lsp",
+      "request": "launch", 
+      "name": "Debug All Tests",
+      "program": "${workspaceFolder}/bin/rails test"
+    },
+    {
+      "type": "ruby_lsp",
+      "request": "launch",
+      "name": "Debug Rails Console", 
+      "program": "${workspaceFolder}/bin/rails console"
+    },
+    {
+      "type": "ruby_lsp",
+      "request": "launch",
+      "name": "Debug Rake Task",
+      "program": "${workspaceFolder}/bin/rails ${input:rakeTask}"
+    },
+    {
+      "type": "ruby_lsp",
+      "request": "launch", 
+      "name": "Debug Current Ruby File",
+      "program": "ruby ${file}"
+    },
+    {
+      "type": "ruby_lsp",
+      "request": "attach",
+      "name": "Attach to Ruby Process"
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Run Solid Queue Worker (No Debug)",
+      "command": "cd ${workspaceFolder} && bundle exec rails solid_queue:start",
+      "isBackground": true
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Rails Server + Worker",
+      "configurations": ["Debug Rails Server", "Run Solid Queue Worker (No Debug)"],
+      "stopAll": true
+    }
+  ],
+  "inputs": [
+    {
+      "id": "rakeTask", 
+      "type": "promptString",
+      "description": "Enter the rake/rails task to debug (e.g., db:migrate, routes, --tasks)",
+      "default": "db:migrate"
+    }
+  ]
+}

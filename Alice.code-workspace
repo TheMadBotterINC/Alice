@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {},
+  "extensions": {
+    "recommendations": [
+      "shopify.ruby-lsp",
+      "bradlc.vscode-tailwindcss"
+    ]
+  }
+}
