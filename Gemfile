@@ -56,7 +56,7 @@ gem "duckdb"
 gem "faraday", "~> 2.0"
 gem "faraday-retry", "~> 2.0"
 # JWT for Snowflake key pair authentication (optional, for future use)
-gem "jwt", "~> 2.7"
+gem "jwt", "~> 3.2"
 # OAuth2 for SharePoint/Microsoft Graph authentication
 gem "oauth2", "~> 2.0"
 # Cron expression parsing for scheduled pipelines
