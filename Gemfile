@@ -83,7 +83,7 @@ group :development do
   gem "web-console"
 
   # Ruby LSP for VS Code integration
-  gem "ruby-lsp", require: false
+  gem "ruby-lsp", ">= 0.26.9", require: false
 end
 
 group :test do
