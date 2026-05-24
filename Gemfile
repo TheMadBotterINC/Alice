@@ -64,7 +64,7 @@ gem "fugit", "~> 1.9"
 
 # File format support (CSV, Excel)
 gem "csv", "~> 3.0"  # CSV support (required in Ruby 3.4+)
-gem "roo", "~> 2.10"  # Read Excel, CSV, TSV files
+gem "roo", "~> 3.0"   # Read Excel, CSV, TSV files
 gem "caxlsx", "~> 4.0"  # Write Excel files
 
 group :development, :test do
