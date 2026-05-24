@@ -46,7 +46,7 @@ gem "thruster", require: false
 # Snowflake & DuckDB integration via CLI (dbt Core, duckdb CLI)
 # This approach aligns with the architecture doc and avoids native extension issues
 # View components for reusable UI
-gem "view_component"
+gem "view_component", ">= 4.9.0"
 # Pagination [https://github.com/ddnexus/pagy]
 gem "pagy"
 # DuckDB for data transformation engine
